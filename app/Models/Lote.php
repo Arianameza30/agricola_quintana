@@ -17,4 +17,9 @@ class Lote extends Model
     {
         return $this->belongsTo(Hacienda::class);
     }
+
+    public function detallesRecorrido()
+{
+    return $this->hasMany(DetalleRecorrido::class);
+}
 }

@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\RecorridoController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -56,4 +57,17 @@ Route::middleware('auth')->group(function () {
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
+    
+        Route::get('/recorridos', [RecorridoController::class, 'index'])
+    ->name('recorridos.index');
+
+Route::post('/recorridos/abrir', [RecorridoController::class, 'abrir'])
+    ->name('recorridos.abrir');
+
+Route::post('/recorridos', [RecorridoController::class, 'store'])
+    ->name('recorridos.store');
+
+Route::get('/recorridos/pdf/{id}', [RecorridoController::class, 'pdf'])
+    ->name('recorridos.pdf');
+    
 });

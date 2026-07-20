@@ -16,4 +16,9 @@ class Hacienda extends Model
     {
         return $this->hasMany(Lote::class);
     }
+
+    public function recorridos()
+{
+    return $this->hasMany(Recorrido::class);
+}
 }

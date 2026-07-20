@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HaciendaController;
 use App\Http\Controllers\LoteController;
+use App\Http\Controllers\RecorridoController;
 
 Route::get('/', function () {
     return redirect('/login');

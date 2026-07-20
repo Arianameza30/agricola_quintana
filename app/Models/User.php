@@ -46,4 +46,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function recorridos()
+{
+    return $this->hasMany(Recorrido::class);
+}
 }
