@@ -11,6 +11,11 @@ class Lote extends Model
         'nombre',
         'has_prod',
         'estado',
+        'coordenadas',
+    ];
+
+    protected $casts = [
+        'coordenadas' => 'array',
     ];
 
     public function hacienda()
@@ -19,7 +24,7 @@ class Lote extends Model
     }
 
     public function detallesRecorrido()
-{
-    return $this->hasMany(DetalleRecorrido::class);
-}
+    {
+        return $this->hasMany(DetalleRecorrido::class);
+    }
 }
