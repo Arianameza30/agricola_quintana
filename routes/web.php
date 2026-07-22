@@ -7,39 +7,15 @@ use App\Http\Controllers\HaciendaController;
 use App\Http\Controllers\LoteController;
 use App\Http\Controllers\RecorridoController;
 
-
-/*
-|--------------------------------------------------------------------------
-| INICIO
-|--------------------------------------------------------------------------
-*/
-
 Route::get('/', function () {
     return redirect('/login');
 });
 
-
-/*
-|--------------------------------------------------------------------------
-| DASHBOARD
-|--------------------------------------------------------------------------
-*/
-
 Route::get('/dashboard', function () {
     return view('dashboard');
-})
-->middleware(['auth', 'verified'])
-->name('dashboard');
-
-
-/*
-|--------------------------------------------------------------------------
-| RUTAS PROTEGIDAS
-|--------------------------------------------------------------------------
-*/
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-
 
     /*
     |--------------------------------------------------------------------------
@@ -47,10 +23,7 @@ Route::middleware('auth')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::resource(
-        'haciendas',
-        HaciendaController::class
-    );
+    Route::resource('haciendas', HaciendaController::class);
 
 
     /*
@@ -59,28 +32,23 @@ Route::middleware('auth')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::resource(
-        'lotes',
-        LoteController::class
-    );
-
+    Route::resource('lotes', LoteController::class);
 
     /*
     |--------------------------------------------------------------------------
-    | GUARDAR COORDENADAS
+    | GUARDAR COORDENADAS DE LOTES
     |--------------------------------------------------------------------------
+    |
+    | IMPORTANTE:
+    | Esta ruta debe estar ANTES de cualquier ruta
+    | lotes/{lote} que pueda interferir.
+    |
     */
 
     Route::post(
         '/lotes/guardar-coordenadas',
-        [
-            LoteController::class,
-            'guardarCoordenadas'
-        ]
-    )
-    ->name(
-        'lotes.guardar-coordenadas'
-    );
+        [LoteController::class, 'guardarCoordenadas']
+    )->name('lotes.guardar-coordenadas');
 
 
     /*
@@ -89,10 +57,31 @@ Route::middleware('auth')->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    Route::resource(
-        'recorridos',
-        RecorridoController::class
-    );
+    Route::resource('recorridos', RecorridoController::class);
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | RUTA PARA ABRIR RECORRIDO
+    |--------------------------------------------------------------------------
+    */
+
+    Route::post(
+        '/recorridos/abrir',
+        [RecorridoController::class, 'abrir']
+    )->name('recorridos.abrir');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | PDF DE RECORRIDO
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get(
+        '/recorridos/pdf/{id}',
+        [RecorridoController::class, 'pdf']
+    )->name('recorridos.pdf');
 
 
     /*
@@ -103,40 +92,18 @@ Route::middleware('auth')->group(function () {
 
     Route::get(
         '/profile',
-        [
-            ProfileController::class,
-            'edit'
-        ]
-    )
-    ->name('profile.edit');
-
+        [ProfileController::class, 'edit']
+    )->name('profile.edit');
 
     Route::patch(
         '/profile',
-        [
-            ProfileController::class,
-            'update'
-        ]
-    )
-    ->name('profile.update');
-
+        [ProfileController::class, 'update']
+    )->name('profile.update');
 
     Route::delete(
         '/profile',
-        [
-            ProfileController::class,
-            'destroy'
-        ]
-    )
-    ->name('profile.destroy');
-
+        [ProfileController::class, 'destroy']
+    )->name('profile.destroy');
 });
-
-
-/*
-|--------------------------------------------------------------------------
-| AUTENTICACIÓN
-|--------------------------------------------------------------------------
-*/
 
 require __DIR__.'/auth.php';

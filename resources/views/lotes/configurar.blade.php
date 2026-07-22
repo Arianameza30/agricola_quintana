@@ -4,11 +4,11 @@
 
 <div class="min-h-screen bg-gray-900 py-8">
 
-    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6">
 
-        <!-- ========================================================= -->
-        <!-- CABECERA -->
-        <!-- ========================================================= -->
+        {{-- ========================================================= --}}
+        {{-- CABECERA --}}
+        {{-- ========================================================= --}}
 
         <div class="bg-green-800 rounded-xl shadow-lg p-5 text-white">
 
@@ -20,19 +20,16 @@
                 Agrícola Quintana
             </p>
 
-
-            <!-- ===================================================== -->
-            <!-- SELECTORES -->
-            <!-- ===================================================== -->
-
             <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-8">
 
-
-                <!-- HACIENDA -->
+                {{-- HACIENDA --}}
 
                 <div>
 
-                    <label class="block mb-2 font-semibold">
+                    <label
+                        for="hacienda"
+                        class="block mb-2 font-semibold"
+                    >
                         Hacienda
                     </label>
 
@@ -45,11 +42,9 @@
                             Seleccione una hacienda
                         </option>
 
-                        @foreach(\App\Models\Hacienda::orderBy('nombre')->get() as $haciendaItem)
+                        @foreach($haciendas as $haciendaItem)
 
-                            <option
-                                value="{{ $haciendaItem->id }}"
-                            >
+                            <option value="{{ $haciendaItem->id }}">
                                 {{ strtoupper($haciendaItem->nombre) }}
                             </option>
 
@@ -60,102 +55,25 @@
                 </div>
 
 
-                <!-- LOTE -->
+                {{-- LOTE --}}
 
                 <div>
 
-                    <label class="block mb-2 font-semibold">
+                    <label
+                        for="loteSeleccionado"
+                        class="block mb-2 font-semibold"
+                    >
                         Lote a configurar
                     </label>
 
                     <select
                         id="loteSeleccionado"
-                        class="w-full rounded-lg border border-gray-300 bg-white text-black px-3 py-2"
+                        disabled
+                        class="w-full rounded-lg border border-gray-300 bg-white text-black px-3 py-2 disabled:bg-gray-300"
                     >
 
                         <option value="">
-                            Seleccione un lote
-                        </option>
-
-                        <!--
-                        IMPORTANTE:
-
-                        El value debe coincidir con el campo "nombre"
-                        de la tabla lotes.
-
-                        Según tu configuración actual:
-                        nombre = 1
-                        nombre = 2
-                        nombre = 3
-                        etc.
-
-                        Por eso:
-                        value="1"  -> visualmente LOTE 1
-                        value="2"  -> visualmente LOTE 2
-                        -->
-
-                        <option value="1">
-                            LOTE 1
-                        </option>
-
-                        <option value="2">
-                            LOTE 2
-                        </option>
-
-                        <option value="3">
-                            LOTE 3
-                        </option>
-
-                        <option value="4">
-                            LOTE 4
-                        </option>
-
-                        <option value="5">
-                            LOTE 5
-                        </option>
-
-                        <option value="6">
-                            LOTE 6
-                        </option>
-
-                        <option value="7">
-                            LOTE 7
-                        </option>
-
-                        <option value="8">
-                            LOTE 8
-                        </option>
-
-                        <option value="9">
-                            LOTE 9
-                        </option>
-
-                        <option value="10">
-                            LOTE 10
-                        </option>
-
-                        <option value="11">
-                            LOTE 11
-                        </option>
-
-                        <option value="12">
-                            LOTE 12
-                        </option>
-
-                        <option value="13">
-                            LOTE 13
-                        </option>
-
-                        <option value="14">
-                            LOTE 14
-                        </option>
-
-                        <option value="15">
-                            LOTE 15
-                        </option>
-
-                        <option value="16">
-                            LOTE 16
+                            Seleccione una hacienda primero
                         </option>
 
                     </select>
@@ -167,16 +85,13 @@
         </div>
 
 
-        <!-- ========================================================= -->
-        <!-- CONFIGURADOR -->
-        <!-- ========================================================= -->
+        {{-- ========================================================= --}}
+        {{-- CONFIGURADOR --}}
+        {{-- ========================================================= --}}
 
         <div class="bg-white rounded-xl shadow-lg mt-8 overflow-hidden">
 
-
-            <!-- ===================================================== -->
-            <!-- CABECERA -->
-            <!-- ===================================================== -->
+            {{-- CABECERA --}}
 
             <div class="bg-green-800 text-white px-5 py-3">
 
@@ -187,68 +102,56 @@
             </div>
 
 
-            <!-- ===================================================== -->
-            <!-- INSTRUCCIONES -->
-            <!-- ===================================================== -->
+            {{-- INSTRUCCIONES --}}
 
             <div class="p-5 bg-green-50 border-b border-green-200">
 
-                <div class="text-gray-700">
+                <p class="font-bold text-green-800 mb-2">
+                    ¿Cómo configurar un lote?
+                </p>
 
-                    <p class="font-bold text-green-800 mb-2">
-                        ¿Cómo configurar un lote?
-                    </p>
+                <ol class="list-decimal ml-5 space-y-1 text-sm text-gray-700">
 
-                    <ol class="list-decimal ml-5 space-y-1 text-sm">
+                    <li>
+                        Selecciona una hacienda.
+                    </li>
 
-                        <li>
-                            Selecciona una hacienda.
-                        </li>
+                    <li>
+                        Selecciona un lote.
+                    </li>
 
-                        <li>
-                            Selecciona el lote que quieres configurar.
-                        </li>
+                    <li>
+                        Pulsa "Iniciar configuración".
+                    </li>
 
-                        <li>
-                            Haz clic en cada esquina del lote sobre el mapa.
-                        </li>
+                    <li>
+                        Haz clic sobre el mapa para marcar las esquinas.
+                    </li>
 
-                        <li>
-                            Marca todos los puntos necesarios para rodear completamente el lote.
-                        </li>
+                    <li>
+                        Pulsa "Cerrar polígono".
+                    </li>
 
-                        <li>
-                            Haz clic en <strong>"Cerrar polígono"</strong>.
-                        </li>
+                    <li>
+                        Pulsa "Guardar lote".
+                    </li>
 
-                        <li>
-                            Si la forma está correcta, pulsa
-                            <strong>"Guardar lote"</strong>.
-                        </li>
+                    <li>
+                        Finalmente pulsa "Guardar polígonos en servidor".
+                    </li>
 
-                        <li>
-                            Finalmente pulsa
-                            <strong>"Guardar polígonos en servidor"</strong>
-                            para guardar las coordenadas en la base de datos.
-                        </li>
-
-                    </ol>
-
-                </div>
+                </ol>
 
             </div>
 
 
-            <!-- ===================================================== -->
-            <!-- HERRAMIENTAS -->
-            <!-- ===================================================== -->
+            {{-- ===================================================== --}}
+            {{-- HERRAMIENTAS --}}
+            {{-- ===================================================== --}}
 
             <div class="p-4 bg-gray-50 border-b">
 
                 <div class="flex flex-wrap items-center gap-3">
-
-
-                    <!-- INICIAR CONFIGURACIÓN -->
 
                     <button
                         id="btnIniciarConfiguracion"
@@ -259,8 +162,6 @@
                     </button>
 
 
-                    <!-- DESHACER -->
-
                     <button
                         id="btnDeshacerPunto"
                         type="button"
@@ -269,8 +170,6 @@
                         ↩️ Deshacer punto
                     </button>
 
-
-                    <!-- CERRAR POLÍGONO -->
 
                     <button
                         id="btnCerrarPoligono"
@@ -281,8 +180,6 @@
                     </button>
 
 
-                    <!-- GUARDAR LOTE -->
-
                     <button
                         id="btnGuardarLote"
                         type="button"
@@ -291,8 +188,6 @@
                         💾 Guardar lote
                     </button>
 
-
-                    <!-- LIMPIAR ACTUAL -->
 
                     <button
                         id="btnLimpiarActual"
@@ -303,31 +198,14 @@
                     </button>
 
 
-                    <!-- BORRAR CONFIGURACIÓN -->
-
                     <button
                         id="btnLimpiarTodo"
                         type="button"
                         class="bg-red-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-red-700"
                     >
-                        🗑️ Borrar configuración
+                        🗑️ Borrar configuración local
                     </button>
 
-
-                    <!-- EXPORTAR -->
-
-                    <button
-                        id="btnExportar"
-                        type="button"
-                        class="bg-indigo-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-indigo-700"
-                    >
-                        📥 Exportar coordenadas
-                    </button>
-
-
-                    <!-- ================================================= -->
-                    <!-- GUARDAR EN SERVIDOR -->
-                    <!-- ================================================= -->
 
                     <button
                         id="btnGuardarServidor"
@@ -342,9 +220,9 @@
             </div>
 
 
-            <!-- ===================================================== -->
-            <!-- INFORMACIÓN -->
-            <!-- ===================================================== -->
+            {{-- ===================================================== --}}
+            {{-- ESTADO --}}
+            {{-- ===================================================== --}}
 
             <div class="p-4">
 
@@ -358,9 +236,9 @@
             </div>
 
 
-            <!-- ===================================================== -->
-            <!-- MAPA -->
-            <!-- ===================================================== -->
+            {{-- ===================================================== --}}
+            {{-- MAPA --}}
+            {{-- ===================================================== --}}
 
             <div class="p-4 sm:p-6">
 
@@ -387,9 +265,9 @@
             </div>
 
 
-            <!-- ===================================================== -->
-            <!-- LOTES CONFIGURADOS -->
-            <!-- ===================================================== -->
+            {{-- ===================================================== --}}
+            {{-- LOTES CONFIGURADOS --}}
+            {{-- ===================================================== --}}
 
             <div class="p-4 sm:p-6 border-t">
 
@@ -399,11 +277,11 @@
 
                 <div
                     id="listaLotesConfigurados"
-                    class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3"
+                    class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3"
                 >
 
                     <div class="text-gray-500 text-sm">
-                        Todavía no hay lotes configurados.
+                        Seleccione una hacienda.
                     </div>
 
                 </div>
@@ -411,9 +289,9 @@
             </div>
 
 
-            <!-- ===================================================== -->
-            <!-- COORDENADAS -->
-            <!-- ===================================================== -->
+            {{-- ===================================================== --}}
+            {{-- COORDENADAS --}}
+            {{-- ===================================================== --}}
 
             <div class="p-4 sm:p-6 border-t">
 
@@ -435,13 +313,47 @@
 </div>
 
 
-<!-- ============================================================= -->
-<!-- JAVASCRIPT -->
-<!-- ============================================================= -->
+{{-- =============================================================== --}}
+{{-- JAVASCRIPT --}}
+{{-- =============================================================== --}}
 
 <script>
 
 document.addEventListener('DOMContentLoaded', function () {
+
+    /*
+    |--------------------------------------------------------------------------
+    | DATOS DE LARAVEL
+    |--------------------------------------------------------------------------
+    */
+
+    const haciendas = @json(
+        $haciendas->map(function ($hacienda) {
+
+            return [
+                'id' => $hacienda->id,
+                'nombre' => $hacienda->nombre,
+
+                'lotes' => $hacienda->lotes->map(function ($lote) {
+
+                    return [
+                        'id' => $lote->id,
+                        'nombre' => $lote->nombre,
+                        'coordenadas' => $lote->coordenadas,
+                    ];
+
+                })->values(),
+
+            ];
+
+        })->values()
+    );
+
+
+    console.log(
+        'Haciendas cargadas desde Laravel:',
+        haciendas
+    );
 
 
     /*
@@ -462,9 +374,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const canvasMapa =
         document.getElementById('canvasMapa');
 
-    const contenedorMapa =
-        document.getElementById('contenedorMapa');
-
     const estadoConfiguracion =
         document.getElementById('estadoConfiguracion');
 
@@ -473,9 +382,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const listaLotesConfigurados =
         document.getElementById('listaLotesConfigurados');
-
-    const btnGuardarServidor =
-        document.getElementById('btnGuardarServidor');
 
 
     /*
@@ -502,13 +408,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const btnLimpiarTodo =
         document.getElementById('btnLimpiarTodo');
 
-    const btnExportar =
-        document.getElementById('btnExportar');
+    const btnGuardarServidor =
+        document.getElementById('btnGuardarServidor');
 
 
     /*
     |--------------------------------------------------------------------------
-    | CONTEXTO CANVAS
+    | CANVAS
     |--------------------------------------------------------------------------
     */
 
@@ -533,11 +439,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /*
     |--------------------------------------------------------------------------
-    | OBTENER CLAVE DE STORAGE
+    | HACIENDA ACTUAL
     |--------------------------------------------------------------------------
     */
 
-    function obtenerClaveStorage() {
+    let haciendaActual = null;
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | OBTENER HACIENDA
+    |--------------------------------------------------------------------------
+    */
+
+    function obtenerHaciendaActual() {
 
         if (!hacienda.value) {
 
@@ -545,112 +460,40 @@ document.addEventListener('DOMContentLoaded', function () {
 
         }
 
-        return 'configuracion_lotes_' +
-            hacienda.value;
+        return haciendas.find(
+            function (item) {
 
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | GUARDAR CONFIGURACIONES EN LOCALSTORAGE
-    |--------------------------------------------------------------------------
-    */
-
-    function guardarConfiguracionesStorage() {
-
-        const clave =
-            obtenerClaveStorage();
-
-        if (!clave) {
-
-            return;
-
-        }
-
-        localStorage.setItem(
-            clave,
-            JSON.stringify(
-                configuraciones
-            )
-        );
-
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | CARGAR CONFIGURACIONES
-    |--------------------------------------------------------------------------
-    */
-
-    function cargarConfiguraciones() {
-
-        configuraciones = {};
-
-        const clave =
-            obtenerClaveStorage();
-
-        if (!clave) {
-
-            actualizarListaLotes();
-
-            return;
-
-        }
-
-        const datos =
-            localStorage.getItem(
-                clave
-            );
-
-        if (datos) {
-
-            try {
-
-                configuraciones =
-                    JSON.parse(
-                        datos
-                    );
-
-            } catch (error) {
-
-                console.error(
-                    'Error leyendo configuraciones:',
-                    error
-                );
-
-                configuraciones = {};
+                return String(item.id) ===
+                    String(hacienda.value);
 
             }
-
-        }
-
-        actualizarListaLotes();
+        ) || null;
 
     }
 
 
     /*
     |--------------------------------------------------------------------------
-    | OBTENER NOMBRE DE HACIENDA
+    | OBTENER LOTE ACTUAL
     |--------------------------------------------------------------------------
     */
 
-    function obtenerNombreHacienda() {
+    function obtenerLoteActual() {
 
-        if (!hacienda.value) {
+        if (!loteSeleccionado.value) {
 
-            return '';
+            return null;
 
         }
 
-        return hacienda.options[
-            hacienda.selectedIndex
-        ]
-        .text
-        .trim()
-        .toUpperCase();
+        return haciendaActual?.lotes.find(
+            function (lote) {
+
+                return String(lote.id) ===
+                    String(loteSeleccionado.value);
+
+            }
+        ) || null;
 
     }
 
@@ -663,7 +506,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function cambiarMapa() {
 
-        if (!hacienda.value) {
+        if (!haciendaActual) {
 
             mapa.src = '';
 
@@ -674,25 +517,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 canvasMapa.height
             );
 
-            estadoConfiguracion.textContent =
-                'Seleccione una hacienda para comenzar.';
-
             return;
 
         }
 
-        const texto =
-            obtenerNombreHacienda();
+        const nombre =
+            haciendaActual.nombre
+                .toUpperCase();
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | DOMENICA
-        |--------------------------------------------------------------------------
-        */
 
         if (
-            texto.includes('DOMENICA')
+            nombre.includes('DOMENICA')
         ) {
 
             mapa.src =
@@ -700,15 +535,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         }
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | MARIA MARIA
-        |--------------------------------------------------------------------------
-        */
-
         else if (
-            texto.includes('MARIA')
+            nombre.includes('MARIA')
         ) {
 
             mapa.src =
@@ -716,31 +544,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
         }
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | SIN MAPA
-        |--------------------------------------------------------------------------
-        */
-
         else {
 
             mapa.src = '';
 
         }
-
-
-        cargarConfiguraciones();
-
-
-        mapa.onload =
-            function () {
-
-                ajustarCanvas();
-
-                dibujarTodo();
-
-            };
 
     }
 
@@ -781,30 +589,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /*
     |--------------------------------------------------------------------------
-    | REDIMENSIONAR
-    |--------------------------------------------------------------------------
-    */
-
-    window.addEventListener(
-        'resize',
-        function () {
-
-            if (
-                mapa.complete &&
-                mapa.clientWidth > 0
-            ) {
-
-                ajustarCanvas();
-
-            }
-
-        }
-    );
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | OBTENER POSICIÓN DEL MOUSE
+    | POSICIÓN DEL MOUSE
     |--------------------------------------------------------------------------
     */
 
@@ -813,33 +598,29 @@ document.addEventListener('DOMContentLoaded', function () {
         const rect =
             canvasMapa.getBoundingClientRect();
 
-        const x =
-            (
-                event.clientX -
-                rect.left
-            )
-            *
-            (
-                canvasMapa.width /
-                rect.width
-            );
-
-        const y =
-            (
-                event.clientY -
-                rect.top
-            )
-            *
-            (
-                canvasMapa.height /
-                rect.height
-            );
-
         return {
 
-            x: x,
+            x:
+                (
+                    event.clientX -
+                    rect.left
+                )
+                *
+                (
+                    canvasMapa.width /
+                    rect.width
+                ),
 
-            y: y
+            y:
+                (
+                    event.clientY -
+                    rect.top
+                )
+                *
+                (
+                    canvasMapa.height /
+                    rect.height
+                )
 
         };
 
@@ -848,7 +629,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /*
     |--------------------------------------------------------------------------
-    | CONVERTIR A PORCENTAJE
+    | PORCENTAJE
     |--------------------------------------------------------------------------
     */
 
@@ -885,7 +666,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /*
     |--------------------------------------------------------------------------
-    | CONVERTIR DESDE PORCENTAJE
+    | DESDE PORCENTAJE
     |--------------------------------------------------------------------------
     */
 
@@ -945,25 +726,264 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /*
     |--------------------------------------------------------------------------
+    | CARGAR LOTES DE HACIENDA
+    |--------------------------------------------------------------------------
+    */
+
+    function cargarLotes() {
+
+        loteSeleccionado.innerHTML =
+            '<option value="">Seleccione un lote</option>';
+
+
+        if (!haciendaActual) {
+
+            loteSeleccionado.disabled =
+                true;
+
+            return;
+
+        }
+
+
+        haciendaActual.lotes.forEach(
+            function (lote) {
+
+                const option =
+                    document.createElement(
+                        'option'
+                    );
+
+                option.value =
+                    lote.id;
+
+                option.textContent =
+                    'LOTE ' +
+                    lote.nombre;
+
+                loteSeleccionado.appendChild(
+                    option
+                );
+
+            }
+        );
+
+
+        loteSeleccionado.disabled =
+            false;
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | CARGAR CONFIGURACIONES DESDE BD
+    |--------------------------------------------------------------------------
+    */
+
+    function cargarConfiguracionesDesdeBD() {
+
+        configuraciones = {};
+
+
+        if (!haciendaActual) {
+
+            actualizarListaLotes();
+
+            return;
+
+        }
+
+
+        haciendaActual.lotes.forEach(
+            function (lote) {
+
+                if (
+                    lote.coordenadas &&
+                    Array.isArray(
+                        lote.coordenadas
+                    ) &&
+                    lote.coordenadas.length >= 3
+                ) {
+
+                    configuraciones[
+                        lote.id
+                    ] = {
+
+                        lote_id:
+                            lote.id,
+
+                        nombre:
+                            lote.nombre,
+
+                        puntos:
+                            lote.coordenadas
+
+                    };
+
+                }
+
+            }
+        );
+
+
+        actualizarListaLotes();
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | ACTUALIZAR LISTA
+    |--------------------------------------------------------------------------
+    */
+
+    function actualizarListaLotes() {
+
+        listaLotesConfigurados.innerHTML =
+            '';
+
+
+        if (!haciendaActual) {
+
+            listaLotesConfigurados.innerHTML =
+                '<div class="text-gray-500 text-sm">' +
+                'Seleccione una hacienda.' +
+                '</div>';
+
+            return;
+
+        }
+
+
+        if (
+            haciendaActual.lotes.length === 0
+        ) {
+
+            listaLotesConfigurados.innerHTML =
+                '<div class="text-gray-500 text-sm">' +
+                'Esta hacienda no tiene lotes registrados.' +
+                '</div>';
+
+            return;
+
+        }
+
+
+        haciendaActual.lotes.forEach(
+            function (lote) {
+
+                const tarjeta =
+                    document.createElement(
+                        'div'
+                    );
+
+
+                const configurado =
+                    configuraciones[lote.id] &&
+                    configuraciones[lote.id].puntos &&
+                    configuraciones[lote.id].puntos.length >= 3;
+
+
+                if (configurado) {
+
+                    tarjeta.className =
+                        'bg-green-100 ' +
+                        'border border-green-300 ' +
+                        'rounded-lg p-3 ' +
+                        'text-center font-semibold ' +
+                        'text-green-800';
+
+                    tarjeta.textContent =
+                        '✓ LOTE ' +
+                        lote.nombre;
+
+                }
+
+                else {
+
+                    tarjeta.className =
+                        'bg-gray-100 ' +
+                        'border border-gray-300 ' +
+                        'rounded-lg p-3 ' +
+                        'text-center font-semibold ' +
+                        'text-gray-600';
+
+                    tarjeta.textContent =
+                        '○ LOTE ' +
+                        lote.nombre;
+
+                }
+
+
+                tarjeta.style.cursor =
+                    'pointer';
+
+
+                tarjeta.addEventListener(
+                    'click',
+                    function () {
+
+                        loteSeleccionado.value =
+                            lote.id;
+
+                        loteSeleccionado.dispatchEvent(
+                            new Event('change')
+                        );
+
+                    }
+                );
+
+
+                listaLotesConfigurados.appendChild(
+                    tarjeta
+                );
+
+            }
+        );
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
     | ACTUALIZAR ESTADO
     |--------------------------------------------------------------------------
     */
 
     function actualizarEstado() {
 
-        const nombreHacienda =
-            obtenerNombreHacienda();
-
-        const lote =
-            loteSeleccionado.value;
-
-        if (
-            !nombreHacienda ||
-            !lote
-        ) {
+        if (!haciendaActual) {
 
             estadoConfiguracion.textContent =
-                'Seleccione una hacienda y un lote para comenzar.';
+                'Seleccione una hacienda para comenzar.';
+
+            return;
+
+        }
+
+
+        if (!loteSeleccionado.value) {
+
+            estadoConfiguracion.innerHTML =
+                'Hacienda: <strong>' +
+                haciendaActual.nombre.toUpperCase() +
+                '</strong>' +
+                '<br>' +
+                '<span class="text-gray-600">' +
+                'Seleccione un lote.' +
+                '</span>';
+
+            return;
+
+        }
+
+
+        const lote =
+            obtenerLoteActual();
+
+
+        if (!lote) {
 
             return;
 
@@ -973,23 +993,20 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!configurando) {
 
             if (
-                configuraciones[lote]
+                configuraciones[lote.id]
             ) {
 
                 estadoConfiguracion.innerHTML =
                     'Hacienda: <strong>' +
-                    nombreHacienda +
-                    '</strong> &nbsp; | &nbsp; ' +
-
-                    'Lote: <strong>LOTE ' +
-                    lote +
+                    haciendaActual.nombre.toUpperCase() +
                     '</strong>' +
-
+                    ' &nbsp; | &nbsp; ' +
+                    'Lote: <strong>LOTE ' +
+                    lote.nombre +
+                    '</strong>' +
                     '<br>' +
-
                     '<span class="text-green-600">' +
-                    '✓ Este lote ya está configurado. ' +
-                    'Pulse "Iniciar configuración" para editarlo.' +
+                    '✓ Este lote tiene coordenadas guardadas en la base de datos.' +
                     '</span>';
 
             }
@@ -998,17 +1015,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 estadoConfiguracion.innerHTML =
                     'Hacienda: <strong>' +
-                    nombreHacienda +
-                    '</strong> &nbsp; | &nbsp; ' +
-
-                    'Lote: <strong>LOTE ' +
-                    lote +
+                    haciendaActual.nombre.toUpperCase() +
                     '</strong>' +
-
+                    ' &nbsp; | &nbsp; ' +
+                    'Lote: <strong>LOTE ' +
+                    lote.nombre +
+                    '</strong>' +
                     '<br>' +
-
                     '<span class="text-gray-600">' +
-                    'Este lote todavía no está configurado.' +
+                    'Este lote todavía no tiene coordenadas configuradas.' +
                     '</span>';
 
             }
@@ -1020,20 +1035,168 @@ document.addEventListener('DOMContentLoaded', function () {
 
         estadoConfiguracion.innerHTML =
             'Hacienda: <strong>' +
-            nombreHacienda +
-            '</strong> &nbsp; | &nbsp; ' +
-
-            'Lote: <strong>LOTE ' +
-            lote +
+            haciendaActual.nombre.toUpperCase() +
             '</strong>' +
-
+            ' &nbsp; | &nbsp; ' +
+            'Lote: <strong>LOTE ' +
+            lote.nombre +
+            '</strong>' +
             '<br>' +
-
             '<span class="text-blue-600">' +
             'Configuración en progreso. ' +
             puntosActuales.length +
             ' punto(s) marcado(s).' +
             '</span>';
+
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | DIBUJAR POLÍGONO
+    |--------------------------------------------------------------------------
+    */
+
+    function dibujarPoligono(
+        puntos,
+        colorRelleno,
+        colorLinea,
+        nombre
+    ) {
+
+        if (
+            !puntos ||
+            puntos.length < 2
+        ) {
+
+            return;
+
+        }
+
+
+        const puntosCanvas =
+            puntos.map(
+                function (punto) {
+
+                    return convertirDesdePorcentaje(
+                        punto
+                    );
+
+                }
+            );
+
+
+        ctx.beginPath();
+
+
+        puntosCanvas.forEach(
+            function (
+                punto,
+                indice
+            ) {
+
+                if (
+                    indice === 0
+                ) {
+
+                    ctx.moveTo(
+                        punto.x,
+                        punto.y
+                    );
+
+                }
+
+                else {
+
+                    ctx.lineTo(
+                        punto.x,
+                        punto.y
+                    );
+
+                }
+
+            }
+        );
+
+
+        if (
+            puntosCanvas.length >= 3
+        ) {
+
+            ctx.closePath();
+
+        }
+
+
+        ctx.fillStyle =
+            colorRelleno;
+
+        ctx.strokeStyle =
+            colorLinea;
+
+        ctx.lineWidth =
+            2;
+
+        ctx.fill();
+
+        ctx.stroke();
+
+
+        /*
+        |----------------------------------------------------------------------
+        | CENTRO
+        |----------------------------------------------------------------------
+        */
+
+        const centroX =
+            puntosCanvas.reduce(
+                function (
+                    suma,
+                    punto
+                ) {
+
+                    return suma +
+                        punto.x;
+
+                },
+                0
+            )
+            /
+            puntosCanvas.length;
+
+
+        const centroY =
+            puntosCanvas.reduce(
+                function (
+                    suma,
+                    punto
+                ) {
+
+                    return suma +
+                        punto.y;
+
+                },
+                0
+            )
+            /
+            puntosCanvas.length;
+
+
+        ctx.fillStyle =
+            '#111827';
+
+        ctx.font =
+            'bold 15px Arial';
+
+        ctx.textAlign =
+            'center';
+
+        ctx.fillText(
+            'LOTE ' +
+            nombre,
+            centroX,
+            centroY
+        );
 
     }
 
@@ -1055,168 +1218,62 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
         /*
-        |--------------------------------------------------------------------------
-        | DIBUJAR LOTES GUARDADOS
-        |--------------------------------------------------------------------------
+        |----------------------------------------------------------------------
+        | POLÍGONOS DESDE BD
+        |----------------------------------------------------------------------
         */
 
         Object.keys(
             configuraciones
         )
         .forEach(
-            function (lote) {
+            function (loteId) {
 
                 const datos =
-                    configuraciones[lote];
+                    configuraciones[loteId];
+
 
                 if (
                     !datos ||
-                    !datos.puntos ||
-                    datos.puntos.length < 2
+                    !datos.puntos
                 ) {
 
                     return;
 
                 }
 
-                const puntos =
-                    datos.puntos.map(
-                        function (punto) {
-
-                            return convertirDesdePorcentaje(
-                                punto
-                            );
-
-                        }
-                    );
-
-
-                ctx.beginPath();
-
-
-                puntos.forEach(
-                    function (
-                        punto,
-                        indice
-                    ) {
-
-                        if (
-                            indice === 0
-                        ) {
-
-                            ctx.moveTo(
-                                punto.x,
-                                punto.y
-                            );
-
-                        }
-
-                        else {
-
-                            ctx.lineTo(
-                                punto.x,
-                                punto.y
-                            );
-
-                        }
-
-                    }
-                );
-
-
-                if (
-                    puntos.length >= 3
-                ) {
-
-                    ctx.closePath();
-
-                }
-
-
-                ctx.fillStyle =
-                    'rgba(34, 197, 94, 0.25)';
-
-                ctx.strokeStyle =
-                    '#16a34a';
-
-                ctx.lineWidth =
-                    2;
-
-                ctx.fill();
-
-                ctx.stroke();
-
 
                 /*
-                |--------------------------------------------------------------------------
-                | NOMBRE DEL LOTE
-                |--------------------------------------------------------------------------
+                |--------------------------------------------------------------
+                | SI ES EL LOTE ACTUAL
+                |--------------------------------------------------------------
                 */
 
-                if (
-                    puntos.length > 0
-                ) {
-
-                    const centroX =
-                        puntos.reduce(
-                            function (
-                                suma,
-                                punto
-                            ) {
-
-                                return suma +
-                                    punto.x;
-
-                            },
-                            0
-                        )
-                        /
-                        puntos.length;
+                const esActual =
+                    loteSeleccionado.value &&
+                    String(loteId) ===
+                    String(loteSeleccionado.value);
 
 
-                    const centroY =
-                        puntos.reduce(
-                            function (
-                                suma,
-                                punto
-                            ) {
-
-                                return suma +
-                                    punto.y;
-
-                            },
-                            0
-                        )
-                        /
-                        puntos.length;
-
-
-                    ctx.fillStyle =
-                        '#111827';
-
-                    ctx.font =
-                        'bold 16px Arial';
-
-                    ctx.textAlign =
-                        'center';
-
-                    ctx.fillText(
-                        'LOTE ' +
-                        lote,
-                        centroX,
-                        centroY
-                    );
-
-                }
+                dibujarPoligono(
+                    datos.puntos,
+                    esActual
+                        ? 'rgba(239, 68, 68, 0.30)'
+                        : 'rgba(34, 197, 94, 0.20)',
+                    esActual
+                        ? '#ef4444'
+                        : '#16a34a',
+                    datos.nombre
+                );
 
             }
         );
 
 
         /*
-        |--------------------------------------------------------------------------
-        | DIBUJAR POLÍGONO ACTUAL
-        |--------------------------------------------------------------------------
+        |----------------------------------------------------------------------
+        | POLÍGONO EN EDICIÓN
+        |----------------------------------------------------------------------
         */
 
         if (
@@ -1286,9 +1343,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
         /*
-        |--------------------------------------------------------------------------
-        | DIBUJAR PUNTOS
-        |--------------------------------------------------------------------------
+        |----------------------------------------------------------------------
+        | PUNTOS
+        |----------------------------------------------------------------------
         */
 
         puntosActuales.forEach(
@@ -1344,64 +1401,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /*
     |--------------------------------------------------------------------------
-    | ACTUALIZAR LISTA DE LOTES
-    |--------------------------------------------------------------------------
-    */
-
-    function actualizarListaLotes() {
-
-        listaLotesConfigurados.innerHTML = '';
-
-        const lotes =
-            Object.keys(
-                configuraciones
-            );
-
-
-        if (
-            lotes.length === 0
-        ) {
-
-            listaLotesConfigurados.innerHTML =
-                '<div class="text-gray-500 text-sm">' +
-                'Todavía no hay lotes configurados.' +
-                '</div>';
-
-            return;
-
-        }
-
-
-        lotes.forEach(
-            function (lote) {
-
-                const tarjeta =
-                    document.createElement(
-                        'div'
-                    );
-
-                tarjeta.className =
-                    'bg-green-100 border ' +
-                    'border-green-300 rounded-lg ' +
-                    'p-3 text-center ' +
-                    'font-semibold text-green-800';
-
-                tarjeta.textContent =
-                    'LOTE ' +
-                    lote;
-
-                listaLotesConfigurados.appendChild(
-                    tarjeta
-                );
-
-            }
-        );
-
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
     | CAMBIAR HACIENDA
     |--------------------------------------------------------------------------
     */
@@ -1409,6 +1408,10 @@ document.addEventListener('DOMContentLoaded', function () {
     hacienda.addEventListener(
         'change',
         function () {
+
+            haciendaActual =
+                obtenerHaciendaActual();
+
 
             configurando =
                 false;
@@ -1419,13 +1422,31 @@ document.addEventListener('DOMContentLoaded', function () {
             puntosActuales =
                 [];
 
-            actualizarCoordenadas();
+
+            loteSeleccionado.value =
+                '';
+
+
+            cargarLotes();
+
+            cargarConfiguracionesDesdeBD();
 
             cambiarMapa();
 
-            actualizarEstado();
 
-            dibujarTodo();
+            mapa.onload =
+                function () {
+
+                    ajustarCanvas();
+
+                    dibujarTodo();
+
+                };
+
+
+            actualizarCoordenadas();
+
+            actualizarEstado();
 
         }
     );
@@ -1450,6 +1471,7 @@ document.addEventListener('DOMContentLoaded', function () {
             puntosActuales =
                 [];
 
+
             actualizarCoordenadas();
 
             actualizarEstado();
@@ -1470,7 +1492,7 @@ document.addEventListener('DOMContentLoaded', function () {
         'click',
         function () {
 
-            if (!hacienda.value) {
+            if (!haciendaActual) {
 
                 alert(
                     'Seleccione una hacienda.'
@@ -1493,7 +1515,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
             const lote =
-                loteSeleccionado.value;
+                obtenerLoteActual();
+
+
+            if (!lote) {
+
+                return;
+
+            }
 
 
             configurando =
@@ -1501,18 +1530,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
             /*
-            |--------------------------------------------------------------------------
-            | SI EL LOTE YA EXISTE
-            |--------------------------------------------------------------------------
+            |------------------------------------------------------------------
+            | CARGAR POLÍGONO EXISTENTE
+            |------------------------------------------------------------------
             */
 
             if (
-                configuraciones[lote] &&
-                configuraciones[lote].puntos
+                configuraciones[lote.id] &&
+                configuraciones[lote.id].puntos
             ) {
 
                 puntosActuales =
-                    configuraciones[lote].puntos.map(
+                    configuraciones[lote.id].puntos.map(
                         function (punto) {
 
                             return convertirDesdePorcentaje(
@@ -1523,13 +1552,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     );
 
             }
-
-
-            /*
-            |--------------------------------------------------------------------------
-            | LOTE NUEVO
-            |--------------------------------------------------------------------------
-            */
 
             else {
 
@@ -1555,7 +1577,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /*
     |--------------------------------------------------------------------------
-    | CLICK EN EL MAPA
+    | CLICK MAPA
     |--------------------------------------------------------------------------
     */
 
@@ -1600,7 +1622,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /*
     |--------------------------------------------------------------------------
-    | DESHACER PUNTO
+    | DESHACER
     |--------------------------------------------------------------------------
     */
 
@@ -1620,9 +1642,8 @@ document.addEventListener('DOMContentLoaded', function () {
             if (poligonoCerrado) {
 
                 alert(
-                    'El polígono ya está cerrado. ' +
-                    'Si desea modificarlo, pulse "Iniciar configuración" ' +
-                    'y luego utilice "Limpiar actual".'
+                    'El polígono está cerrado. ' +
+                    'Utilice "Limpiar actual" o vuelva a iniciar la configuración.'
                 );
 
                 return;
@@ -1691,7 +1712,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /*
     |--------------------------------------------------------------------------
-    | GUARDAR LOTE EN LOCALSTORAGE
+    | GUARDAR LOTE
     |--------------------------------------------------------------------------
     */
 
@@ -1699,11 +1720,7 @@ document.addEventListener('DOMContentLoaded', function () {
         'click',
         function () {
 
-            const lote =
-                loteSeleccionado.value;
-
-
-            if (!hacienda.value) {
+            if (!haciendaActual) {
 
                 alert(
                     'Seleccione una hacienda.'
@@ -1712,6 +1729,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
 
             }
+
+
+            const lote =
+                obtenerLoteActual();
 
 
             if (!lote) {
@@ -1761,27 +1782,34 @@ document.addEventListener('DOMContentLoaded', function () {
                 );
 
 
-            configuraciones[lote] = {
+            configuraciones[lote.id] = {
+
+                lote_id:
+                    lote.id,
+
+                nombre:
+                    lote.nombre,
 
                 puntos:
-                    puntosPorcentaje,
-
-                fecha:
-                    new Date()
-                    .toISOString()
+                    puntosPorcentaje
 
             };
 
 
-            guardarConfiguracionesStorage();
+            /*
+            |------------------------------------------------------------------
+            | ACTUALIZAR DATOS LOCALES
+            |------------------------------------------------------------------
+            */
 
-            actualizarListaLotes();
+            lote.coordenadas =
+                puntosPorcentaje;
 
 
             alert(
                 'LOTE ' +
-                lote +
-                ' guardado correctamente.'
+                lote.nombre +
+                ' actualizado correctamente.'
             );
 
 
@@ -1791,6 +1819,8 @@ document.addEventListener('DOMContentLoaded', function () {
             poligonoCerrado =
                 true;
 
+
+            actualizarListaLotes();
 
             actualizarEstado();
 
@@ -1802,7 +1832,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /*
     |--------------------------------------------------------------------------
-    | LIMPIAR LOTE ACTUAL
+    | LIMPIAR ACTUAL
     |--------------------------------------------------------------------------
     */
 
@@ -1811,18 +1841,7 @@ document.addEventListener('DOMContentLoaded', function () {
         function () {
 
             const lote =
-                loteSeleccionado.value;
-
-
-            if (!hacienda.value) {
-
-                alert(
-                    'Seleccione una hacienda.'
-                );
-
-                return;
-
-            }
+                obtenerLoteActual();
 
 
             if (!lote) {
@@ -1838,10 +1857,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const confirmar =
                 confirm(
-                    '¿Desea eliminar la configuración del LOTE ' +
-                    lote +
+                    '¿Desea eliminar temporalmente la configuración ' +
+                    'del LOTE ' +
+                    lote.nombre +
                     '?\n\n' +
-                    'Los demás lotes permanecerán guardados.'
+                    'Esto todavía NO elimina las coordenadas de la base de datos.'
                 );
 
 
@@ -1852,10 +1872,11 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
 
-            delete configuraciones[lote];
+            delete configuraciones[lote.id];
 
 
-            guardarConfiguracionesStorage();
+            lote.coordenadas =
+                null;
 
 
             puntosActuales =
@@ -1882,7 +1903,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /*
     |--------------------------------------------------------------------------
-    | BORRAR TODA LA CONFIGURACIÓN
+    | LIMPIAR TODO LOCAL
     |--------------------------------------------------------------------------
     */
 
@@ -1890,7 +1911,7 @@ document.addEventListener('DOMContentLoaded', function () {
         'click',
         function () {
 
-            if (!hacienda.value) {
+            if (!haciendaActual) {
 
                 alert(
                     'Seleccione una hacienda.'
@@ -1903,8 +1924,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const confirmar =
                 confirm(
-                    '¿Está seguro de eliminar TODAS las configuraciones ' +
-                    'de esta hacienda?'
+                    'Esto eliminará temporalmente las coordenadas ' +
+                    'cargadas de esta hacienda en la pantalla.\n\n' +
+                    'NO se eliminarán de la base de datos hasta que se envíe un guardado.\n\n' +
+                    '¿Continuar?'
                 );
 
 
@@ -1915,21 +1938,19 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
 
-            const clave =
-                obtenerClaveStorage();
-
-
-            if (clave) {
-
-                localStorage.removeItem(
-                    clave
-                );
-
-            }
-
-
             configuraciones =
                 {};
+
+
+            haciendaActual.lotes.forEach(
+                function (lote) {
+
+                    lote.coordenadas =
+                        null;
+
+                }
+            );
+
 
             puntosActuales =
                 [];
@@ -1949,116 +1970,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
             dibujarTodo();
 
-
-            alert(
-                'Configuración eliminada correctamente.'
-            );
-
         }
     );
 
 
     /*
     |--------------------------------------------------------------------------
-    | EXPORTAR COORDENADAS
-    |--------------------------------------------------------------------------
-    */
-
-    btnExportar.addEventListener(
-        'click',
-        function () {
-
-            if (
-                Object.keys(
-                    configuraciones
-                ).length === 0
-            ) {
-
-                alert(
-                    'No hay configuraciones para exportar.'
-                );
-
-                return;
-
-            }
-
-
-            const datos = {
-
-                hacienda_id:
-                    hacienda.value,
-
-                hacienda:
-                    obtenerNombreHacienda(),
-
-                lotes:
-                    configuraciones
-
-            };
-
-
-            const blob =
-                new Blob(
-                    [
-                        JSON.stringify(
-                            datos,
-                            null,
-                            2
-                        )
-                    ],
-                    {
-                        type:
-                            'application/json'
-                    }
-                );
-
-
-            const url =
-                URL.createObjectURL(
-                    blob
-                );
-
-
-            const enlace =
-                document.createElement(
-                    'a'
-                );
-
-
-            enlace.href =
-                url;
-
-
-            enlace.download =
-                'coordenadas_lotes_' +
-                hacienda.value +
-                '.json';
-
-
-            document.body.appendChild(
-                enlace
-            );
-
-
-            enlace.click();
-
-
-            document.body.removeChild(
-                enlace
-            );
-
-
-            URL.revokeObjectURL(
-                url
-            );
-
-        }
-    );
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | GUARDAR POLÍGONOS EN SERVIDOR
+    | GUARDAR EN SERVIDOR
     |--------------------------------------------------------------------------
     */
 
@@ -2066,7 +1984,7 @@ document.addEventListener('DOMContentLoaded', function () {
         'click',
         async function () {
 
-            if (!hacienda.value) {
+            if (!haciendaActual) {
 
                 alert(
                     'Seleccione una hacienda.'
@@ -2077,18 +1995,27 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
 
-            const lotesConfigurados =
-                Object.keys(
-                    configuraciones
+            const lotesParaGuardar =
+                haciendaActual.lotes
+                .filter(
+                    function (lote) {
+
+                        return lote.coordenadas &&
+                            Array.isArray(
+                                lote.coordenadas
+                            ) &&
+                            lote.coordenadas.length >= 3;
+
+                    }
                 );
 
 
             if (
-                lotesConfigurados.length === 0
+                lotesParaGuardar.length === 0
             ) {
 
                 alert(
-                    'No hay polígonos configurados para guardar.'
+                    'No hay polígonos para guardar.'
                 );
 
                 return;
@@ -2099,7 +2026,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const confirmar =
                 confirm(
                     'Se guardarán ' +
-                    lotesConfigurados.length +
+                    lotesParaGuardar.length +
                     ' lote(s) en la base de datos.\n\n' +
                     '¿Desea continuar?'
                 );
@@ -2111,12 +2038,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
             }
 
-
-            /*
-            |--------------------------------------------------------------------------
-            | OBTENER TOKEN CSRF
-            |--------------------------------------------------------------------------
-            */
 
             const csrfElement =
                 document.querySelector(
@@ -2141,14 +2062,24 @@ document.addEventListener('DOMContentLoaded', function () {
                 );
 
 
+            const lotes = {};
+
+
+            lotesParaGuardar.forEach(
+                function (lote) {
+
+                    lotes[lote.nombre] = {
+
+                        puntos:
+                            lote.coordenadas
+
+                    };
+
+                }
+            );
+
+
             try {
-
-
-                /*
-                |--------------------------------------------------------------------------
-                | ENVIAR AL SERVIDOR
-                |--------------------------------------------------------------------------
-                */
 
                 const respuesta =
                     await fetch(
@@ -2175,10 +2106,10 @@ document.addEventListener('DOMContentLoaded', function () {
                                 JSON.stringify({
 
                                     hacienda_id:
-                                        hacienda.value,
+                                        haciendaActual.id,
 
                                     lotes:
-                                        configuraciones
+                                        lotes
 
                                 })
 
@@ -2186,21 +2117,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     );
 
 
-                /*
-                |--------------------------------------------------------------------------
-                | LEER RESPUESTA
-                |--------------------------------------------------------------------------
-                */
-
                 const resultado =
                     await respuesta.json();
 
-
-                /*
-                |--------------------------------------------------------------------------
-                | GUARDADO CORRECTO
-                |--------------------------------------------------------------------------
-                */
 
                 if (
                     respuesta.ok &&
@@ -2213,13 +2132,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     );
 
                 }
-
-
-                /*
-                |--------------------------------------------------------------------------
-                | ERROR DEL SERVIDOR
-                |--------------------------------------------------------------------------
-                */
 
                 else {
 
@@ -2234,13 +2146,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
 
             }
-
-
-            /*
-            |--------------------------------------------------------------------------
-            | ERROR DE CONEXIÓN
-            |--------------------------------------------------------------------------
-            */
 
             catch (error) {
 
@@ -2262,7 +2167,30 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /*
     |--------------------------------------------------------------------------
-    | INICIALIZACIÓN
+    | REDIMENSIONAR
+    |--------------------------------------------------------------------------
+    */
+
+    window.addEventListener(
+        'resize',
+        function () {
+
+            if (
+                mapa.complete &&
+                mapa.clientWidth > 0
+            ) {
+
+                ajustarCanvas();
+
+            }
+
+        }
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | INICIALIZAR
     |--------------------------------------------------------------------------
     */
 

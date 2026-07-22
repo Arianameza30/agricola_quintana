@@ -9,15 +9,15 @@ use Illuminate\Http\Request;
 class LoteController extends Controller
 {
     public function index()
-{
-    $lotes = Lote::with('hacienda')->get();
+    {
+        $lotes = Lote::with('hacienda')->get();
 
-    return view('lotes.index', compact('lotes'));
-}
+        return view('lotes.index', compact('lotes'));
+    }
 
     public function create()
     {
-        $haciendas = Hacienda::all();
+        $haciendas = Hacienda::orderBy('nombre')->get();
 
         return view('lotes.create', compact('haciendas'));
     }
@@ -37,20 +37,24 @@ class LoteController extends Controller
             'estado' => true,
         ]);
 
-        return redirect()->route('lotes.index')
+        return redirect()
+            ->route('lotes.index')
             ->with('success', 'Lote registrado correctamente.');
     }
 
     public function show(Lote $lote)
     {
-        //
+        return view('lotes.show', compact('lote'));
     }
 
     public function edit(Lote $lote)
     {
-        $haciendas = Hacienda::all();
+        $haciendas = Hacienda::orderBy('nombre')->get();
 
-        return view('lotes.edit', compact('lote', 'haciendas'));
+        return view('lotes.edit', compact(
+            'lote',
+            'haciendas'
+        ));
     }
 
     public function update(Request $request, Lote $lote)
@@ -67,7 +71,8 @@ class LoteController extends Controller
             'has_prod' => $request->has_prod,
         ]);
 
-        return redirect()->route('lotes.index')
+        return redirect()
+            ->route('lotes.index')
             ->with('success', 'Lote actualizado correctamente.');
     }
 
@@ -75,7 +80,70 @@ class LoteController extends Controller
     {
         $lote->delete();
 
-        return redirect()->route('lotes.index')
+        return redirect()
+            ->route('lotes.index')
             ->with('success', 'Lote eliminado correctamente.');
+    }
+
+    public function guardarCoordenadas(Request $request)
+    {
+        try {
+
+            $request->validate([
+                'hacienda_id' => 'required|exists:haciendas,id',
+                'lotes' => 'required|array',
+            ]);
+
+            $guardados = 0;
+
+            foreach ($request->lotes as $nombreLote => $datosLote) {
+
+                if (
+                    !isset($datosLote['puntos']) ||
+                    !is_array($datosLote['puntos'])
+                ) {
+                    continue;
+                }
+
+                $lote = Lote::where(
+                    'hacienda_id',
+                    $request->hacienda_id
+                )
+                ->where(
+                    'nombre',
+                    $nombreLote
+                )
+                ->first();
+
+                if (!$lote) {
+                    continue;
+                }
+
+                $lote->coordenadas =
+                    $datosLote['puntos'];
+
+                $lote->save();
+
+                $guardados++;
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' =>
+                    'Se guardaron correctamente ' .
+                    $guardados .
+                    ' lote(s) en la base de datos.',
+                'guardados' => $guardados,
+            ]);
+
+        } catch (\Throwable $e) {
+
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+                'archivo' => $e->getFile(),
+                'linea' => $e->getLine(),
+            ], 500);
+        }
     }
 }
