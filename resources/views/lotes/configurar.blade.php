@@ -91,8 +91,6 @@
 
         <div class="bg-white rounded-xl shadow-lg mt-8 overflow-hidden">
 
-            {{-- CABECERA --}}
-
             <div class="bg-green-800 text-white px-5 py-3">
 
                 <h2 class="font-semibold">
@@ -313,41 +311,18 @@
 </div>
 
 
-{{-- =============================================================== --}}
-{{-- JAVASCRIPT --}}
-{{-- =============================================================== --}}
-
 <script>
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    /*
-    |--------------------------------------------------------------------------
-    | DATOS DE LARAVEL
-    |--------------------------------------------------------------------------
-    */
+    {{--
+    DATOS DE LARAVEL
+    --------------------------------------------------------------------------
+    IMPORTANTE: Esta es la unica forma que vamos a usar.
+    No usar la directiva json de Blade, ni map, ni json_encode, ni comas manuales.
+    --}}
 
-    const haciendas = @json(
-        $haciendas->map(function ($hacienda) {
-
-            return [
-                'id' => $hacienda->id,
-                'nombre' => $hacienda->nombre,
-
-                'lotes' => $hacienda->lotes->map(function ($lote) {
-
-                    return [
-                        'id' => $lote->id,
-                        'nombre' => $lote->nombre,
-                        'coordenadas' => $lote->coordenadas,
-                    ];
-
-                })->values(),
-
-            ];
-
-        })->values()
-    );
+    const haciendas = {{ Js::from($haciendas) }};
 
 
     console.log(
@@ -436,19 +411,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let configuraciones = {};
 
-
-    /*
-    |--------------------------------------------------------------------------
-    | HACIENDA ACTUAL
-    |--------------------------------------------------------------------------
-    */
-
     let haciendaActual = null;
 
 
     /*
     |--------------------------------------------------------------------------
-    | OBTENER HACIENDA
+    | OBTENER HACIENDA ACTUAL
     |--------------------------------------------------------------------------
     */
 
@@ -486,7 +454,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
         }
 
-        return haciendaActual?.lotes.find(
+        if (!haciendaActual) {
+
+            return null;
+
+        }
+
+        return haciendaActual.lotes.find(
             function (lote) {
 
                 return String(lote.id) ===
@@ -522,8 +496,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         const nombre =
-            haciendaActual.nombre
-                .toUpperCase();
+            String(
+                haciendaActual.nombre
+            ).toUpperCase();
 
 
         if (
@@ -629,7 +604,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /*
     |--------------------------------------------------------------------------
-    | PORCENTAJE
+    | CONVERTIR A PORCENTAJE
     |--------------------------------------------------------------------------
     */
 
@@ -645,8 +620,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     )
                     *
                     100
-                )
-                .toFixed(4),
+                ).toFixed(4),
 
             y:
                 Number(
@@ -656,8 +630,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     )
                     *
                     100
-                )
-                .toFixed(4)
+                ).toFixed(4)
 
         };
 
@@ -666,7 +639,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /*
     |--------------------------------------------------------------------------
-    | DESDE PORCENTAJE
+    | CONVERTIR DESDE PORCENTAJE
     |--------------------------------------------------------------------------
     */
 
@@ -726,7 +699,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /*
     |--------------------------------------------------------------------------
-    | CARGAR LOTES DE HACIENDA
+    | CARGAR LOTES
     |--------------------------------------------------------------------------
     */
 
@@ -800,15 +773,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 if (
                     lote.coordenadas &&
-                    Array.isArray(
-                        lote.coordenadas
-                    ) &&
+                    Array.isArray(lote.coordenadas) &&
                     lote.coordenadas.length >= 3
                 ) {
 
-                    configuraciones[
-                        lote.id
-                    ] = {
+                    configuraciones[lote.id] = {
 
                         lote_id:
                             lote.id,
@@ -834,7 +803,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /*
     |--------------------------------------------------------------------------
-    | ACTUALIZAR LISTA
+    | ACTUALIZAR LISTA DE LOTES
     |--------------------------------------------------------------------------
     */
 
@@ -1142,12 +1111,6 @@ document.addEventListener('DOMContentLoaded', function () {
         ctx.stroke();
 
 
-        /*
-        |----------------------------------------------------------------------
-        | CENTRO
-        |----------------------------------------------------------------------
-        */
-
         const centroX =
             puntosCanvas.reduce(
                 function (
@@ -1191,6 +1154,7 @@ document.addEventListener('DOMContentLoaded', function () {
         ctx.textAlign =
             'center';
 
+
         ctx.fillText(
             'LOTE ' +
             nombre,
@@ -1217,12 +1181,6 @@ document.addEventListener('DOMContentLoaded', function () {
         );
 
 
-        /*
-        |----------------------------------------------------------------------
-        | POLÍGONOS DESDE BD
-        |----------------------------------------------------------------------
-        */
-
         Object.keys(
             configuraciones
         )
@@ -1242,12 +1200,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 }
 
-
-                /*
-                |--------------------------------------------------------------
-                | SI ES EL LOTE ACTUAL
-                |--------------------------------------------------------------
-                */
 
                 const esActual =
                     loteSeleccionado.value &&
@@ -1269,12 +1221,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         );
 
-
-        /*
-        |----------------------------------------------------------------------
-        | POLÍGONO EN EDICIÓN
-        |----------------------------------------------------------------------
-        */
 
         if (
             puntosActuales.length === 0
@@ -1341,12 +1287,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         ctx.stroke();
 
-
-        /*
-        |----------------------------------------------------------------------
-        | PUNTOS
-        |----------------------------------------------------------------------
-        */
 
         puntosActuales.forEach(
             function (
@@ -1529,12 +1469,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 true;
 
 
-            /*
-            |------------------------------------------------------------------
-            | CARGAR POLÍGONO EXISTENTE
-            |------------------------------------------------------------------
-            */
-
             if (
                 configuraciones[lote.id] &&
                 configuraciones[lote.id].puntos
@@ -1622,7 +1556,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /*
     |--------------------------------------------------------------------------
-    | DESHACER
+    | DESHACER PUNTO
     |--------------------------------------------------------------------------
     */
 
@@ -1796,12 +1730,6 @@ document.addEventListener('DOMContentLoaded', function () {
             };
 
 
-            /*
-            |------------------------------------------------------------------
-            | ACTUALIZAR DATOS LOCALES
-            |------------------------------------------------------------------
-            */
-
             lote.coordenadas =
                 puntosPorcentaje;
 
@@ -1815,6 +1743,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             configurando =
                 false;
+
 
             poligonoCerrado =
                 true;
@@ -1882,8 +1811,10 @@ document.addEventListener('DOMContentLoaded', function () {
             puntosActuales =
                 [];
 
+
             configurando =
                 false;
+
 
             poligonoCerrado =
                 false;
@@ -1955,8 +1886,10 @@ document.addEventListener('DOMContentLoaded', function () {
             puntosActuales =
                 [];
 
+
             configurando =
                 false;
+
 
             poligonoCerrado =
                 false;
@@ -1996,8 +1929,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
             const lotesParaGuardar =
-                haciendaActual.lotes
-                .filter(
+                haciendaActual.lotes.filter(
                     function (lote) {
 
                         return lote.coordenadas &&

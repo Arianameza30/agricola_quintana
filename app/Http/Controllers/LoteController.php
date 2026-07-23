@@ -8,19 +8,66 @@ use Illuminate\Http\Request;
 
 class LoteController extends Controller
 {
+    /*
+    |--------------------------------------------------------------------------
+    | CONFIGURAR COORDENADAS
+    |--------------------------------------------------------------------------
+    */
+
+    public function configurar()
+    {
+        $haciendas = Hacienda::with('lotes')
+            ->orderBy('nombre')
+            ->get();
+
+        return view(
+            'lotes.configurar',
+            compact('haciendas')
+        );
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | LISTAR LOTES
+    |--------------------------------------------------------------------------
+    */
+
     public function index()
     {
-        $lotes = Lote::with('hacienda')->get();
+        $lotes = Lote::with('hacienda')
+            ->get();
 
-        return view('lotes.index', compact('lotes'));
+        return view(
+            'lotes.index',
+            compact('lotes')
+        );
     }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | CREAR LOTE
+    |--------------------------------------------------------------------------
+    */
 
     public function create()
     {
-        $haciendas = Hacienda::orderBy('nombre')->get();
+        $haciendas = Hacienda::orderBy('nombre')
+            ->get();
 
-        return view('lotes.create', compact('haciendas'));
+        return view(
+            'lotes.create',
+            compact('haciendas')
+        );
     }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | GUARDAR LOTE
+    |--------------------------------------------------------------------------
+    */
 
     public function store(Request $request)
     {
@@ -39,26 +86,59 @@ class LoteController extends Controller
 
         return redirect()
             ->route('lotes.index')
-            ->with('success', 'Lote registrado correctamente.');
+            ->with(
+                'success',
+                'Lote registrado correctamente.'
+            );
     }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | MOSTRAR LOTE
+    |--------------------------------------------------------------------------
+    */
 
     public function show(Lote $lote)
     {
-        return view('lotes.show', compact('lote'));
+        return view(
+            'lotes.show',
+            compact('lote')
+        );
     }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | EDITAR LOTE
+    |--------------------------------------------------------------------------
+    */
 
     public function edit(Lote $lote)
     {
-        $haciendas = Hacienda::orderBy('nombre')->get();
+        $haciendas = Hacienda::orderBy('nombre')
+            ->get();
 
-        return view('lotes.edit', compact(
-            'lote',
-            'haciendas'
-        ));
+        return view(
+            'lotes.edit',
+            compact(
+                'lote',
+                'haciendas'
+            )
+        );
     }
 
-    public function update(Request $request, Lote $lote)
-    {
+
+    /*
+    |--------------------------------------------------------------------------
+    | ACTUALIZAR LOTE
+    |--------------------------------------------------------------------------
+    */
+
+    public function update(
+        Request $request,
+        Lote $lote
+    ) {
         $request->validate([
             'hacienda_id' => 'required|exists:haciendas,id',
             'nombre' => 'required|max:100',
@@ -73,8 +153,18 @@ class LoteController extends Controller
 
         return redirect()
             ->route('lotes.index')
-            ->with('success', 'Lote actualizado correctamente.');
+            ->with(
+                'success',
+                'Lote actualizado correctamente.'
+            );
     }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | ELIMINAR LOTE
+    |--------------------------------------------------------------------------
+    */
 
     public function destroy(Lote $lote)
     {
@@ -82,11 +172,22 @@ class LoteController extends Controller
 
         return redirect()
             ->route('lotes.index')
-            ->with('success', 'Lote eliminado correctamente.');
+            ->with(
+                'success',
+                'Lote eliminado correctamente.'
+            );
     }
 
-    public function guardarCoordenadas(Request $request)
-    {
+
+    /*
+    |--------------------------------------------------------------------------
+    | GUARDAR COORDENADAS
+    |--------------------------------------------------------------------------
+    */
+
+    public function guardarCoordenadas(
+        Request $request
+    ) {
         try {
 
             $request->validate([
@@ -96,7 +197,10 @@ class LoteController extends Controller
 
             $guardados = 0;
 
-            foreach ($request->lotes as $nombreLote => $datosLote) {
+            foreach (
+                $request->lotes
+                as $nombreLote => $datosLote
+            ) {
 
                 if (
                     !isset($datosLote['puntos']) ||
@@ -128,21 +232,34 @@ class LoteController extends Controller
             }
 
             return response()->json([
+
                 'success' => true,
+
                 'message' =>
                     'Se guardaron correctamente ' .
                     $guardados .
                     ' lote(s) en la base de datos.',
-                'guardados' => $guardados,
+
+                'guardados' =>
+                    $guardados,
+
             ]);
 
         } catch (\Throwable $e) {
 
             return response()->json([
+
                 'success' => false,
-                'message' => $e->getMessage(),
-                'archivo' => $e->getFile(),
-                'linea' => $e->getLine(),
+
+                'message' =>
+                    $e->getMessage(),
+
+                'archivo' =>
+                    $e->getFile(),
+
+                'linea' =>
+                    $e->getLine(),
+
             ], 500);
         }
     }
