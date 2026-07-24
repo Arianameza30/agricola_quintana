@@ -1,72 +1,175 @@
+@php
+
+    /*
+    |--------------------------------------------------------------------------
+    | Logotipo incrustado para DomPDF
+    |--------------------------------------------------------------------------
+    */
+
+    $logoBase64 = null;
+
+    $rutaLogo = public_path(
+        'images/logo_agricola_quintana.png'
+    );
+
+    if (
+        file_exists($rutaLogo) &&
+        is_readable($rutaLogo)
+    ) {
+
+        $contenidoLogo = file_get_contents($rutaLogo);
+
+        if ($contenidoLogo !== false) {
+
+            $logoBase64 =
+                'data:image/png;base64,' .
+                base64_encode($contenidoLogo);
+
+        }
+
+    }
+
+@endphp
+
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
+
     <meta charset="UTF-8">
-    <title>Mapa de Área Recorrida</title>
+
+    <title>
+        Mapa de Área Recorrida
+    </title>
 
     <style>
+
+        /*
+        |--------------------------------------------------------------------------
+        | Página
+        |--------------------------------------------------------------------------
+        */
+
         @page {
-            margin: 18px 22px;
+            size: A4 landscape;
+            margin: 10mm 12mm;
         }
 
-        * {
-            box-sizing: border-box;
+        html,
+        body {
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            margin: 0;
             font-family: DejaVu Sans, sans-serif;
+            font-size: 8px;
             color: #111827;
-            font-size: 9px;
+            background: #ffffff;
         }
 
         table {
             border-collapse: collapse;
         }
 
-        .encabezado,
-        .datos,
-        .contenido,
-        .firmas {
-            width: 100%;
+
+        /*
+        |--------------------------------------------------------------------------
+        | Marco exterior
+        |--------------------------------------------------------------------------
+        |
+        | No se utiliza width: 100% junto con padding, porque DomPDF puede
+        | sumar el relleno al ancho y provocar desbordamiento lateral.
+        |
+        */
+
+        .documento {
+            border: 1px solid #9ca3af;
+            padding: 7mm 8mm 6mm;
         }
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | Encabezado
+        |--------------------------------------------------------------------------
+        */
+
         .encabezado {
-            margin-bottom: 8px;
+            width: 100%;
+            margin-bottom: 5mm;
+            table-layout: fixed;
         }
 
         .encabezado td {
             vertical-align: middle;
         }
 
-        .titulo {
+        .encabezado-izquierda {
+            width: 64%;
+        }
+
+        .encabezado-derecha {
+            width: 36%;
+            text-align: right;
+        }
+
+        .titulo-principal {
             margin: 0;
             color: #166534;
-            font-size: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 0.3px;
         }
 
         .subtitulo {
             margin-top: 3px;
             color: #475569;
-            font-size: 10px;
+            font-size: 8.5px;
         }
 
         .logo {
-            width: 235px;
-            max-height: 78px;
+            width: 170px;
+            height: auto;
+            max-height: 52px;
         }
 
+        .nombre-empresa {
+            color: #166534;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: right;
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Datos generales
+        |--------------------------------------------------------------------------
+        */
+
         .datos {
-            margin-bottom: 8px;
+            width: 100%;
+            margin-bottom: 5mm;
+            table-layout: fixed;
         }
 
         .datos td {
             border: 1px solid #94a3b8;
-            padding: 5px 7px;
+            padding: 4px 6px;
+            vertical-align: middle;
+            font-size: 7.5px;
         }
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | Matriz y mapa
+        |--------------------------------------------------------------------------
+        */
+
         .contenido {
+            width: 100%;
             table-layout: fixed;
         }
 
@@ -74,290 +177,530 @@
             vertical-align: top;
         }
 
-        .matriz {
-            width: 43%;
-            padding-right: 6px;
+        .columna-matriz {
+            width: 45%;
+            padding-right: 2mm;
         }
 
-        .mapa-columna {
-            width: 57%;
-            padding-left: 6px;
+        .columna-mapa {
+            width: 55%;
+            padding-left: 2mm;
         }
 
         .titulo-seccion {
             background: #166534;
             color: #ffffff;
+            padding: 4px;
             text-align: center;
+            font-size: 8.5px;
             font-weight: bold;
-            padding: 5px;
-            font-size: 10px;
         }
 
-        .tabla {
+
+        /*
+        |--------------------------------------------------------------------------
+        | Matriz
+        |--------------------------------------------------------------------------
+        */
+
+        .tabla-recorrido {
             width: 100%;
             table-layout: fixed;
         }
 
-        .tabla th,
-        .tabla td {
+        .tabla-recorrido th,
+        .tabla-recorrido td {
             border: 1px solid #64748b;
-            padding: 3px 2px;
+            padding: 2.5px 2px;
             text-align: center;
-            font-size: 7px;
+            vertical-align: middle;
+            font-size: 6.4px;
         }
 
-        .tabla th {
+        .tabla-recorrido th {
             background: #dcfce7;
             color: #14532d;
+            font-weight: bold;
         }
 
-        .tabla tfoot td {
+        .tabla-recorrido tfoot td {
             background: #f1f5f9;
             font-weight: bold;
         }
 
+        .resumen {
+            margin-top: 4px;
+            border: 1px solid #94a3b8;
+            background: #f8fafc;
+            padding: 4px 6px;
+            font-size: 7px;
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Mapa
+        |--------------------------------------------------------------------------
+        */
+
         .mapa-contenedor {
+            height: 103mm;
             border: 1px solid #64748b;
-            padding: 4px;
-            text-align: center;
             background: #ffffff;
+            padding: 2mm;
+            text-align: center;
+            overflow: hidden;
         }
 
         .mapa {
+            display: block;
             width: 100%;
-            max-height: 430px;
+            height: 99mm;
         }
 
-        .resumen {
-            margin-top: 5px;
-            border: 1px solid #94a3b8;
-            background: #f8fafc;
-            padding: 5px;
-            font-size: 8px;
-        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | Firmas
+        |--------------------------------------------------------------------------
+        */
 
         .firmas {
-            margin-top: 14px;
+            width: 100%;
+            margin-top: 10mm;
+            table-layout: fixed;
+            page-break-inside: avoid;
         }
 
         .firmas td {
-            width: 33.33%;
-            padding: 18px 18px 0;
+            width: 50%;
+            padding: 0 18mm;
             text-align: center;
+            vertical-align: bottom;
         }
 
         .linea-firma {
             border-top: 1px solid #111827;
             padding-top: 4px;
-            font-size: 8px;
+            font-size: 7.5px;
+            font-weight: bold;
         }
+
+        .hacienda-firma {
+            display: block;
+            margin-top: 3px;
+            color: #475569;
+            font-size: 6.5px;
+            font-weight: normal;
+        }
+
     </style>
+
 </head>
 
 <body>
 
-    <table class="encabezado">
-        <tr>
-            <td style="width:62%;">
-                <h1 class="titulo">
-                    MAPA DE ÁREA RECORRIDA
-                </h1>
+    <div class="documento">
 
-                <div class="subtitulo">
-                    Reporte semanal de recorrido de lotes
-                </div>
-            </td>
 
-            <td style="width:38%; text-align:right;">
-                <img
-                    src="{{ public_path('images/logo_agricola_quintana.png') }}"
-                    class="logo"
-                    alt="Agrícola Quintana"
-                >
-            </td>
-        </tr>
-    </table>
+        {{-- =========================================================
+             ENCABEZADO
+        ========================================================== --}}
 
-    <table class="datos">
-        <tr>
-            <td>
-                <strong>Hacienda:</strong>
-                {{ strtoupper($hacienda) }}
-            </td>
+        <table class="encabezado">
 
-            <td>
-                <strong>Semana:</strong>
-                {{ $semana }}
-            </td>
+            <tr>
 
-            <td>
-                <strong>Año:</strong>
-                {{ $anio }}
-            </td>
+                <td class="encabezado-izquierda">
 
-            <td>
-                <strong>Usuario:</strong>
-                {{ $usuario }}
-            </td>
-        </tr>
+                    <h1 class="titulo-principal">
+                        MAPA DE ÁREA RECORRIDA
+                    </h1>
 
-        <tr>
-            <td colspan="2">
-                <strong>Fecha de inicio:</strong>
-                {{ $fechaInicio->format('d/m/Y') }}
-            </td>
+                    <div class="subtitulo">
+                        Reporte semanal de recorrido de lotes
+                    </div>
 
-            <td colspan="2">
-                <strong>Fecha de fin:</strong>
-                {{ $fechaFin->format('d/m/Y') }}
-            </td>
-        </tr>
-    </table>
+                </td>
 
-    <table class="contenido">
-        <tr>
-            <td class="matriz">
-                <div class="titulo-seccion">
-                    MATRIZ DE ÁREA RECORRIDA
-                </div>
 
-                <table class="tabla">
-                    <thead>
-                        <tr>
-                            <th style="width:9%;">Lote</th>
-                            <th style="width:11%;">Has.</th>
-                            <th>L</th>
-                            <th>M</th>
-                            <th>X</th>
-                            <th>J</th>
-                            <th>V</th>
-                            <th>S</th>
-                            <th style="width:12%;">Total</th>
-                            <th style="width:12%;">%</th>
-                        </tr>
-                    </thead>
+                <td class="encabezado-derecha">
 
-                    <tbody>
-                        @foreach($detalles as $detalle)
+                    @if ($logoBase64)
+
+                        <img
+                            src="{{ $logoBase64 }}"
+                            class="logo"
+                            alt="Logo de Agrícola Quintana"
+                        >
+
+                    @else
+
+                        <div class="nombre-empresa">
+                            AGRÍCOLA QUINTANA
+                        </div>
+
+                    @endif
+
+                </td>
+
+            </tr>
+
+        </table>
+
+
+        {{-- =========================================================
+             DATOS DEL REPORTE
+        ========================================================== --}}
+
+        <table class="datos">
+
+            <tr>
+
+                <td style="width: 36%;">
+
+                    <strong>Hacienda:</strong>
+
+                    {{ strtoupper($hacienda) }}
+
+                </td>
+
+
+                <td style="width: 20%;">
+
+                    <strong>Semana:</strong>
+
+                    {{ $semana }}
+
+                </td>
+
+
+                <td style="width: 20%;">
+
+                    <strong>Año:</strong>
+
+                    {{ $anio }}
+
+                </td>
+
+
+                <td style="width: 24%;">
+
+                    <strong>Usuario:</strong>
+
+                    {{ $usuario }}
+
+                </td>
+
+            </tr>
+
+
+            <tr>
+
+                <td colspan="2">
+
+                    <strong>Fecha de inicio:</strong>
+
+                    {{ $fechaInicio->format('d/m/Y') }}
+
+                </td>
+
+
+                <td colspan="2">
+
+                    <strong>Fecha de fin:</strong>
+
+                    {{ $fechaFin->format('d/m/Y') }}
+
+                </td>
+
+            </tr>
+
+        </table>
+
+
+        {{-- =========================================================
+             MATRIZ Y MAPA
+        ========================================================== --}}
+
+        <table class="contenido">
+
+            <tr>
+
+                {{-- MATRIZ --}}
+
+                <td class="columna-matriz">
+
+                    <div class="titulo-seccion">
+                        MATRIZ DE ÁREA RECORRIDA
+                    </div>
+
+
+                    <table class="tabla-recorrido">
+
+                        <thead>
+
                             <tr>
-                                <td>
-                                    {{ $detalle['nombre'] ?? '' }}
-                                </td>
 
-                                <td>
-                                    {{ number_format(
-                                        (float) (
-                                            $detalle['has_prod'] ??
-                                            0
-                                        ),
-                                        2
-                                    ) }}
-                                </td>
+                                <th style="width: 9%;">
+                                    Lote
+                                </th>
 
-                                <td>{{ $detalle['lunes'] ?? '' }}</td>
-                                <td>{{ $detalle['martes'] ?? '' }}</td>
-                                <td>{{ $detalle['miercoles'] ?? '' }}</td>
-                                <td>{{ $detalle['jueves'] ?? '' }}</td>
-                                <td>{{ $detalle['viernes'] ?? '' }}</td>
-                                <td>{{ $detalle['sabado'] ?? '' }}</td>
+                                <th style="width: 11%;">
+                                    Has.
+                                </th>
 
-                                <td>
-                                    {{ number_format(
-                                        (float) (
-                                            $detalle['total_semana'] ??
-                                            0
-                                        ),
-                                        2
-                                    ) }}
-                                </td>
+                                <th>L</th>
+                                <th>M</th>
+                                <th>X</th>
+                                <th>J</th>
+                                <th>V</th>
+                                <th>S</th>
 
-                                <td>
-                                    {{ $detalle['porcentaje'] ?? '0.00%' }}
-                                </td>
+                                <th style="width: 12%;">
+                                    Total
+                                </th>
+
+                                <th style="width: 12%;">
+                                    %
+                                </th>
+
                             </tr>
-                        @endforeach
-                    </tbody>
 
-                    <tfoot>
-                        <tr>
-                            <td>TOTAL</td>
+                        </thead>
 
-                            <td>
-                                {{ number_format($totalHas, 2) }}
-                            </td>
 
-                            <td colspan="6"></td>
+                        <tbody>
 
-                            <td>
-                                {{ number_format($totalSemana, 2) }}
-                            </td>
+                            @foreach ($detalles as $detalle)
 
-                            <td>
-                                {{ number_format(
-                                    $porcentajeGeneral,
-                                    2
-                                ) }}%
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
+                                <tr>
 
-                <div class="resumen">
-                    <strong>Total Has. productivas:</strong>
-                    {{ number_format($totalHas, 2) }}
+                                    <td>
+                                        {{ $detalle['nombre'] ?? '' }}
+                                    </td>
 
-                    &nbsp;&nbsp;
 
-                    <strong>Total recorrido:</strong>
-                    {{ number_format($totalSemana, 2) }}
+                                    <td>
 
-                    &nbsp;&nbsp;
+                                        {{ number_format(
+                                            (float) (
+                                                $detalle['has_prod']
+                                                ?? 0
+                                            ),
+                                            2
+                                        ) }}
 
-                    <strong>Porcentaje:</strong>
-                    {{ number_format(
-                        $porcentajeGeneral,
-                        2
-                    ) }}%
-                </div>
-            </td>
+                                    </td>
 
-            <td class="mapa-columna">
-                <div class="titulo-seccion">
-                    MAPA PINTADO
-                </div>
 
-                <div class="mapa-contenedor">
-                    <img
-                        src="{{ $imagenMapa }}"
-                        class="mapa"
-                        alt="Mapa pintado"
-                    >
-                </div>
-            </td>
-        </tr>
-    </table>
+                                    <td>
+                                        {{ $detalle['lunes'] ?? '' }}
+                                    </td>
 
-    <table class="firmas">
-        <tr>
-            <td>
-                <div class="linea-firma">
-                    Elaborado por
-                </div>
-            </td>
+                                    <td>
+                                        {{ $detalle['martes'] ?? '' }}
+                                    </td>
 
-            <td>
-                <div class="linea-firma">
-                    Jefe de campo
-                </div>
-            </td>
+                                    <td>
+                                        {{ $detalle['miercoles'] ?? '' }}
+                                    </td>
 
-            <td>
-                <div class="linea-firma">
-                    Revisado por
-                </div>
-            </td>
-        </tr>
-    </table>
+                                    <td>
+                                        {{ $detalle['jueves'] ?? '' }}
+                                    </td>
+
+                                    <td>
+                                        {{ $detalle['viernes'] ?? '' }}
+                                    </td>
+
+                                    <td>
+                                        {{ $detalle['sabado'] ?? '' }}
+                                    </td>
+
+
+                                    <td>
+
+                                        {{ number_format(
+                                            (float) (
+                                                $detalle['total_semana']
+                                                ?? 0
+                                            ),
+                                            2
+                                        ) }}
+
+                                    </td>
+
+
+                                    <td>
+                                        {{ $detalle['porcentaje'] ?? '0.00%' }}
+                                    </td>
+
+                                </tr>
+
+                            @endforeach
+
+                        </tbody>
+
+
+                        <tfoot>
+
+                            <tr>
+
+                                <td>
+                                    TOTAL
+                                </td>
+
+
+                                <td>
+
+                                    {{ number_format(
+                                        (float) $totalHas,
+                                        2
+                                    ) }}
+
+                                </td>
+
+
+                                <td colspan="6"></td>
+
+
+                                <td>
+
+                                    {{ number_format(
+                                        (float) $totalSemana,
+                                        2
+                                    ) }}
+
+                                </td>
+
+
+                                <td>
+
+                                    {{ number_format(
+                                        (float) $porcentajeGeneral,
+                                        2
+                                    ) }}%
+
+                                </td>
+
+                            </tr>
+
+                        </tfoot>
+
+                    </table>
+
+
+                    <div class="resumen">
+
+                        <strong>
+                            Total Has. productivas:
+                        </strong>
+
+                        {{ number_format(
+                            (float) $totalHas,
+                            2
+                        ) }}
+
+                        &nbsp;&nbsp;
+
+
+                        <strong>
+                            Total recorrido:
+                        </strong>
+
+                        {{ number_format(
+                            (float) $totalSemana,
+                            2
+                        ) }}
+
+                        &nbsp;&nbsp;
+
+
+                        <strong>
+                            Porcentaje:
+                        </strong>
+
+                        {{ number_format(
+                            (float) $porcentajeGeneral,
+                            2
+                        ) }}%
+
+                    </div>
+
+                </td>
+
+
+                {{-- MAPA --}}
+
+                <td class="columna-mapa">
+
+                    <div class="titulo-seccion">
+                        MAPA PINTADO
+                    </div>
+
+
+                    <div class="mapa-contenedor">
+
+                        <img
+                            src="{{ $imagenMapa }}"
+                            class="mapa"
+                            alt="Mapa pintado"
+                        >
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+        </table>
+
+
+        {{-- =========================================================
+             DOS FIRMAS
+        ========================================================== --}}
+
+        <table class="firmas">
+
+            <tr>
+
+                <td>
+
+                    <div class="linea-firma">
+
+                        Jefe de campo 1
+
+                        <span class="hacienda-firma">
+                            Hacienda {{ strtoupper($hacienda) }}
+                        </span>
+
+                    </div>
+
+                </td>
+
+
+                <td>
+
+                    <div class="linea-firma">
+
+                        Jefe de campo 2
+
+                        <span class="hacienda-firma">
+                            Hacienda {{ strtoupper($hacienda) }}
+                        </span>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+        </table>
+
+
+    </div>
 
 </body>
+
 </html>
