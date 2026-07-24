@@ -62,6 +62,16 @@ class RecorridoController extends Controller
 
         if ($recorrido) {
 
+            /*
+            |--------------------------------------------------------------------------
+            | Convertir el mapa guardado a arreglo
+            |--------------------------------------------------------------------------
+            |
+            | Si el modelo ya tiene un cast de mapa a array, no se vuelve
+            | a decodificar. Si todavía llega como texto JSON, se convierte.
+            |
+            */
+
             if (
                 is_string($recorrido->mapa) &&
                 $recorrido->mapa !== ''
@@ -78,6 +88,10 @@ class RecorridoController extends Controller
                     $recorrido->mapa =
                         $mapa;
                 }
+            }
+
+            if (!is_array($recorrido->mapa)) {
+                $recorrido->mapa = [];
             }
 
             return response()->json([
@@ -98,6 +112,9 @@ class RecorridoController extends Controller
         return response()->json([
             'existe' => false,
             'lotes' => $lotes,
+            'recorrido' => [
+                'mapa' => [],
+            ],
         ]);
     }
 
@@ -116,8 +133,17 @@ class RecorridoController extends Controller
             'fecha' =>
                 'required|date',
 
+            /*
+            |--------------------------------------------------------------------------
+            | Estado completo del mapa semanal
+            |--------------------------------------------------------------------------
+            */
+
             'mapa' =>
                 'nullable|array',
+
+            'mapa.version' =>
+                'nullable|integer|min:1|max:20',
 
             'mapa.lotes_pintados' =>
                 'nullable|array',
@@ -125,6 +151,9 @@ class RecorridoController extends Controller
             'mapa.lotes_rayados' =>
                 'nullable|array',
 
+            /*
+            | Se conserva por compatibilidad con semanas antiguas.
+            */
             'mapa.zonas_pintadas' =>
                 'nullable|array',
 
@@ -133,6 +162,13 @@ class RecorridoController extends Controller
 
             'mapa.opacidad_lote' =>
                 'nullable|numeric|min:0|max:100',
+
+            /*
+            | Contiene pincel, línea recta y borrados en formato PNG Base64.
+            | No se establece max porque puede superar 64 KB.
+            */
+            'mapa.canvas_dibujo' =>
+                'nullable|string',
 
             'detalles' =>
                 'required|array',
@@ -168,6 +204,9 @@ class RecorridoController extends Controller
                         $datos['fecha']
                     );
 
+                    $configuracionMapa =
+                        $datos['mapa'] ?? [];
+
                     $recorrido =
                         Recorrido::updateOrCreate(
                             [
@@ -198,11 +237,18 @@ class RecorridoController extends Controller
                                             Carbon::SUNDAY
                                         ),
 
+                                /*
+                                | Un solo registro por:
+                                | Hacienda + Año + Semana.
+                                |
+                                | Cada guardado actualiza tanto la matriz como
+                                | el mapa acumulado de esa misma semana.
+                                */
                                 'mapa' =>
                                     json_encode(
-                                        $datos['mapa'] ??
-                                        [],
-                                        JSON_UNESCAPED_UNICODE
+                                        $configuracionMapa,
+                                        JSON_UNESCAPED_UNICODE |
+                                        JSON_UNESCAPED_SLASHES
                                     ),
                             ]
                         );
@@ -269,7 +315,7 @@ class RecorridoController extends Controller
             return response()->json([
                 'success' => true,
                 'message' =>
-                    'Recorrido guardado correctamente.',
+                    'Matriz y mapa semanal guardados correctamente.',
                 'recorrido_id' =>
                     $recorrido->id,
             ]);

@@ -116,96 +116,181 @@
 
         <div class="p-4 bg-gray-50 border-b">
 
-            <div class="flex flex-wrap items-center gap-2 mb-4">
+            {{-- ========================================================= --}}
+            {{-- PALANCAS SEGÚN LA HACIENDA SELECCIONADA --}}
+            {{-- ========================================================= --}}
 
-                <span class="font-semibold text-gray-700 mr-2">
-                    Colores:
-                </span>
+            <div
+                class="mb-4 rounded-xl border border-green-100 bg-white p-3 sm:p-4"
+            >
 
-                {{-- COLORES PRIMARIOS PRIMERO --}}
-                <button type="button" class="color-lote w-8 h-8 rounded border-2 border-gray-300"
-                    data-color="#FF0000" style="background:#FF0000" title="Rojo"></button>
-
-                <button type="button" class="color-lote w-8 h-8 rounded border-2 border-gray-300"
-                    data-color="#FFD700" style="background:#FFD700" title="Amarillo"></button>
-
-                <button type="button" class="color-lote w-8 h-8 rounded border-2 border-gray-300"
-                    data-color="#0066FF" style="background:#0066FF" title="Azul"></button>
-
-                <button type="button" class="color-lote w-8 h-8 rounded border-2 border-gray-300"
-                    data-color="#00A651" style="background:#00A651" title="Verde"></button>
-
-                <button type="button" class="color-lote w-8 h-8 rounded border-2 border-gray-300"
-                    data-color="#FF8C00" style="background:#FF8C00" title="Naranja"></button>
-
-                <button type="button" class="color-lote w-8 h-8 rounded border-2 border-gray-300"
-                    data-color="#8000FF" style="background:#8000FF" title="Morado"></button>
-
-                <button type="button" class="color-lote w-8 h-8 rounded border-2 border-gray-300"
-                    data-color="#8B4513" style="background:#8B4513" title="Café"></button>
-
-                <button type="button" class="color-lote w-8 h-8 rounded border-2 border-gray-300"
-                    data-color="#000000" style="background:#000000" title="Negro"></button>
-
-                <span class="font-semibold text-gray-700 ml-4">
-                    Color:
-                </span>
-
-                <input
-                    id="colorPincel"
-                    type="color"
-                    value="#FF0000"
-                    class="w-10 h-8 cursor-pointer rounded border"
+                <div
+                    class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between"
                 >
 
-                <span class="font-semibold text-gray-700 ml-2">
-                    Opacidad lote:
-                </span>
+                    <div>
 
-                <input
-                    id="opacidadLote"
-                    type="range"
-                    min="10"
-                    max="90"
-                    value="45"
-                    class="cursor-pointer"
+                        <h3 class="font-bold text-gray-800">
+                            Palancas
+                        </h3>
+
+                        <p
+                            id="textoPalancas"
+                            class="text-xs sm:text-sm text-gray-500"
+                        >
+                            Seleccione una hacienda para mostrar sus palancas.
+                        </p>
+
+                    </div>
+
+
+                    <div
+                        id="palancaSeleccionada"
+                        class="mt-2 hidden items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm sm:mt-0"
+                    >
+
+                        <span
+                            id="muestraColorPalanca"
+                            class="h-6 w-6 flex-none rounded-md border border-gray-300 shadow-sm"
+                        ></span>
+
+                        <span class="text-gray-500">
+                            Seleccionada:
+                        </span>
+
+                        <strong
+                            id="nombrePalancaSeleccionada"
+                            class="text-gray-800"
+                        ></strong>
+
+                    </div>
+
+                </div>
+
+
+                {{--
+                    En celulares se muestran dos botones por fila.
+                    En pantallas medianas o grandes se acomodan automáticamente.
+                --}}
+                <div
+                    id="contenedorPalancas"
+                    class="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
                 >
 
-                <span id="textoOpacidad" class="text-gray-700 font-semibold min-w-[45px]">
-                    45%
-                </span>
+                    <div
+                        class="col-span-full rounded-lg border border-dashed border-gray-300 px-4 py-5 text-center text-sm text-gray-500"
+                    >
+                        Primero seleccione una hacienda.
+                    </div>
 
-                <span class="font-semibold text-gray-700 ml-2">
-                    Opacidad pincel:
-                </span>
+                </div>
 
-                <input
-                    id="opacidadPincel"
-                    type="range"
-                    min="10"
-                    max="100"
-                    value="70"
-                    class="cursor-pointer"
+
+                {{-- CONTROLES DE OPACIDAD Y TAMAÑO --}}
+
+                <div
+                    class="mt-4 grid grid-cols-1 gap-4 border-t border-gray-100 pt-4 sm:grid-cols-2 xl:grid-cols-3"
                 >
 
-                <span id="textoOpacidadPincel" class="text-gray-700 font-semibold min-w-[45px]">
-                    70%
-                </span>
+                    <div>
 
-                <span class="font-semibold text-gray-700 ml-2">
-                    Tamaño:
-                </span>
+                        <div class="mb-2 flex items-center justify-between gap-3">
 
-                <input
-                    id="tamanoPincel"
-                    type="range"
-                    min="2"
-                    max="40"
-                    value="8"
-                    class="cursor-pointer"
-                >
+                            <label
+                                for="opacidadLote"
+                                class="text-sm font-semibold text-gray-700"
+                            >
+                                Opacidad del lote
+                            </label>
+
+                            <span
+                                id="textoOpacidad"
+                                class="min-w-[45px] text-right text-sm font-bold text-green-800"
+                            >
+                                45%
+                            </span>
+
+                        </div>
+
+                        <input
+                            id="opacidadLote"
+                            type="range"
+                            min="10"
+                            max="90"
+                            value="45"
+                            class="w-full cursor-pointer accent-green-700"
+                        >
+
+                    </div>
+
+
+                    <div>
+
+                        <div class="mb-2 flex items-center justify-between gap-3">
+
+                            <label
+                                for="opacidadPincel"
+                                class="text-sm font-semibold text-gray-700"
+                            >
+                                Opacidad de pincel y línea
+                            </label>
+
+                            <span
+                                id="textoOpacidadPincel"
+                                class="min-w-[45px] text-right text-sm font-bold text-green-800"
+                            >
+                                70%
+                            </span>
+
+                        </div>
+
+                        <input
+                            id="opacidadPincel"
+                            type="range"
+                            min="10"
+                            max="100"
+                            value="70"
+                            class="w-full cursor-pointer accent-green-700"
+                        >
+
+                    </div>
+
+
+                    <div>
+
+                        <div class="mb-2 flex items-center justify-between gap-3">
+
+                            <label
+                                for="tamanoPincel"
+                                class="text-sm font-semibold text-gray-700"
+                            >
+                                Tamaño del pincel y línea
+                            </label>
+
+                            <span
+                                id="textoTamanoPincel"
+                                class="min-w-[45px] text-right text-sm font-bold text-green-800"
+                            >
+                                8 px
+                            </span>
+
+                        </div>
+
+                        <input
+                            id="tamanoPincel"
+                            type="range"
+                            min="2"
+                            max="40"
+                            value="8"
+                            class="w-full cursor-pointer accent-green-700"
+                        >
+
+                    </div>
+
+                </div>
 
             </div>
+
 
             {{-- CONTROLES DEL RAYADO AUTOMÁTICO --}}
             <div class="flex flex-wrap items-center gap-3 mb-4 p-3 rounded-lg border border-gray-200 bg-white">
@@ -291,11 +376,6 @@
                 <button id="btnRayarLote" type="button"
                     class="bg-pink-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-pink-700">
                     ▨ Rayar Lote
-                </button>
-
-                <button id="btnPintarZona" type="button"
-                    class="bg-cyan-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-cyan-700">
-                    🖍️ Pintar zona
                 </button>
 
                 <button id="btnRayarZona" type="button"
@@ -462,12 +542,38 @@ document.addEventListener('DOMContentLoaded', function () {
     const btnAbrir = document.getElementById('btnAbrir');
     const matriz = document.getElementById('contenedorMatriz');
 
-    const colorPincel = document.getElementById('colorPincel');
-    const opacidadLote = document.getElementById('opacidadLote');
-    const textoOpacidad = document.getElementById('textoOpacidad');
-    const opacidadPincel = document.getElementById('opacidadPincel');
-    const textoOpacidadPincel = document.getElementById('textoOpacidadPincel');
-    const tamanoPincel = document.getElementById('tamanoPincel');
+    const contenedorPalancas =
+        document.getElementById('contenedorPalancas');
+
+    const textoPalancas =
+        document.getElementById('textoPalancas');
+
+    const palancaSeleccionada =
+        document.getElementById('palancaSeleccionada');
+
+    const muestraColorPalanca =
+        document.getElementById('muestraColorPalanca');
+
+    const nombrePalancaSeleccionada =
+        document.getElementById('nombrePalancaSeleccionada');
+
+    const opacidadLote =
+        document.getElementById('opacidadLote');
+
+    const textoOpacidad =
+        document.getElementById('textoOpacidad');
+
+    const opacidadPincel =
+        document.getElementById('opacidadPincel');
+
+    const textoOpacidadPincel =
+        document.getElementById('textoOpacidadPincel');
+
+    const tamanoPincel =
+        document.getElementById('tamanoPincel');
+
+    const textoTamanoPincel =
+        document.getElementById('textoTamanoPincel');
 
     const direccionRayado = document.getElementById('direccionRayado');
     const separacionRayado = document.getElementById('separacionRayado');
@@ -479,7 +585,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const btnPintarLote = document.getElementById('btnPintarLote');
     const btnRayarLote = document.getElementById('btnRayarLote');
-    const btnPintarZona = document.getElementById('btnPintarZona');
     const btnRayarZona = document.getElementById('btnRayarZona');
     const btnCerrarZona = document.getElementById('btnCerrarZona');
     const btnDeshacerPuntoZona = document.getElementById('btnDeshacerPuntoZona');
@@ -506,7 +611,90 @@ document.addEventListener('DOMContentLoaded', function () {
     let lotesActuales = {};
 
     let herramientaActual = 'pintarLote';
+
+    /*
+    |--------------------------------------------------------------------------
+    | PALANCA Y COLOR ACTUALES
+    |--------------------------------------------------------------------------
+    |
+    | El color se sigue utilizando internamente igual que antes.
+    | La única diferencia es que ahora se selecciona mediante una palanca.
+    |
+    */
+
     let colorActual = '#FF0000';
+    let palancaActual = null;
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | COLORES ESTABLECIDOS POR HACIENDA
+    |--------------------------------------------------------------------------
+    */
+
+    const palancasPorHacienda = {
+
+        maria: [
+            {
+                codigo: 'P1',
+                nombre: 'Café',
+                color: '#8B4513'
+            },
+            {
+                codigo: 'P2',
+                nombre: 'Verde',
+                color: '#2E7D32'
+            },
+            {
+                codigo: 'P3',
+                nombre: 'Amarillo',
+                color: '#FFD700'
+            },
+            {
+                codigo: 'P4',
+                nombre: 'Azul',
+                color: '#1E88E5'
+            },
+            {
+                codigo: 'P5',
+                nombre: 'Rojo',
+                color: '#E53935'
+            }
+        ],
+
+        domenica: [
+            {
+                codigo: 'P1',
+                nombre: 'Naranja',
+                color: '#FF8C00'
+            },
+            {
+                codigo: 'P2',
+                nombre: 'Rojo',
+                color: '#E53935'
+            },
+            {
+                codigo: 'P3',
+                nombre: 'Verde',
+                color: '#2E7D32'
+            },
+            {
+                codigo: 'P4',
+                nombre: 'Azul',
+                color: '#1E88E5'
+            },
+            {
+                codigo: 'P5',
+                nombre: 'Café',
+                color: '#8B4513'
+            },
+            {
+                codigo: 'P6',
+                nombre: 'Morado',
+                color: '#8000FF'
+            }
+        ]
+    };
 
     let dibujando = false;
     let inicioX = 0;
@@ -523,6 +711,18 @@ document.addEventListener('DOMContentLoaded', function () {
     let loteZonaActual = null;
     let tipoZonaParcial = null;
 
+    /*
+    | El primer clic del pincel selecciona un lote.
+    | Todo el trazo permanece recortado dentro de ese polígono
+    | hasta que se suelta el mouse o el dedo.
+    */
+    let lotePincelActual = null;
+
+    /*
+    | La línea recta también queda limitada al lote donde comienza.
+    */
+    let loteLineaActual = null;
+
 
     /*
     |--------------------------------------------------------------------------
@@ -534,6 +734,286 @@ document.addEventListener('DOMContentLoaded', function () {
         return haciendas.find(function (item) {
             return String(item.id) === String(hacienda.value);
         }) || null;
+    }
+
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | IDENTIFICAR EL GRUPO DE PALANCAS
+    |--------------------------------------------------------------------------
+    */
+
+    function obtenerGrupoPalancas() {
+
+        if (!haciendaActual) {
+            return null;
+        }
+
+        const nombre =
+            String(
+                haciendaActual.nombre || ''
+            )
+            .trim()
+            .toUpperCase();
+
+        if (nombre.includes('DOMENICA')) {
+            return 'domenica';
+        }
+
+        if (nombre.includes('MARIA')) {
+            return 'maria';
+        }
+
+        return null;
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | MARCAR VISUALMENTE LA PALANCA ACTIVA
+    |--------------------------------------------------------------------------
+    */
+
+    function actualizarPalancaActiva() {
+
+        document
+            .querySelectorAll('.boton-palanca')
+            .forEach(function (boton) {
+
+                const activa =
+                    boton.dataset.codigo ===
+                    palancaActual;
+
+                boton.classList.toggle(
+                    'ring-4',
+                    activa
+                );
+
+                boton.classList.toggle(
+                    'ring-green-300',
+                    activa
+                );
+
+                boton.classList.toggle(
+                    'border-green-800',
+                    activa
+                );
+
+                boton.classList.toggle(
+                    'shadow-md',
+                    activa
+                );
+
+                boton.setAttribute(
+                    'aria-pressed',
+                    activa ? 'true' : 'false'
+                );
+            });
+
+
+        if (!palancaActual) {
+
+            palancaSeleccionada.classList.add(
+                'hidden'
+            );
+
+            palancaSeleccionada.classList.remove(
+                'flex'
+            );
+
+            return;
+        }
+
+
+        palancaSeleccionada.classList.remove(
+            'hidden'
+        );
+
+        palancaSeleccionada.classList.add(
+            'flex'
+        );
+
+        muestraColorPalanca.style.backgroundColor =
+            colorActual;
+
+        nombrePalancaSeleccionada.textContent =
+            palancaActual;
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | SELECCIONAR UNA PALANCA
+    |--------------------------------------------------------------------------
+    */
+
+    function seleccionarPalanca(palanca) {
+
+        if (!palanca) {
+            return;
+        }
+
+        palancaActual =
+            String(palanca.codigo);
+
+        colorActual =
+            String(palanca.color);
+
+        actualizarPalancaActiva();
+
+        mensajeHerramienta.textContent =
+            palancaActual +
+            ' seleccionada (' +
+            palanca.nombre +
+            '). Puede usarla para pintar, rayar, dibujar con pincel o crear una línea.';
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | DIBUJAR LAS PALANCAS DE LA HACIENDA
+    |--------------------------------------------------------------------------
+    */
+
+    function renderizarPalancas() {
+
+        const grupo =
+            obtenerGrupoPalancas();
+
+        contenedorPalancas.innerHTML = '';
+
+        palancaActual = null;
+
+
+        if (
+            !grupo ||
+            !Array.isArray(
+                palancasPorHacienda[grupo]
+            )
+        ) {
+
+            textoPalancas.textContent =
+                haciendaActual
+                    ? 'Esta hacienda no tiene palancas configuradas.'
+                    : 'Seleccione una hacienda para mostrar sus palancas.';
+
+            contenedorPalancas.innerHTML =
+                '<div class="col-span-full rounded-lg border border-dashed border-gray-300 px-4 py-5 text-center text-sm text-gray-500">' +
+                    (
+                        haciendaActual
+                            ? 'No hay palancas configuradas para esta hacienda.'
+                            : 'Primero seleccione una hacienda.'
+                    ) +
+                '</div>';
+
+            actualizarPalancaActiva();
+
+            return;
+        }
+
+
+        const palancas =
+            palancasPorHacienda[grupo];
+
+        textoPalancas.textContent =
+            grupo === 'domenica'
+                ? 'Palancas establecidas para DOMENICA.'
+                : 'Palancas establecidas para MARIA MARIA.';
+
+
+        palancas.forEach(function (palanca) {
+
+            const boton =
+                document.createElement('button');
+
+            boton.type = 'button';
+
+            boton.className =
+                'boton-palanca flex min-h-[58px] w-full items-center gap-3 rounded-xl border-2 border-gray-200 bg-white px-3 py-2 text-left transition hover:-translate-y-0.5 hover:border-green-500 hover:shadow-md focus:outline-none focus:ring-4 focus:ring-green-200 active:translate-y-0';
+
+            boton.dataset.codigo =
+                palanca.codigo;
+
+            boton.dataset.color =
+                palanca.color;
+
+            boton.setAttribute(
+                'aria-label',
+                palanca.codigo +
+                ', color ' +
+                palanca.nombre
+            );
+
+            boton.setAttribute(
+                'aria-pressed',
+                'false'
+            );
+
+
+            const muestra =
+                document.createElement('span');
+
+            muestra.className =
+                'h-9 w-9 flex-none rounded-lg border border-black/10 shadow-sm';
+
+            muestra.style.backgroundColor =
+                palanca.color;
+
+
+            const textos =
+                document.createElement('span');
+
+            textos.className =
+                'min-w-0 leading-tight';
+
+
+            const codigo =
+                document.createElement('strong');
+
+            codigo.className =
+                'block text-base text-gray-900';
+
+            codigo.textContent =
+                palanca.codigo;
+
+
+            const nombre =
+                document.createElement('small');
+
+            nombre.className =
+                'block truncate text-xs text-gray-500';
+
+            nombre.textContent =
+                palanca.nombre;
+
+
+            textos.appendChild(codigo);
+            textos.appendChild(nombre);
+
+            boton.appendChild(muestra);
+            boton.appendChild(textos);
+
+            boton.addEventListener(
+                'click',
+                function () {
+                    seleccionarPalanca(palanca);
+                }
+            );
+
+            contenedorPalancas.appendChild(
+                boton
+            );
+        });
+
+
+        /*
+        | Se selecciona P1 automáticamente para que el usuario pueda
+        | empezar a trabajar inmediatamente después de elegir hacienda.
+        */
+        seleccionarPalanca(
+            palancas[0]
+        );
     }
 
 
@@ -1334,20 +1814,57 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /*
     |--------------------------------------------------------------------------
+    | CREAR RUTA DEL LOTE PARA LIMITAR EL PINCEL
+    |--------------------------------------------------------------------------
+    |
+    | Las coordenadas de los lotes están normalizadas entre 0 y 1.
+    | Esta función las transforma al tamaño real del canvas y crea
+    | una ruta cerrada que después se utiliza con ctx.clip().
+    |
+    */
+
+    function crearRutaLoteEnCanvas(ctx, lote, canvas) {
+
+        if (
+            !lote ||
+            !Array.isArray(lote.puntos) ||
+            lote.puntos.length < 3 ||
+            canvas.width <= 0 ||
+            canvas.height <= 0
+        ) {
+            return false;
+        }
+
+        ctx.beginPath();
+
+        lote.puntos.forEach(function (punto, indice) {
+
+            const x =
+                Number(punto[0]) *
+                canvas.width;
+
+            const y =
+                Number(punto[1]) *
+                canvas.height;
+
+            if (indice === 0) {
+                ctx.moveTo(x, y);
+            } else {
+                ctx.lineTo(x, y);
+            }
+        });
+
+        ctx.closePath();
+
+        return true;
+    }
+
+
+    /*
+    |--------------------------------------------------------------------------
     | COLOR Y OPACIDAD
     |--------------------------------------------------------------------------
     */
-
-    document.querySelectorAll('.color-lote').forEach(function (boton) {
-        boton.addEventListener('click', function () {
-            colorActual = this.dataset.color;
-            colorPincel.value = colorActual;
-        });
-    });
-
-    colorPincel.addEventListener('input', function () {
-        colorActual = this.value;
-    });
 
     opacidadLote.addEventListener('input', function () {
         textoOpacidad.textContent = this.value + '%';
@@ -1356,6 +1873,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     opacidadPincel.addEventListener('input', function () {
         textoOpacidadPincel.textContent = this.value + '%';
+    });
+
+    tamanoPincel.addEventListener('input', function () {
+        textoTamanoPincel.textContent =
+            this.value + ' px';
     });
 
     separacionRayado.addEventListener('input', function () {
@@ -1389,9 +1911,9 @@ document.addEventListener('DOMContentLoaded', function () {
             rayarZona:
                 'Marque con clics el contorno de la parte que desea rayar y después pulse “Cerrar zona”.',
             pincel:
-                'Arrastre el mouse sobre el mapa para dibujar libremente.',
+                'Haga clic dentro de un lote y arrastre. El pincel no podrá salir de sus límites.',
             linea:
-                'Arrastre desde el punto inicial hasta el punto final.',
+                'Haga clic dentro de un lote y arrastre. La línea quedará limitada a ese lote.',
             borrador:
                 'Arrastre sobre una raya para borrarla.'
         };
@@ -1409,21 +1931,6 @@ document.addEventListener('DOMContentLoaded', function () {
     btnRayarLote.addEventListener('click', function () {
         cancelarZonaParcial();
         activarHerramienta('rayarLote');
-    });
-
-    btnPintarZona.addEventListener('click', function () {
-
-        cancelarZonaParcial();
-
-        tipoZonaParcial =
-            'solido';
-
-        activarHerramienta(
-            'zonaParcial'
-        );
-
-        mensajeHerramienta.textContent =
-            'Marque con clics la parte que desea pintar y después pulse “Cerrar zona”.';
     });
 
 
@@ -2010,6 +2517,47 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         /*
+        | El pincel debe comenzar dentro de un lote configurado.
+        | Ese lote será la máscara de recorte durante todo el trazo.
+        */
+        if (herramientaActual === 'pincel') {
+
+            lotePincelActual =
+                buscarLote(posicion);
+
+            loteLineaActual = null;
+
+            if (!lotePincelActual) {
+
+                mensajeHerramienta.textContent =
+                    'El pincel debe comenzar dentro de un lote configurado.';
+
+                return;
+            }
+
+        } else if (herramientaActual === 'linea') {
+
+            loteLineaActual =
+                buscarLote(posicion);
+
+            lotePincelActual = null;
+
+            if (!loteLineaActual) {
+
+                mensajeHerramienta.textContent =
+                    'La línea debe comenzar dentro de un lote configurado.';
+
+                return;
+            }
+
+        } else {
+
+            lotePincelActual = null;
+            loteLineaActual = null;
+        }
+
+
+        /*
         | Pincel, línea y borrador guardan el estado antes de comenzar.
         */
         guardarEstado();
@@ -2083,22 +2631,52 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (herramientaActual === 'pincel') {
 
-            ctxDibujo.globalCompositeOperation =
-                'source-over';
+            if (!lotePincelActual) {
+                terminarAccion();
+                return;
+            }
 
-            ctxDibujo.beginPath();
+            /*
+            | Guardamos el contexto para que el recorte afecte únicamente
+            | a este segmento del pincel.
+            */
+            ctxDibujo.save();
 
-            ctxDibujo.moveTo(
-                ultimoX,
-                ultimoY
-            );
+            if (
+                crearRutaLoteEnCanvas(
+                    ctxDibujo,
+                    lotePincelActual,
+                    canvasDibujo
+                )
+            ) {
 
-            ctxDibujo.lineTo(
-                posicion.x,
-                posicion.y
-            );
+                /*
+                | Todo lo que se dibuje después de clip() quedará
+                | estrictamente dentro del polígono seleccionado.
+                */
+                ctxDibujo.clip();
 
-            ctxDibujo.stroke();
+                ctxDibujo.globalCompositeOperation =
+                    'source-over';
+
+                configurarDibujo();
+
+                ctxDibujo.beginPath();
+
+                ctxDibujo.moveTo(
+                    ultimoX,
+                    ultimoY
+                );
+
+                ctxDibujo.lineTo(
+                    posicion.x,
+                    posicion.y
+                );
+
+                ctxDibujo.stroke();
+            }
+
+            ctxDibujo.restore();
 
             ultimoX =
                 posicion.x;
@@ -2144,8 +2722,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (herramientaActual === 'linea') {
 
+            if (!loteLineaActual) {
+                terminarAccion();
+                return;
+            }
+
+            /*
+            | La base correcta es el canvas guardado por guardarEstado()
+            | al comenzar la línea. Se corrige el uso anterior de la
+            | variable inexistente historialDibujo.
+            */
+            const ultimoEstado =
+                historialAcciones[
+                    historialAcciones.length - 1
+                ];
+
             const base =
-                historialDibujo[historialDibujo.length - 1];
+                ultimoEstado?.canvas || null;
 
             ctxDibujo.clearRect(
                 0,
@@ -2156,22 +2749,51 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (base) {
                 ctxDibujo.globalCompositeOperation = 'source-over';
-                ctxDibujo.drawImage(base, 0, 0);
+                ctxDibujo.globalAlpha = 1;
+                ctxDibujo.drawImage(
+                    base,
+                    0,
+                    0,
+                    base.width,
+                    base.height,
+                    0,
+                    0,
+                    canvasDibujo.width,
+                    canvasDibujo.height
+                );
             }
 
-            ctxDibujo.globalCompositeOperation = 'source-over';
-            configurarDibujo();
-            ctxDibujo.beginPath();
-            ctxDibujo.moveTo(inicioX, inicioY);
-            ctxDibujo.lineTo(posicion.x, posicion.y);
-            ctxDibujo.stroke();
+            ctxDibujo.save();
+
+            if (
+                crearRutaLoteEnCanvas(
+                    ctxDibujo,
+                    loteLineaActual,
+                    canvasDibujo
+                )
+            ) {
+                ctxDibujo.clip();
+                ctxDibujo.globalCompositeOperation = 'source-over';
+                configurarDibujo();
+                ctxDibujo.beginPath();
+                ctxDibujo.moveTo(inicioX, inicioY);
+                ctxDibujo.lineTo(posicion.x, posicion.y);
+                ctxDibujo.stroke();
+            }
+
+            ctxDibujo.restore();
         }
     }
 
     function terminarAccion() {
 
         dibujando = false;
-        ctxDibujo.globalCompositeOperation = 'source-over';
+        lotePincelActual = null;
+        loteLineaActual = null;
+
+        ctxDibujo.globalCompositeOperation =
+            'source-over';
+
         ctxDibujo.globalAlpha = 1;
     }
 
@@ -2193,6 +2815,130 @@ document.addEventListener('DOMContentLoaded', function () {
     );
 
     canvasDibujo.addEventListener('touchend', terminarAccion);
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | RESTAURAR EL MAPA GUARDADO DE LA SEMANA
+    |--------------------------------------------------------------------------
+    */
+
+    function cargarImagenEnCanvasDibujo(imagenBase64) {
+
+        return new Promise(function (resolve) {
+
+            ctxDibujo.clearRect(
+                0,
+                0,
+                canvasDibujo.width,
+                canvasDibujo.height
+            );
+
+            if (
+                !imagenBase64 ||
+                typeof imagenBase64 !== 'string'
+            ) {
+                resolve();
+                return;
+            }
+
+            const imagenGuardada = new Image();
+
+            imagenGuardada.onload = function () {
+
+                ctxDibujo.save();
+                ctxDibujo.globalCompositeOperation = 'source-over';
+                ctxDibujo.globalAlpha = 1;
+
+                ctxDibujo.drawImage(
+                    imagenGuardada,
+                    0,
+                    0,
+                    imagenGuardada.width,
+                    imagenGuardada.height,
+                    0,
+                    0,
+                    canvasDibujo.width,
+                    canvasDibujo.height
+                );
+
+                ctxDibujo.restore();
+                resolve();
+            };
+
+            imagenGuardada.onerror = function () {
+                console.warn(
+                    'No se pudo restaurar el canvas guardado.'
+                );
+                resolve();
+            };
+
+            imagenGuardada.src = imagenBase64;
+        });
+    }
+
+
+    async function restaurarConfiguracionMapa(configuracion) {
+
+        limpiarMapaDelDia();
+
+        if (
+            !configuracion ||
+            typeof configuracion !== 'object'
+        ) {
+            mensajeHerramienta.textContent =
+                'Semana nueva: el mapa está vacío.';
+            return;
+        }
+
+        coloresLotes =
+            configuracion.lotes_pintados &&
+            typeof configuracion.lotes_pintados === 'object'
+                ? clonarDatos(configuracion.lotes_pintados)
+                : {};
+
+        rayadosLotes =
+            configuracion.lotes_rayados &&
+            typeof configuracion.lotes_rayados === 'object'
+                ? clonarDatos(configuracion.lotes_rayados)
+                : {};
+
+        /*
+        | Se conservan para compatibilidad con semanas antiguas,
+        | aunque el botón “Pintar zona” ya no aparezca.
+        */
+        zonasPintadas =
+            Array.isArray(configuracion.zonas_pintadas)
+                ? clonarDatos(configuracion.zonas_pintadas)
+                : [];
+
+        zonasRayadas =
+            Array.isArray(configuracion.zonas_rayadas)
+                ? clonarDatos(configuracion.zonas_rayadas)
+                : [];
+
+        if (
+            configuracion.opacidad_lote !== undefined &&
+            configuracion.opacidad_lote !== null
+        ) {
+            opacidadLote.value =
+                String(configuracion.opacidad_lote);
+
+            textoOpacidad.textContent =
+                opacidadLote.value + '%';
+        }
+
+        dibujarColoresLotes();
+
+        await cargarImagenEnCanvasDibujo(
+            configuracion.canvas_dibujo || null
+        );
+
+        historialAcciones = [];
+
+        mensajeHerramienta.textContent =
+            'Mapa y matriz de la semana restaurados correctamente.';
+    }
 
 
     /*
@@ -2383,10 +3129,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
     hacienda.addEventListener('change', function () {
 
-        haciendaActual = buscarHaciendaSeleccionada();
+        haciendaActual =
+            buscarHaciendaSeleccionada();
 
         limpiarMapaDelDia();
         lotesActuales = {};
+
+        /*
+        | Cambiar únicamente las palancas visibles según la hacienda.
+        | Toda la lógica de pintura, rayado, pincel y línea se conserva.
+        */
+        renderizarPalancas();
 
         cargarLotesDesdeBaseDatos();
         cargarImagenHacienda();
@@ -2394,9 +3147,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     fecha.addEventListener('change', function () {
 
-        limpiarMapaDelDia(
-            'Nueva fecha seleccionada. El mapa está listo para registrar este día.'
-        );
+        mensajeHerramienta.textContent =
+            'Fecha cambiada. El mapa semanal se conserva; pulse “Abrir Semana” si necesita recargarlo.';
     });
 
 
@@ -2414,20 +3166,6 @@ document.addEventListener('DOMContentLoaded', function () {
     mapa.addEventListener('load', function () {
 
         ajustarCanvas();
-
-        /*
-        | Si todavía no hay acciones del día, garantizar que el
-        | cambio o recarga de imagen no restaure marcas anteriores.
-        */
-        if (
-            Object.keys(coloresLotes).length === 0 &&
-            Object.keys(rayadosLotes).length === 0 &&
-            zonasPintadas.length === 0 &&
-            zonasRayadas.length === 0 &&
-            historialAcciones.length === 0
-        ) {
-            limpiarMapaDelDia();
-        }
     });
 
     window.addEventListener('resize', function () {
@@ -2455,11 +3193,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
         /*
-        | El mapa siempre comienza limpio al abrir una semana.
-        | La matriz sí se recupera desde la base de datos.
+        | Se limpia temporalmente antes de consultar. Si la semana ya
+        | existe, su mapa completo se restaurará desde la base de datos.
         */
         limpiarMapaDelDia(
-            'Mapa limpio. Cargando únicamente la matriz semanal...'
+            'Consultando la matriz y el mapa de la semana...'
         );
 
 
@@ -2515,13 +3253,12 @@ document.addEventListener('DOMContentLoaded', function () {
             let lotes = [];
             const detallesExistentes = {};
 
-            /*
-            | El mapa es diario y temporal.
-            | Al abrir una semana solamente recuperamos la matriz.
-            */
-            limpiarMapaDelDia();
+            let configuracionMapaGuardada = null;
 
             if (datos.existe === true) {
+
+                configuracionMapaGuardada =
+                    datos.recorrido?.mapa || null;
 
                 const detalles =
                     Array.isArray(datos.detalles)
@@ -2567,6 +3304,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     ? datos.lotes
                     : [];
             }
+
+            /*
+            | Restaurar el mapa acumulado de la semana. Una semana nueva
+            | permanece vacía; una existente recupera todas sus marcas.
+            */
+            await restaurarConfiguracionMapa(
+                configuracionMapaGuardada
+            );
 
             lotes.sort(function (a, b) {
                 return String(a.nombre).localeCompare(
@@ -2917,20 +3662,29 @@ document.addEventListener('DOMContentLoaded', function () {
             function obtenerConfiguracionMapa() {
 
                 return {
+                    version: 2,
+
                     lotes_pintados:
-                        coloresLotes,
+                        clonarDatos(coloresLotes),
 
                     lotes_rayados:
-                        rayadosLotes,
+                        clonarDatos(rayadosLotes),
 
                     zonas_pintadas:
-                        zonasPintadas,
+                        clonarDatos(zonasPintadas),
 
                     zonas_rayadas:
-                        zonasRayadas,
+                        clonarDatos(zonasRayadas),
 
                     opacidad_lote:
-                        Number(opacidadLote.value)
+                        Number(opacidadLote.value),
+
+                    /*
+                    | Guarda pincel, líneas rectas y borrados como una
+                    | capa transparente que puede recuperarse y editarse.
+                    */
+                    canvas_dibujo:
+                        canvasDibujo.toDataURL('image/png')
                 };
             }
 
@@ -3204,6 +3958,9 @@ document.addEventListener('DOMContentLoaded', function () {
                                     anio: new Date().getFullYear(),
                                     fecha: fecha.value,
 
+                                    mapa:
+                                        obtenerConfiguracionMapa(),
+
                                     detalles: detalles
                                 })
                             }
@@ -3324,6 +4081,59 @@ document.addEventListener('DOMContentLoaded', function () {
                                 },
                                 0
                             );
+
+                        /*
+                        | Antes de generar el PDF se guarda automáticamente
+                        | la matriz y el mapa acumulado de la semana.
+                        */
+                        const detallesParaGuardar =
+                            detalles.map(function (detalle) {
+                                return {
+                                    lote_id: detalle.lote_id,
+                                    lunes: detalle.lunes,
+                                    martes: detalle.martes,
+                                    miercoles: detalle.miercoles,
+                                    jueves: detalle.jueves,
+                                    viernes: detalle.viernes,
+                                    sabado: detalle.sabado
+                                };
+                            });
+
+                        const respuestaGuardadoAutomatico =
+                            await fetch(
+                                "{{ route('recorridos.store') }}",
+                                {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'Accept': 'application/json',
+                                        'X-CSRF-TOKEN': csrf
+                                    },
+                                    body: JSON.stringify({
+                                        hacienda_id: hacienda.value,
+                                        semana: semana.value,
+                                        anio: fecha.value
+                                            ? new Date(
+                                                fecha.value + 'T12:00:00'
+                                            ).getFullYear()
+                                            : new Date().getFullYear(),
+                                        fecha: fecha.value,
+                                        mapa: obtenerConfiguracionMapa(),
+                                        detalles: detallesParaGuardar
+                                    })
+                                }
+                            );
+
+                        const resultadoGuardadoAutomatico =
+                            await respuestaGuardadoAutomatico.json();
+
+                        if (!respuestaGuardadoAutomatico.ok) {
+                            throw new Error(
+                                resultadoGuardadoAutomatico.message ||
+                                'No se pudo guardar la semana antes de generar el PDF.'
+                            );
+                        }
+
 
                         const respuestaPdf =
                             await fetch(
@@ -3525,9 +4335,8 @@ document.addEventListener('DOMContentLoaded', function () {
                             '.pdf'
                         );
 
-                        limpiarMapaDelDia(
-                            'PDF descargado. El mapa quedó limpio para registrar el siguiente día.'
-                        );
+                        mensajeHerramienta.textContent =
+                            'PDF descargado. El mapa semanal se conserva.';
 
                     } catch (error) {
 
