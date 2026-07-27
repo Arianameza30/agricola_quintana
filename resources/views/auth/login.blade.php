@@ -4,7 +4,9 @@
         class="overflow-hidden rounded-3xl border border-white/20 bg-white shadow-2xl"
     >
 
+        {{-- ========================================================= --}}
         {{-- CABECERA CORPORATIVA --}}
+        {{-- ========================================================= --}}
 
         <div
             class="bg-gradient-to-r from-green-950 via-green-900 to-green-800 px-8 pb-7 pt-8 text-center"
@@ -37,7 +39,9 @@
         </div>
 
 
+        {{-- ========================================================= --}}
         {{-- FORMULARIO --}}
+        {{-- ========================================================= --}}
 
         <div class="px-7 py-7 sm:px-9">
 
@@ -56,7 +60,9 @@
                 @csrf
 
 
+                {{-- ================================================= --}}
                 {{-- CORREO ELECTRÓNICO --}}
+                {{-- ================================================= --}}
 
                 <div>
 
@@ -123,7 +129,9 @@
                 </div>
 
 
+                {{-- ================================================= --}}
                 {{-- CONTRASEÑA --}}
+                {{-- ================================================= --}}
 
                 <div>
 
@@ -219,7 +227,9 @@
                 </div>
 
 
+                {{-- ================================================= --}}
                 {{-- RECORDAR Y RECUPERAR CONTRASEÑA --}}
+                {{-- ================================================= --}}
 
                 <div
                     class="flex flex-col gap-3 text-sm sm:flex-row sm:items-center sm:justify-between"
@@ -258,7 +268,9 @@
                 </div>
 
 
+                {{-- ================================================= --}}
                 {{-- BOTÓN DE INICIAR SESIÓN --}}
+                {{-- ================================================= --}}
 
                 <button
                     type="submit"
@@ -294,6 +306,84 @@
 
             </form>
 
+
+            {{-- ===================================================== --}}
+            {{-- REGISTRO DE USUARIO --}}
+            {{-- ===================================================== --}}
+
+            @if (Route::has('register'))
+
+                <div class="mt-6">
+
+                    <div class="relative flex items-center">
+
+                        <div class="flex-grow border-t border-gray-200"></div>
+
+                        <span
+                            class="mx-3 flex-shrink text-xs font-medium text-gray-400"
+                        >
+                            ¿No tienes una cuenta?
+                        </span>
+
+                        <div class="flex-grow border-t border-gray-200"></div>
+
+                    </div>
+
+
+                    <a
+                        href="{{ route('register') }}"
+                        class="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border-2 border-green-700 bg-white px-5 py-3.5 text-sm font-bold uppercase tracking-wide text-green-700 shadow-sm transition hover:bg-green-50 hover:text-green-800 focus:outline-none focus:ring-4 focus:ring-green-200 active:scale-[0.99]"
+                    >
+
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            class="h-5 w-5"
+                        >
+
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M15 19.128a9.38 9.38 0 0 0 3.9.872 9.337 9.337 0 0 0 4.1-.949 4.125 4.125 0 0 0-7.579-2.298"
+                            />
+
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M15 19.128v-.003c0-1.113-.285-2.16-.786-3.071A6.75 6.75 0 0 0 8.25 12.5a6.75 6.75 0 0 0-5.964 3.554A6.702 6.702 0 0 0 1.5 19.125v.003A9.721 9.721 0 0 0 8.25 21c2.549 0 4.877-.977 6.75-1.872Z"
+                            />
+
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M11.25 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                            />
+
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M18 7.5v6M21 10.5h-6"
+                            />
+
+                        </svg>
+
+                        <span>
+                            Registrar usuario
+                        </span>
+
+                    </a>
+
+                </div>
+
+            @endif
+
+
+            {{-- ===================================================== --}}
+            {{-- PIE DEL FORMULARIO --}}
+            {{-- ===================================================== --}}
 
             <div
                 class="mt-7 border-t border-gray-100 pt-5 text-center"

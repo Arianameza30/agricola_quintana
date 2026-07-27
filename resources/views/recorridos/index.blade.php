@@ -114,317 +114,363 @@
             </h2>
         </div>
 
-        <div class="p-4 bg-gray-50 border-b">
+        <div class="border-b bg-gray-50 p-3 sm:p-4">
 
             {{-- ========================================================= --}}
-            {{-- PALANCAS SEGÚN LA HACIENDA SELECCIONADA --}}
+            {{-- HERRAMIENTAS COMPACTAS --}}
             {{-- ========================================================= --}}
 
-            <div
-                class="mb-4 rounded-xl border border-green-100 bg-white p-3 sm:p-4"
-            >
+            <div class="rounded-xl border border-gray-200 bg-white p-3">
 
-                <div
-                    class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between"
-                >
+                <div class="mb-2 flex items-center justify-between gap-3">
+
+                    <h3 class="text-sm font-bold text-gray-800 sm:text-base">
+                        Herramientas
+                    </h3>
+
+                    <span class="text-xs text-gray-500">
+                        Toque una opción
+                    </span>
+
+                </div>
+
+                <div class="grid grid-cols-4 gap-2 sm:grid-cols-6 lg:grid-cols-11">
+
+                    <button id="btnPintarLote" type="button"
+                        class="flex min-h-[58px] flex-col items-center justify-center rounded-lg bg-blue-600 px-1 py-2 text-center text-white hover:bg-blue-700">
+                        <span class="text-lg leading-none">🎨</span>
+                        <span class="mt-1 text-[11px] font-semibold leading-tight sm:text-xs">Lote</span>
+                    </button>
+
+                    <button id="btnRayarLote" type="button"
+                        class="flex min-h-[58px] flex-col items-center justify-center rounded-lg bg-pink-600 px-1 py-2 text-center text-white hover:bg-pink-700">
+                        <span class="text-lg leading-none">▨</span>
+                        <span class="mt-1 text-[11px] font-semibold leading-tight sm:text-xs">Rayar</span>
+                    </button>
+
+                    <button id="btnRayarZona" type="button"
+                        class="flex min-h-[58px] flex-col items-center justify-center rounded-lg bg-fuchsia-600 px-1 py-2 text-center text-white hover:bg-fuchsia-700">
+                        <span class="text-lg leading-none">✂️</span>
+                        <span class="mt-1 text-[11px] font-semibold leading-tight sm:text-xs">Zona</span>
+                    </button>
+
+                    <button id="btnCerrarZona" type="button"
+                        class="flex min-h-[58px] flex-col items-center justify-center rounded-lg bg-teal-700 px-1 py-2 text-center text-white hover:bg-teal-800">
+                        <span class="text-lg leading-none">🔷</span>
+                        <span class="mt-1 text-[11px] font-semibold leading-tight sm:text-xs">Cerrar</span>
+                    </button>
+
+                    <button id="btnDeshacerPuntoZona" type="button"
+                        class="flex min-h-[58px] flex-col items-center justify-center rounded-lg bg-slate-600 px-1 py-2 text-center text-white hover:bg-slate-700">
+                        <span class="text-lg leading-none">↩️</span>
+                        <span class="mt-1 text-[11px] font-semibold leading-tight sm:text-xs">Punto</span>
+                    </button>
+
+                    <button id="btnCancelarZona" type="button"
+                        class="flex min-h-[58px] flex-col items-center justify-center rounded-lg bg-rose-600 px-1 py-2 text-center text-white hover:bg-rose-700">
+                        <span class="text-lg leading-none">❌</span>
+                        <span class="mt-1 text-[11px] font-semibold leading-tight sm:text-xs">Cancelar</span>
+                    </button>
+
+                    <button id="btnPincel" type="button"
+                        class="flex min-h-[58px] flex-col items-center justify-center rounded-lg bg-green-700 px-1 py-2 text-center text-white hover:bg-green-800">
+                        <span class="text-lg leading-none">🖌️</span>
+                        <span class="mt-1 text-[11px] font-semibold leading-tight sm:text-xs">Pincel</span>
+                    </button>
+
+                    <button id="btnLinea" type="button"
+                        class="flex min-h-[58px] flex-col items-center justify-center rounded-lg bg-gray-700 px-1 py-2 text-center text-white hover:bg-gray-800">
+                        <span class="text-lg leading-none">📏</span>
+                        <span class="mt-1 text-[11px] font-semibold leading-tight sm:text-xs">Línea</span>
+                    </button>
+
+                    <button id="btnBorrador" type="button"
+                        class="flex min-h-[58px] flex-col items-center justify-center rounded-lg bg-yellow-500 px-1 py-2 text-center text-white hover:bg-yellow-600">
+                        <span class="text-lg leading-none">🧹</span>
+                        <span class="mt-1 text-[11px] font-semibold leading-tight sm:text-xs">Borrar</span>
+                    </button>
+
+                    <button id="btnDeshacer" type="button"
+                        class="flex min-h-[58px] flex-col items-center justify-center rounded-lg bg-gray-600 px-1 py-2 text-center text-white hover:bg-gray-700">
+                        <span class="text-lg leading-none">↩️</span>
+                        <span class="mt-1 text-[11px] font-semibold leading-tight sm:text-xs">Deshacer</span>
+                    </button>
+
+                    <button id="btnLimpiarMapa" type="button"
+                        class="flex min-h-[58px] flex-col items-center justify-center rounded-lg bg-red-600 px-1 py-2 text-center text-white hover:bg-red-700">
+                        <span class="text-lg leading-none">🗑️</span>
+                        <span class="mt-1 text-[11px] font-semibold leading-tight sm:text-xs">Limpiar</span>
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            {{-- ========================================================= --}}
+            {{-- CONFIGURACIÓN AVANZADA DESPLEGABLE --}}
+            {{-- ========================================================= --}}
+
+            <details class="mt-3 rounded-xl border border-gray-200 bg-white">
+
+                <summary class="flex cursor-pointer list-none items-center justify-between gap-3 px-3 py-3 text-sm font-bold text-gray-800">
+
+                    <span>
+                        ⚙️ Configuración de pintura y rayado
+                    </span>
+
+                    <span class="text-xs font-normal text-gray-500">
+                        Mostrar / ocultar
+                    </span>
+
+                </summary>
+
+                <div class="border-t border-gray-100 p-3">
+
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+
+                        <div>
+
+                            <div class="mb-2 flex items-center justify-between gap-3">
+
+                                <label for="opacidadLote" class="text-sm font-semibold text-gray-700">
+                                    Opacidad del lote
+                                </label>
+
+                                <span id="textoOpacidad" class="min-w-[45px] text-right text-sm font-bold text-green-800">
+                                    45%
+                                </span>
+
+                            </div>
+
+                            <input
+                                id="opacidadLote"
+                                type="range"
+                                min="10"
+                                max="90"
+                                value="45"
+                                class="w-full cursor-pointer accent-green-700"
+                            >
+
+                        </div>
+
+
+                        <div>
+
+                            <div class="mb-2 flex items-center justify-between gap-3">
+
+                                <label for="opacidadPincel" class="text-sm font-semibold text-gray-700">
+                                    Opacidad de pincel y línea
+                                </label>
+
+                                <span id="textoOpacidadPincel" class="min-w-[45px] text-right text-sm font-bold text-green-800">
+                                    70%
+                                </span>
+
+                            </div>
+
+                            <input
+                                id="opacidadPincel"
+                                type="range"
+                                min="10"
+                                max="100"
+                                value="70"
+                                class="w-full cursor-pointer accent-green-700"
+                            >
+
+                        </div>
+
+
+                        <div>
+
+                            <div class="mb-2 flex items-center justify-between gap-3">
+
+                                <label for="tamanoPincel" class="text-sm font-semibold text-gray-700">
+                                    Tamaño del pincel y línea
+                                </label>
+
+                                <span id="textoTamanoPincel" class="min-w-[45px] text-right text-sm font-bold text-green-800">
+                                    8 px
+                                </span>
+
+                            </div>
+
+                            <input
+                                id="tamanoPincel"
+                                type="range"
+                                min="2"
+                                max="40"
+                                value="8"
+                                class="w-full cursor-pointer accent-green-700"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="mt-4 border-t border-gray-100 pt-4">
+
+                        <h4 class="mb-3 text-sm font-bold text-gray-800">
+                            Opciones del rayado
+                        </h4>
+
+                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+
+                            <div>
+
+                                <label class="mb-2 block text-sm font-semibold text-gray-700" for="direccionRayado">
+                                    Dirección
+                                </label>
+
+                                <select
+                                    id="direccionRayado"
+                                    class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-black"
+                                >
+                                    <option value="-45">Diagonal /</option>
+                                    <option value="45">Diagonal \</option>
+                                    <option value="0">Vertical |</option>
+                                    <option value="90">Horizontal —</option>
+                                </select>
+
+                            </div>
+
+
+                            <div>
+
+                                <div class="mb-2 flex items-center justify-between gap-3">
+
+                                    <label class="text-sm font-semibold text-gray-700" for="separacionRayado">
+                                        Separación
+                                    </label>
+
+                                    <span id="textoSeparacionRayado" class="text-sm font-bold text-green-800">
+                                        16 px
+                                    </span>
+
+                                </div>
+
+                                <input
+                                    id="separacionRayado"
+                                    type="range"
+                                    min="6"
+                                    max="40"
+                                    value="16"
+                                    class="w-full cursor-pointer accent-green-700"
+                                >
+
+                            </div>
+
+
+                            <div>
+
+                                <div class="mb-2 flex items-center justify-between gap-3">
+
+                                    <label class="text-sm font-semibold text-gray-700" for="grosorRayado">
+                                        Grosor
+                                    </label>
+
+                                    <span id="textoGrosorRayado" class="text-sm font-bold text-green-800">
+                                        3 px
+                                    </span>
+
+                                </div>
+
+                                <input
+                                    id="grosorRayado"
+                                    type="range"
+                                    min="1"
+                                    max="10"
+                                    value="3"
+                                    class="w-full cursor-pointer accent-green-700"
+                                >
+
+                            </div>
+
+
+                            <div>
+
+                                <div class="mb-2 flex items-center justify-between gap-3">
+
+                                    <label class="text-sm font-semibold text-gray-700" for="opacidadRayado">
+                                        Opacidad
+                                    </label>
+
+                                    <span id="textoOpacidadRayado" class="text-sm font-bold text-green-800">
+                                        75%
+                                    </span>
+
+                                </div>
+
+                                <input
+                                    id="opacidadRayado"
+                                    type="range"
+                                    min="10"
+                                    max="100"
+                                    value="75"
+                                    class="w-full cursor-pointer accent-green-700"
+                                >
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </details>
+
+
+            {{-- ========================================================= --}}
+            {{-- PALANCAS COMPACTAS JUSTO ENCIMA DEL MAPA --}}
+            {{-- ========================================================= --}}
+
+            <div class="mt-3 rounded-xl border border-green-100 bg-white p-3">
+
+                <div class="flex items-center justify-between gap-3">
 
                     <div>
 
-                        <h3 class="font-bold text-gray-800">
+                        <h3 class="text-sm font-bold text-gray-800 sm:text-base">
                             Palancas
                         </h3>
 
-                        <p
-                            id="textoPalancas"
-                            class="text-xs sm:text-sm text-gray-500"
-                        >
+                        <p id="textoPalancas" class="text-[11px] leading-tight text-gray-500 sm:text-xs">
                             Seleccione una hacienda para mostrar sus palancas.
                         </p>
 
                     </div>
 
-
-                    <div
-                        id="palancaSeleccionada"
-                        class="mt-2 hidden items-center gap-2 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm sm:mt-0"
-                    >
-
-                        <span
-                            id="muestraColorPalanca"
-                            class="h-6 w-6 flex-none rounded-md border border-gray-300 shadow-sm"
-                        ></span>
-
-                        <span class="text-gray-500">
-                            Seleccionada:
-                        </span>
-
-                        <strong
-                            id="nombrePalancaSeleccionada"
-                            class="text-gray-800"
-                        ></strong>
-
+                    {{--
+                        Se mantienen estos elementos ocultos para conservar
+                        exactamente la lógica JavaScript existente.
+                    --}}
+                    <div id="palancaSeleccionada" class="hidden">
+                        <span id="muestraColorPalanca"></span>
+                        <strong id="nombrePalancaSeleccionada"></strong>
                     </div>
 
                 </div>
 
-
-                {{--
-                    En celulares se muestran dos botones por fila.
-                    En pantallas medianas o grandes se acomodan automáticamente.
-                --}}
                 <div
                     id="contenedorPalancas"
-                    class="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6"
+                    class="mt-2 grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-6"
                 >
 
-                    <div
-                        class="col-span-full rounded-lg border border-dashed border-gray-300 px-4 py-5 text-center text-sm text-gray-500"
-                    >
+                    <div class="col-span-full rounded-lg border border-dashed border-gray-300 px-3 py-3 text-center text-xs text-gray-500">
                         Primero seleccione una hacienda.
                     </div>
 
                 </div>
 
-
-                {{-- CONTROLES DE OPACIDAD Y TAMAÑO --}}
-
-                <div
-                    class="mt-4 grid grid-cols-1 gap-4 border-t border-gray-100 pt-4 sm:grid-cols-2 xl:grid-cols-3"
-                >
-
-                    <div>
-
-                        <div class="mb-2 flex items-center justify-between gap-3">
-
-                            <label
-                                for="opacidadLote"
-                                class="text-sm font-semibold text-gray-700"
-                            >
-                                Opacidad del lote
-                            </label>
-
-                            <span
-                                id="textoOpacidad"
-                                class="min-w-[45px] text-right text-sm font-bold text-green-800"
-                            >
-                                45%
-                            </span>
-
-                        </div>
-
-                        <input
-                            id="opacidadLote"
-                            type="range"
-                            min="10"
-                            max="90"
-                            value="45"
-                            class="w-full cursor-pointer accent-green-700"
-                        >
-
-                    </div>
-
-
-                    <div>
-
-                        <div class="mb-2 flex items-center justify-between gap-3">
-
-                            <label
-                                for="opacidadPincel"
-                                class="text-sm font-semibold text-gray-700"
-                            >
-                                Opacidad de pincel y línea
-                            </label>
-
-                            <span
-                                id="textoOpacidadPincel"
-                                class="min-w-[45px] text-right text-sm font-bold text-green-800"
-                            >
-                                70%
-                            </span>
-
-                        </div>
-
-                        <input
-                            id="opacidadPincel"
-                            type="range"
-                            min="10"
-                            max="100"
-                            value="70"
-                            class="w-full cursor-pointer accent-green-700"
-                        >
-
-                    </div>
-
-
-                    <div>
-
-                        <div class="mb-2 flex items-center justify-between gap-3">
-
-                            <label
-                                for="tamanoPincel"
-                                class="text-sm font-semibold text-gray-700"
-                            >
-                                Tamaño del pincel y línea
-                            </label>
-
-                            <span
-                                id="textoTamanoPincel"
-                                class="min-w-[45px] text-right text-sm font-bold text-green-800"
-                            >
-                                8 px
-                            </span>
-
-                        </div>
-
-                        <input
-                            id="tamanoPincel"
-                            type="range"
-                            min="2"
-                            max="40"
-                            value="8"
-                            class="w-full cursor-pointer accent-green-700"
-                        >
-
-                    </div>
-
-                </div>
-
             </div>
 
 
-            {{-- CONTROLES DEL RAYADO AUTOMÁTICO --}}
-            <div class="flex flex-wrap items-center gap-3 mb-4 p-3 rounded-lg border border-gray-200 bg-white">
-
-                <span class="font-semibold text-gray-700">
-                    Rayado:
-                </span>
-
-                <label class="text-sm text-gray-700" for="direccionRayado">
-                    Dirección
-                </label>
-
-                <select
-                    id="direccionRayado"
-                    class="rounded border border-gray-300 bg-white text-black px-2 py-1"
-                >
-                    <option value="-45">Diagonal /</option>
-                    <option value="45">Diagonal \</option>
-                    <option value="0">Vertical |</option>
-                    <option value="90">Horizontal —</option>
-                </select>
-
-                <label class="text-sm text-gray-700" for="separacionRayado">
-                    Separación
-                </label>
-
-                <input
-                    id="separacionRayado"
-                    type="range"
-                    min="6"
-                    max="40"
-                    value="16"
-                    class="cursor-pointer"
-                >
-
-                <span id="textoSeparacionRayado" class="text-sm font-semibold text-gray-700 min-w-[40px]">
-                    16 px
-                </span>
-
-                <label class="text-sm text-gray-700" for="grosorRayado">
-                    Grosor
-                </label>
-
-                <input
-                    id="grosorRayado"
-                    type="range"
-                    min="1"
-                    max="10"
-                    value="3"
-                    class="cursor-pointer"
-                >
-
-                <span id="textoGrosorRayado" class="text-sm font-semibold text-gray-700 min-w-[35px]">
-                    3 px
-                </span>
-
-                <label class="text-sm text-gray-700" for="opacidadRayado">
-                    Opacidad
-                </label>
-
-                <input
-                    id="opacidadRayado"
-                    type="range"
-                    min="10"
-                    max="100"
-                    value="75"
-                    class="cursor-pointer"
-                >
-
-                <span id="textoOpacidadRayado" class="text-sm font-semibold text-gray-700 min-w-[45px]">
-                    75%
-                </span>
-
-            </div>
-
-            <div class="flex flex-wrap gap-2">
-
-                <button id="btnPintarLote" type="button"
-                    class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-700">
-                    🎨 Pintar Lote
-                </button>
-
-                <button id="btnRayarLote" type="button"
-                    class="bg-pink-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-pink-700">
-                    ▨ Rayar Lote
-                </button>
-
-                <button id="btnRayarZona" type="button"
-                    class="bg-fuchsia-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-fuchsia-700">
-                    ✂️ Rayar zona
-                </button>
-
-                <button id="btnCerrarZona" type="button"
-                    class="bg-teal-700 text-white px-4 py-2 rounded-lg font-semibold hover:bg-teal-800">
-                    🔷 Cerrar zona
-                </button>
-
-                <button id="btnDeshacerPuntoZona" type="button"
-                    class="bg-slate-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-slate-700">
-                    ↩️ Deshacer punto
-                </button>
-
-                <button id="btnCancelarZona" type="button"
-                    class="bg-rose-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-rose-700">
-                    ❌ Cancelar zona
-                </button>
-
-                <button id="btnPincel" type="button"
-                    class="bg-green-700 text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-800">
-                    🖌️ Pincel
-                </button>
-
-                <button id="btnLinea" type="button"
-                    class="bg-gray-700 text-white px-4 py-2 rounded-lg font-semibold hover:bg-gray-800">
-                    📏 Línea recta
-                </button>
-
-                <button id="btnBorrador" type="button"
-                    class="bg-yellow-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-yellow-600">
-                    🧹 Borrador
-                </button>
-
-                <button id="btnDeshacer" type="button"
-                    class="bg-gray-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-gray-700">
-                    ↩️ Deshacer
-                </button>
-<button id="btnLimpiarMapa" type="button"
-                    class="bg-red-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-red-700">
-                    🗑️ Limpiar todo
-                </button>
-
-            </div>
-
-            <div id="mensajeHerramienta" class="mt-3 text-sm text-gray-600">
+            <div
+                id="mensajeHerramienta"
+                class="mt-3 rounded-lg bg-white px-3 py-2 text-xs leading-relaxed text-gray-600 sm:text-sm"
+            >
                 Seleccione una hacienda. Después use “Pintar Lote” y haga clic dentro del lote.
             </div>
 
@@ -930,7 +976,7 @@ document.addEventListener('DOMContentLoaded', function () {
             boton.type = 'button';
 
             boton.className =
-                'boton-palanca flex min-h-[58px] w-full items-center gap-3 rounded-xl border-2 border-gray-200 bg-white px-3 py-2 text-left transition hover:-translate-y-0.5 hover:border-green-500 hover:shadow-md focus:outline-none focus:ring-4 focus:ring-green-200 active:translate-y-0';
+                'boton-palanca flex min-h-[42px] w-full items-center justify-center gap-2 rounded-lg border-2 border-gray-200 bg-white px-2 py-1.5 text-center transition hover:border-green-500 hover:shadow-sm focus:outline-none focus:ring-4 focus:ring-green-200';
 
             boton.dataset.codigo =
                 palanca.codigo;
@@ -955,7 +1001,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 document.createElement('span');
 
             muestra.className =
-                'h-9 w-9 flex-none rounded-lg border border-black/10 shadow-sm';
+                'h-5 w-5 flex-none rounded-md border border-black/10 shadow-sm sm:h-6 sm:w-6';
 
             muestra.style.backgroundColor =
                 palanca.color;
@@ -965,14 +1011,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 document.createElement('span');
 
             textos.className =
-                'min-w-0 leading-tight';
+                'min-w-0 leading-none';
 
 
             const codigo =
                 document.createElement('strong');
 
             codigo.className =
-                'block text-base text-gray-900';
+                'block text-xs font-bold text-gray-900 sm:text-sm';
 
             codigo.textContent =
                 palanca.codigo;
@@ -982,7 +1028,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 document.createElement('small');
 
             nombre.className =
-                'block truncate text-xs text-gray-500';
+                'hidden';
 
             nombre.textContent =
                 palanca.nombre;
