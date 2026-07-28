@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -14,7 +13,7 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
+     * Campos que pueden guardarse masivamente.
      *
      * @var list<string>
      */
@@ -22,10 +21,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'rol',
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * Campos ocultos al convertir el modelo a arreglo o JSON.
      *
      * @var list<string>
      */
@@ -35,7 +35,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * Conversión automática de atributos.
      *
      * @return array<string, string>
      */
@@ -47,8 +47,27 @@ class User extends Authenticatable
         ];
     }
 
+    /**
+     * Recorridos creados por el usuario.
+     */
     public function recorridos()
-{
-    return $this->hasMany(Recorrido::class);
-}
+    {
+        return $this->hasMany(Recorrido::class);
+    }
+
+    /**
+     * Indica si el usuario es administrador.
+     */
+    public function esAdministrador(): bool
+    {
+        return $this->rol === 'admin';
+    }
+
+    /**
+     * Indica si el usuario es un usuario final.
+     */
+    public function esUsuario(): bool
+    {
+        return $this->rol === 'usuario';
+    }
 }

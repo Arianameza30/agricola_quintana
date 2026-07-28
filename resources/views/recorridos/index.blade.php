@@ -502,10 +502,10 @@
 
                 {{-- LÍNEA, BORRADOR Y SELECCIÓN DE ZONAS PARCIALES --}}
                 <canvas
-                    id="canvasDibujo"
-                    class="absolute inset-0 w-full h-full"
-                    style="z-index:3; touch-action:none;"
-                ></canvas>
+    id="canvasDibujo"
+    class="absolute inset-0 w-full h-full"
+    style="z-index:3; touch-action:pinch-zoom;"
+></canvas>
 
                 {{--
                     COPIA SUPERIOR DEL MAPA.
@@ -2431,7 +2431,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function iniciarAccion(event) {
 
-        event.preventDefault();
+        if (event.touches && event.touches.length > 1) {
+            return; // Dos dedos o más: dejar que el navegador haga zoom nativo.
+        }
+
+        if (!event.touches) {
+            event.preventDefault(); // Solo bloquear con mouse; con dedo se decide en moverAccion.
+        }
 
         if (!haciendaActual) {
             mensajeHerramienta.textContent =
@@ -2666,6 +2672,10 @@ document.addEventListener('DOMContentLoaded', function () {
     */
 
     function moverAccion(event) {
+
+        if (event.touches && event.touches.length > 1) {
+            return; // Dos dedos o más: dejar que el navegador haga zoom nativo.
+        }
 
         if (!dibujando) {
             return;

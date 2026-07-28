@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HaciendaController;
 use App\Http\Controllers\LoteController;
 use App\Http\Controllers\RecorridoController;
+use App\Http\Middleware\AdminMiddleware;
 
 
 /*
@@ -30,8 +31,7 @@ Route::get('/', function () {
 | Dashboard
 |--------------------------------------------------------------------------
 |
-| Se conserva esta ruta por compatibilidad con Laravel Breeze, pero ahora
-| redirige directamente al módulo principal de Recorridos.
+| Se conserva esta ruta por compatibilidad con Laravel Breeze.
 |
 */
 
@@ -40,20 +40,101 @@ Route::get('/dashboard', function () {
     return redirect()->route('recorridos.index');
 
 })
-->middleware([
-    'auth',
-    'verified',
-])
-->name('dashboard');
+    ->middleware([
+        'auth',
+        'verified',
+    ])
+    ->name('dashboard');
 
 
 /*
 |--------------------------------------------------------------------------
-| Rutas protegidas
+| Rutas para todos los usuarios autenticados
 |--------------------------------------------------------------------------
+|
+| Administradores y usuarios finales pueden acceder a recorridos y perfil.
+|
 */
 
 Route::middleware('auth')->group(function () {
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Recorridos
+    |--------------------------------------------------------------------------
+    */
+
+    Route::post(
+        '/recorridos/abrir',
+        [RecorridoController::class, 'abrir']
+    )
+        ->name('recorridos.abrir');
+
+
+    Route::post(
+        '/recorridos/generar-pdf',
+        [RecorridoController::class, 'generarPdf']
+    )
+        ->name('recorridos.generar-pdf');
+
+
+    Route::get(
+        '/recorridos/pdf/{id}',
+        [RecorridoController::class, 'pdf']
+    )
+        ->name('recorridos.pdf');
+
+
+    Route::resource(
+        'recorridos',
+        RecorridoController::class
+    );
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Perfil
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get(
+        '/profile',
+        [ProfileController::class, 'edit']
+    )
+        ->name('profile.edit');
+
+
+    Route::patch(
+        '/profile',
+        [ProfileController::class, 'update']
+    )
+        ->name('profile.update');
+
+
+    Route::delete(
+        '/profile',
+        [ProfileController::class, 'destroy']
+    )
+        ->name('profile.destroy');
+
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| Rutas exclusivas del administrador
+|--------------------------------------------------------------------------
+|
+| Se utiliza directamente AdminMiddleware::class para evitar problemas
+| con el alias "admin".
+|
+*/
+
+Route::middleware([
+    'auth',
+    AdminMiddleware::class,
+])->group(function () {
 
 
     /*
@@ -66,14 +147,14 @@ Route::middleware('auth')->group(function () {
         '/lotes/configurar',
         [LoteController::class, 'configurar']
     )
-    ->name('lotes.configurar');
+        ->name('lotes.configurar');
 
 
     Route::post(
         '/lotes/guardar-coordenadas',
         [LoteController::class, 'guardarCoordenadas']
     )
-    ->name('lotes.guardar-coordenadas');
+        ->name('lotes.guardar-coordenadas');
 
 
     /*
@@ -98,66 +179,6 @@ Route::middleware('auth')->group(function () {
         'lotes',
         LoteController::class
     );
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Recorridos
-    |--------------------------------------------------------------------------
-    */
-
-    Route::post(
-        '/recorridos/abrir',
-        [RecorridoController::class, 'abrir']
-    )
-    ->name('recorridos.abrir');
-
-
-    Route::post(
-        '/recorridos/generar-pdf',
-        [RecorridoController::class, 'generarPdf']
-    )
-    ->name('recorridos.generar-pdf');
-
-
-    Route::get(
-        '/recorridos/pdf/{id}',
-        [RecorridoController::class, 'pdf']
-    )
-    ->name('recorridos.pdf');
-
-
-    Route::resource(
-        'recorridos',
-        RecorridoController::class
-    );
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Perfil
-    |--------------------------------------------------------------------------
-    */
-
-    Route::get(
-        '/profile',
-        [ProfileController::class, 'edit']
-    )
-    ->name('profile.edit');
-
-
-    Route::patch(
-        '/profile',
-        [ProfileController::class, 'update']
-    )
-    ->name('profile.update');
-
-
-    Route::delete(
-        '/profile',
-        [ProfileController::class, 'destroy']
-    )
-    ->name('profile.destroy');
 
 });
 
