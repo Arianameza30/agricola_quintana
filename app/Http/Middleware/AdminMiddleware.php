@@ -9,12 +9,27 @@ use Symfony\Component\HttpFoundation\Response;
 class AdminMiddleware
 {
     /**
-     * Handle an incoming request.
-     *
-     * @param  Closure(Request): (Response)  $next
+     * Permite el acceso solamente a administradores.
      */
     public function handle(Request $request, Closure $next): Response
     {
+        $usuario = $request->user();
+
+        if (! $usuario) {
+            return redirect()->route('login');
+        }
+
+        $rol = mb_strtolower(
+            trim((string) $usuario->rol)
+        );
+
+        if ($rol !== 'admin') {
+            abort(
+                403,
+                'No tienes permiso para acceder a este módulo.'
+            );
+        }
+
         return $next($request);
     }
 }
