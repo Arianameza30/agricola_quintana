@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Notifications\ResetPasswordNotification;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -22,10 +24,11 @@ class User extends Authenticatable
         'email',
         'password',
         'rol',
+        'activo',
     ];
 
     /**
-     * Campos ocultos al convertir el modelo a arreglo o JSON.
+     * Campos ocultos al serializar el usuario.
      *
      * @var list<string>
      */
@@ -44,15 +47,27 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'activo' => 'boolean',
         ];
     }
 
     /**
      * Recorridos creados por el usuario.
      */
-    public function recorridos()
+    public function recorridos(): HasMany
     {
         return $this->hasMany(Recorrido::class);
+    }
+
+    /**
+     * Envía la notificación personalizada
+     * para restablecer la contraseña.
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(
+            new ResetPasswordNotification($token)
+        );
     }
 
     /**
@@ -60,14 +75,46 @@ class User extends Authenticatable
      */
     public function esAdministrador(): bool
     {
-        return $this->rol === 'admin';
+        return trim(
+            mb_strtolower((string) $this->rol)
+        ) === 'admin';
     }
 
     /**
-     * Indica si el usuario es un usuario final.
+     * Indica si el usuario es normal.
      */
     public function esUsuario(): bool
     {
-        return $this->rol === 'usuario';
+        return trim(
+            mb_strtolower((string) $this->rol)
+        ) === 'usuario';
+    }
+
+    /**
+     * Indica si la cuenta está activa.
+     */
+    public function estaActivo(): bool
+    {
+        return (bool) $this->activo;
+    }
+
+    /**
+     * Devuelve el nombre legible del rol.
+     */
+    public function nombreRol(): string
+    {
+        return $this->esAdministrador()
+            ? 'Administrador'
+            : 'Usuario';
+    }
+
+    /**
+     * Devuelve el nombre legible del estado.
+     */
+    public function nombreEstado(): string
+    {
+        return $this->estaActivo()
+            ? 'Activo'
+            : 'Inactivo';
     }
 }
