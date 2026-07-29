@@ -160,14 +160,6 @@
                     </button>
 
 
-                    <button
-                        id="btnDeshacerPunto"
-                        type="button"
-                        class="bg-slate-700 text-white px-4 py-2 rounded-lg font-semibold hover:bg-slate-800"
-                    >
-                        ↩️ Deshacer punto
-                    </button>
-
 
                     <button
                         id="btnCerrarPoligono"
@@ -239,6 +231,16 @@
             {{-- ===================================================== --}}
 
             <div class="p-4 sm:p-6">
+
+                <div class="flex justify-center mb-4">
+                    <button
+                        id="btnDeshacerPunto"
+                        type="button"
+                        class="bg-slate-700 hover:bg-slate-800 text-white px-5 py-2 rounded-lg font-semibold"
+                    >
+                        ↩️ Deshacer
+                    </button>
+                </div>
 
                 <div
                     id="contenedorMapa"
