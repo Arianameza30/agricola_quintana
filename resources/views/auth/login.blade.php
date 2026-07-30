@@ -61,16 +61,16 @@
 
 
                 {{-- ================================================= --}}
-                {{-- CORREO ELECTRÓNICO --}}
+                {{-- USUARIO --}}
                 {{-- ================================================= --}}
 
                 <div>
 
                     <label
-                        for="email"
+                        for="usuario"
                         class="mb-2 block text-sm font-semibold text-gray-700"
                     >
-                        Correo electrónico
+                        Usuario
                     </label>
 
                     <div class="relative">
@@ -90,38 +90,39 @@
                                 <path
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
-                                    d="M3 6.75A2.25 2.25 0 0 1 5.25 4.5h13.5A2.25 2.25 0 0 1 21 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 17.25V6.75Z"
+                                    d="M15.75 6.75a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
                                 />
 
                                 <path
                                     stroke-linecap="round"
                                     stroke-linejoin="round"
-                                    d="m3.75 7.5 6.91 5.182a2.25 2.25 0 0 0 2.68 0L20.25 7.5"
+                                    d="M4.5 20.25a7.5 7.5 0 0 1 15 0"
                                 />
                             </svg>
 
                         </div>
 
                         <input
-                            id="email"
-                            type="email"
-                            name="email"
-                            value="{{ old('email') }}"
+                            id="usuario"
+                            type="text"
+                            name="usuario"
+                            value="{{ old('usuario') }}"
                             required
                             autofocus
                             autocomplete="username"
-                            placeholder="correo@ejemplo.com"
+                            maxlength="100"
+                            placeholder="Ingresa tu usuario"
                             class="block w-full rounded-xl border-gray-300 bg-gray-50 py-3 pl-12 pr-4 text-gray-900 shadow-sm transition placeholder:text-gray-400 focus:border-green-600 focus:bg-white focus:ring-green-600"
                         >
 
                     </div>
 
-                    @if ($errors->has('email'))
+                    @if ($errors->has('usuario'))
 
                         <p
                             class="mt-2 text-sm font-medium text-red-600"
                         >
-                            {{ $errors->first('email') }}
+                            {{ $errors->first('usuario') }}
                         </p>
 
                     @endif
@@ -184,12 +185,11 @@
                         <button
                             id="btnMostrarPassword"
                             type="button"
-                            aria-label="Mostrar u ocultar contraseña"
+                            aria-label="Mostrar contraseña"
                             class="absolute inset-y-0 right-0 flex items-center px-4 text-gray-400 transition hover:text-green-700 focus:outline-none"
                         >
 
                             <svg
-                                id="iconoOjo"
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 24 24"
                                 fill="none"
@@ -389,9 +389,7 @@
                 class="mt-7 border-t border-gray-100 pt-5 text-center"
             >
 
-                <p
-                    class="text-xs text-gray-500"
-                >
+                <p class="text-xs text-gray-500">
                     Acceso exclusivo para personal autorizado.
                 </p>
 
@@ -416,9 +414,7 @@
 
 
     <script>
-
         document.addEventListener('DOMContentLoaded', function () {
-
             const campoPassword =
                 document.getElementById('password');
 
@@ -430,7 +426,6 @@
             }
 
             botonMostrar.addEventListener('click', function () {
-
                 const oculto =
                     campoPassword.type === 'password';
 
@@ -443,11 +438,8 @@
                         ? 'Ocultar contraseña'
                         : 'Mostrar contraseña'
                 );
-
             });
-
         });
-
     </script>
 
 </x-guest-layout>

@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -21,6 +23,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'usuario',
         'email',
         'password',
         'rol',
@@ -52,46 +55,117 @@ class User extends Authenticatable
     }
 
     /**
+     * Crear automáticamente un usuario cuando no se envíe uno.
+     */
+    protected static function booted(): void
+    {
+        static::creating(function (User $user): void {
+            if (
+                filled($user->usuario)
+            ) {
+                $user->usuario = static::normalizarUsuario(
+                    (string) $user->usuario
+                );
+
+                return;
+            }
+
+            $parteCorreo = Str::before(
+                (string) $user->email,
+                '@'
+            );
+
+            $usuarioBase = static::normalizarUsuario(
+                $parteCorreo
+            );
+
+            if ($usuarioBase === '') {
+                $usuarioBase = static::normalizarUsuario(
+                    (string) $user->name
+                );
+            }
+
+            if ($usuarioBase === '') {
+                $usuarioBase = 'usuario';
+            }
+
+            $usuarioFinal = $usuarioBase;
+            $contador = 1;
+
+            while (
+                DB::table('users')
+                    ->where('usuario', $usuarioFinal)
+                    ->exists()
+            ) {
+                $usuarioFinal = $usuarioBase.'_'.$contador;
+                $contador++;
+            }
+
+            $user->usuario = $usuarioFinal;
+        });
+    }
+
+    /**
+     * Normalizar el nombre de usuario.
+     */
+    private static function normalizarUsuario(
+        string $usuario
+    ): string {
+        return Str::lower(
+            Str::slug(
+                trim($usuario),
+                '_'
+            )
+        );
+    }
+
+    /**
      * Recorridos creados por el usuario.
      */
     public function recorridos(): HasMany
     {
-        return $this->hasMany(Recorrido::class);
+        return $this->hasMany(
+            Recorrido::class
+        );
     }
 
     /**
-     * Envía la notificación personalizada
-     * para restablecer la contraseña.
+     * Enviar la notificación para restablecer la contraseña.
      */
-    public function sendPasswordResetNotification($token)
-    {
+    public function sendPasswordResetNotification(
+        $token
+    ): void {
         $this->notify(
             new ResetPasswordNotification($token)
         );
     }
 
     /**
-     * Indica si el usuario es administrador.
+     * Indicar si el usuario es administrador.
      */
     public function esAdministrador(): bool
     {
         return trim(
-            mb_strtolower((string) $this->rol)
+            mb_strtolower(
+                (string) $this->rol
+            )
         ) === 'admin';
     }
 
     /**
-     * Indica si el usuario es normal.
+     * Indicar si el usuario es normal.
      */
     public function esUsuario(): bool
     {
         return trim(
-            mb_strtolower((string) $this->rol)
+            mb_strtolower(
+                (string) $this->rol
+            )
         ) === 'usuario';
     }
 
     /**
-     * Indica si la cuenta está activa.
+     * Indicar si la cuenta está activa.
      */
     public function estaActivo(): bool
     {
@@ -99,7 +173,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Devuelve el nombre legible del rol.
+     * Devolver el nombre legible del rol.
      */
     public function nombreRol(): string
     {
@@ -109,7 +183,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Devuelve el nombre legible del estado.
+     * Devolver el nombre legible del estado.
      */
     public function nombreEstado(): string
     {

@@ -481,61 +481,56 @@
     <div class="p-4 sm:p-6">
 
         <div
-            id="contenedorMapa"
-            class="relative mx-auto w-full max-w-6xl overflow-hidden border rounded-lg bg-white"
-            style="line-height:0;"
-        >
-            {{-- IMAGEN BASE DEL MAPA --}}
-            <img
-                id="mapa"
-                src=""
-                class="relative block w-full h-auto select-none"
-                style="z-index:1;"
-                draggable="false"
-                alt="Mapa de Hacienda"
-            >
+    id="contenedorMapa"
+    class="relative mx-auto w-full max-w-6xl overflow-hidden border rounded-lg bg-white"
+    style="line-height:0;"
+>
+    {{-- IMAGEN BASE DEL MAPA --}}
+    <img
+        id="mapa"
+        src=""
+        class="relative block w-full h-auto select-none"
+        style="z-index:1;"
+        draggable="false"
+        alt="Mapa de Hacienda"
+    >
 
-            {{-- RELLENO COMPLETO Y RAYADOS DE LOTES --}}
-            <canvas
-                id="canvasLotes"
-                class="absolute inset-0 w-full h-full"
-                style="z-index:2; pointer-events:none;"
-            ></canvas>
+    {{-- RELLENO COMPLETO Y RAYADOS DE LOTES --}}
+    <canvas
+        id="canvasLotes"
+        class="absolute inset-0 w-full h-full"
+        style="z-index:2; pointer-events:none;"
+    ></canvas>
 
-            {{-- LÍNEA, BORRADOR Y SELECCIÓN DE ZONAS PARCIALES --}}
-            <canvas
-id="canvasDibujo"
-class="absolute inset-0 w-full h-full"
-style="z-index:3; touch-action:pinch-zoom;"
+    {{-- LÍNEA, BORRADOR Y SELECCIÓN DE ZONAS PARCIALES --}}
+    <canvas
+        id="canvasDibujo"
+        class="absolute inset-0 w-full h-full"
+        style="z-index:3; touch-action:pinch-zoom;"
+    ></canvas>
 
-            {{--
-                COPIA SUPERIOR DEL MAPA.
+    {{-- COPIA SUPERIOR DEL MAPA --}}
+    <img
+        id="mapaSuperior"
+        src=""
+        class="absolute inset-0 block w-full h-full select-none pointer-events-none"
+        style="
+            z-index:4;
+            object-fit:fill;
+            mix-blend-mode:multiply;
+        "
+        draggable="false"
+        alt=""
+        aria-hidden="true"
+    >
 
-                Se coloca encima de los canvas usando multiply.
-                Así las letras, nombres, bordes y divisiones negras
-                permanecen visibles aunque se pinte con el pincel.
-            --}}
-            <img
-                id="mapaSuperior"
-                src=""
-                class="absolute inset-0 block w-full h-full select-none pointer-events-none"
-                style="
-                    z-index:4;
-                    object-fit:fill;
-                    mix-blend-mode:multiply;
-                "
-                draggable="false"
-                alt=""
-                aria-hidden="true"
-            >
-
-            {{-- Vista previa de los puntos de la zona parcial. --}}
-            <canvas
-                id="canvasZona"
-                class="absolute inset-0 w-full h-full pointer-events-none"
-                style="z-index:4;"
-            ></canvas>
-        </div>
+    {{-- Vista previa de los puntos de la zona parcial --}}
+    <canvas
+        id="canvasZona"
+        class="absolute inset-0 w-full h-full pointer-events-none"
+        style="z-index:5;"
+    ></canvas>
+</div>
 
     </div>
 

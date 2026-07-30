@@ -35,9 +35,15 @@ return [
         'sqlite' => [
             'driver' => 'sqlite',
             'url' => env('DB_URL'),
-            'database' => env('DB_DATABASE', database_path('database.sqlite')),
+            'database' => env(
+                'DB_DATABASE',
+                database_path('database.sqlite')
+            ),
             'prefix' => '',
-            'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
+            'foreign_key_constraints' => env(
+                'DB_FOREIGN_KEYS',
+                true
+            ),
             'busy_timeout' => null,
             'journal_mode' => null,
             'synchronous' => null,
@@ -54,14 +60,35 @@ return [
             'password' => env('DB_PASSWORD', ''),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => env('DB_CHARSET', 'utf8mb4'),
-            'collation' => env('DB_COLLATION', 'utf8mb4_unicode_ci'),
-            'prefix' => '',
+            'collation' => env(
+                'DB_COLLATION',
+                'utf8mb4_unicode_ci'
+            ),
+
+            /*
+            |--------------------------------------------------------------------------
+            | Prefijo de tablas del sistema de mapas
+            |--------------------------------------------------------------------------
+            |
+            | En producción se establecerá DB_PREFIX=m_ en el archivo .env.
+            | Laravel agregará automáticamente el prefijo a todas las tablas.
+            |
+            */
+
+            'prefix' => env('DB_PREFIX', ''),
             'prefix_indexes' => true,
             'strict' => true,
             'engine' => null,
-            'options' => extension_loaded('pdo_mysql') ? array_filter([
-                (PHP_VERSION_ID >= 80500 ? Mysql::ATTR_SSL_CA : PDO::MYSQL_ATTR_SSL_CA) => env('MYSQL_ATTR_SSL_CA'),
-            ]) : [],
+
+            'options' => extension_loaded('pdo_mysql')
+                ? array_filter([
+                    (
+                        PHP_VERSION_ID >= 80500
+                            ? Mysql::ATTR_SSL_CA
+                            : PDO::MYSQL_ATTR_SSL_CA
+                    ) => env('MYSQL_ATTR_SSL_CA'),
+                ])
+                : [],
         ],
 
         'mariadb' => [
@@ -74,14 +101,31 @@ return [
             'password' => env('DB_PASSWORD', ''),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => env('DB_CHARSET', 'utf8mb4'),
-            'collation' => env('DB_COLLATION', 'utf8mb4_unicode_ci'),
-            'prefix' => '',
+            'collation' => env(
+                'DB_COLLATION',
+                'utf8mb4_unicode_ci'
+            ),
+
+            /*
+            |--------------------------------------------------------------------------
+            | Prefijo de tablas del sistema de mapas
+            |--------------------------------------------------------------------------
+            */
+
+            'prefix' => env('DB_PREFIX', ''),
             'prefix_indexes' => true,
             'strict' => true,
             'engine' => null,
-            'options' => extension_loaded('pdo_mysql') ? array_filter([
-                (PHP_VERSION_ID >= 80500 ? Mysql::ATTR_SSL_CA : PDO::MYSQL_ATTR_SSL_CA) => env('MYSQL_ATTR_SSL_CA'),
-            ]) : [],
+
+            'options' => extension_loaded('pdo_mysql')
+                ? array_filter([
+                    (
+                        PHP_VERSION_ID >= 80500
+                            ? Mysql::ATTR_SSL_CA
+                            : PDO::MYSQL_ATTR_SSL_CA
+                    ) => env('MYSQL_ATTR_SSL_CA'),
+                ])
+                : [],
         ],
 
         'pgsql' => [
@@ -111,7 +155,8 @@ return [
             'prefix' => '',
             'prefix_indexes' => true,
             // 'encrypt' => env('DB_ENCRYPT', 'yes'),
-            // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
+            // 'trust_server_certificate' =>
+            //     env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
 
     ],
@@ -121,9 +166,8 @@ return [
     | Migration Repository Table
     |--------------------------------------------------------------------------
     |
-    | This table keeps track of all the migrations that have already run for
-    | your application. Using this information, we can determine which of
-    | the migrations on disk haven't actually been run on the database.
+    | El nombre lógico continúa siendo "migrations". El prefijo configurado
+    | en la conexión hará que físicamente se utilice "m_migrations".
     |
     */
 
@@ -138,8 +182,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | Redis is an open source, fast, and advanced key-value store that also
-    | provides a richer body of commands than a typical key-value system
-    | such as Memcached. You may define your connection settings here.
+    | provides a richer body of commands than Memcached.
     |
     */
 
@@ -149,7 +192,12 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug((string) env('APP_NAME', 'laravel')).'-database-'),
+            'prefix' => env(
+                'REDIS_PREFIX',
+                Str::slug(
+                    (string) env('APP_NAME', 'laravel')
+                ).'-database-'
+            ),
             'persistent' => env('REDIS_PERSISTENT', false),
         ],
 
@@ -161,9 +209,18 @@ return [
             'port' => env('REDIS_PORT', '6379'),
             'database' => env('REDIS_DB', '0'),
             'max_retries' => env('REDIS_MAX_RETRIES', 3),
-            'backoff_algorithm' => env('REDIS_BACKOFF_ALGORITHM', 'decorrelated_jitter'),
-            'backoff_base' => env('REDIS_BACKOFF_BASE', 100),
-            'backoff_cap' => env('REDIS_BACKOFF_CAP', 1000),
+            'backoff_algorithm' => env(
+                'REDIS_BACKOFF_ALGORITHM',
+                'decorrelated_jitter'
+            ),
+            'backoff_base' => env(
+                'REDIS_BACKOFF_BASE',
+                100
+            ),
+            'backoff_cap' => env(
+                'REDIS_BACKOFF_CAP',
+                1000
+            ),
         ],
 
         'cache' => [
@@ -174,9 +231,18 @@ return [
             'port' => env('REDIS_PORT', '6379'),
             'database' => env('REDIS_CACHE_DB', '1'),
             'max_retries' => env('REDIS_MAX_RETRIES', 3),
-            'backoff_algorithm' => env('REDIS_BACKOFF_ALGORITHM', 'decorrelated_jitter'),
-            'backoff_base' => env('REDIS_BACKOFF_BASE', 100),
-            'backoff_cap' => env('REDIS_BACKOFF_CAP', 1000),
+            'backoff_algorithm' => env(
+                'REDIS_BACKOFF_ALGORITHM',
+                'decorrelated_jitter'
+            ),
+            'backoff_base' => env(
+                'REDIS_BACKOFF_BASE',
+                100
+            ),
+            'backoff_cap' => env(
+                'REDIS_BACKOFF_CAP',
+                1000
+            ),
         ],
 
     ],
