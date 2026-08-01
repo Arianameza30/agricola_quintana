@@ -117,100 +117,19 @@
     <div class="border-b bg-gray-50 p-3 sm:p-4">
 
         {{-- ========================================================= --}}
-        {{-- HERRAMIENTAS COMPACTAS --}}
+        {{-- CONFIGURACIÓN DE PINCEL Y RAYADO --}}
         {{-- ========================================================= --}}
 
-        <div class="rounded-xl border border-gray-200 bg-white p-3">
-
-            <div class="mb-2 flex items-center justify-between gap-3">
-
-                <h3 class="text-sm font-bold text-gray-800 sm:text-base">
-                    Herramientas
-                </h3>
-
-                <span class="text-xs text-gray-500">
-                    Toque una opción
-                </span>
-
-            </div>
-
-            <div class="grid grid-cols-4 gap-2 sm:grid-cols-6 lg:grid-cols-11">
-
-                <button id="btnPintarLote" type="button"
-                    class="flex min-h-[58px] flex-col items-center justify-center rounded-lg bg-blue-600 px-1 py-2 text-center text-white hover:bg-blue-700">
-                    <span class="text-lg leading-none">🎨</span>
-                    <span class="mt-1 text-[11px] font-semibold leading-tight sm:text-xs">Lote</span>
-                </button>
-
-                <button id="btnRayarLote" type="button"
-                    class="flex min-h-[58px] flex-col items-center justify-center rounded-lg bg-pink-600 px-1 py-2 text-center text-white hover:bg-pink-700">
-                    <span class="text-lg leading-none">▨</span>
-                    <span class="mt-1 text-[11px] font-semibold leading-tight sm:text-xs">Rayar</span>
-                </button>
-
-                <button id="btnRayarZona" type="button"
-                    class="flex min-h-[58px] flex-col items-center justify-center rounded-lg bg-fuchsia-600 px-1 py-2 text-center text-white hover:bg-fuchsia-700">
-                    <span class="text-lg leading-none">✂️</span>
-                    <span class="mt-1 text-[11px] font-semibold leading-tight sm:text-xs">Zona</span>
-                </button>
-
-                <button id="btnCerrarZona" type="button"
-                    class="flex min-h-[58px] flex-col items-center justify-center rounded-lg bg-teal-700 px-1 py-2 text-center text-white hover:bg-teal-800">
-                    <span class="text-lg leading-none">🔷</span>
-                    <span class="mt-1 text-[11px] font-semibold leading-tight sm:text-xs">Cerrar</span>
-                </button>
-
-                <button id="btnDeshacerPuntoZona" type="button"
-                    class="flex min-h-[58px] flex-col items-center justify-center rounded-lg bg-slate-600 px-1 py-2 text-center text-white hover:bg-slate-700">
-                    <span class="text-lg leading-none">↩️</span>
-                    <span class="mt-1 text-[11px] font-semibold leading-tight sm:text-xs">Punto</span>
-                </button>
-
-                <button id="btnCancelarZona" type="button"
-                    class="flex min-h-[58px] flex-col items-center justify-center rounded-lg bg-rose-600 px-1 py-2 text-center text-white hover:bg-rose-700">
-                    <span class="text-lg leading-none">❌</span>
-                    <span class="mt-1 text-[11px] font-semibold leading-tight sm:text-xs">Cancelar</span>
-                </button>
-
-                <button id="btnPincel" type="button"
-                    class="flex min-h-[58px] flex-col items-center justify-center rounded-lg bg-green-700 px-1 py-2 text-center text-white hover:bg-green-800">
-                    <span class="text-lg leading-none">🖌️</span>
-                    <span class="mt-1 text-[11px] font-semibold leading-tight sm:text-xs">Pincel</span>
-                </button>
-
-                <button id="btnLinea" type="button"
-                    class="flex min-h-[58px] flex-col items-center justify-center rounded-lg bg-gray-700 px-1 py-2 text-center text-white hover:bg-gray-800">
-                    <span class="text-lg leading-none">📏</span>
-                    <span class="mt-1 text-[11px] font-semibold leading-tight sm:text-xs">Línea</span>
-                </button>
-
-                <button id="btnBorrador" type="button"
-                    class="flex min-h-[58px] flex-col items-center justify-center rounded-lg bg-yellow-500 px-1 py-2 text-center text-white hover:bg-yellow-600">
-                    <span class="text-lg leading-none">🧹</span>
-                    <span class="mt-1 text-[11px] font-semibold leading-tight sm:text-xs">Borrar</span>
-                </button>
-
-                <button id="btnLimpiarMapa" type="button"
-                    class="flex min-h-[58px] flex-col items-center justify-center rounded-lg bg-red-600 px-1 py-2 text-center text-white hover:bg-red-700">
-                    <span class="text-lg leading-none">🗑️</span>
-                    <span class="mt-1 text-[11px] font-semibold leading-tight sm:text-xs">Limpiar</span>
-                </button>
-
-            </div>
-
-        </div>
-
-
-        {{-- ========================================================= --}}
-        {{-- CONFIGURACIÓN AVANZADA DESPLEGABLE --}}
-        {{-- ========================================================= --}}
+        <input id="opacidadLote" type="hidden" value="55">
+        <input id="opacidadPincel" type="hidden" value="55">
+        <input id="opacidadRayado" type="hidden" value="100">
 
         <details class="mt-3 rounded-xl border border-gray-200 bg-white">
 
             <summary class="flex cursor-pointer list-none items-center justify-between gap-3 px-3 py-3 text-sm font-bold text-gray-800">
 
                 <span>
-                    ⚙️ Configuración de pintura y rayado
+                    ⚙️ Configuración de pincel y rayado
                 </span>
 
                 <span class="text-xs font-normal text-gray-500">
@@ -221,66 +140,14 @@
 
             <div class="border-t border-gray-100 p-3">
 
-                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
-
-                    <div>
-
-                        <div class="mb-2 flex items-center justify-between gap-3">
-
-                            <label for="opacidadLote" class="text-sm font-semibold text-gray-700">
-                                Opacidad del lote
-                            </label>
-
-                            <span id="textoOpacidad" class="min-w-[45px] text-right text-sm font-bold text-green-800">
-                                45%
-                            </span>
-
-                        </div>
-
-                        <input
-                            id="opacidadLote"
-                            type="range"
-                            min="10"
-                            max="90"
-                            value="45"
-                            class="w-full cursor-pointer accent-green-700"
-                        >
-
-                    </div>
-
-
-                    <div>
-
-                        <div class="mb-2 flex items-center justify-between gap-3">
-
-                            <label for="opacidadPincel" class="text-sm font-semibold text-gray-700">
-                                Opacidad de pincel y línea
-                            </label>
-
-                            <span id="textoOpacidadPincel" class="min-w-[45px] text-right text-sm font-bold text-green-800">
-                                70%
-                            </span>
-
-                        </div>
-
-                        <input
-                            id="opacidadPincel"
-                            type="range"
-                            min="10"
-                            max="100"
-                            value="70"
-                            class="w-full cursor-pointer accent-green-700"
-                        >
-
-                    </div>
-
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
 
                     <div>
 
                         <div class="mb-2 flex items-center justify-between gap-3">
 
                             <label for="tamanoPincel" class="text-sm font-semibold text-gray-700">
-                                Tamaño del pincel y línea
+                                Tamaño del pincel
                             </label>
 
                             <span id="textoTamanoPincel" class="min-w-[45px] text-right text-sm font-bold text-green-800">
@@ -300,112 +167,71 @@
 
                     </div>
 
-                </div>
+                    <div>
 
+                        <label class="mb-2 block text-sm font-semibold text-gray-700" for="direccionRayado">
+                            Dirección del rayado
+                        </label>
 
-                <div class="mt-4 border-t border-gray-100 pt-4">
+                        <select
+                            id="direccionRayado"
+                            class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-black"
+                        >
+                            <option value="-45">Diagonal /</option>
+                            <option value="45">Diagonal \</option>
+                            <option value="0">Vertical |</option>
+                            <option value="90">Horizontal —</option>
+                        </select>
 
-                    <h4 class="mb-3 text-sm font-bold text-gray-800">
-                        Opciones del rayado
-                    </h4>
+                    </div>
 
-                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+                    <div>
 
-                        <div>
+                        <div class="mb-2 flex items-center justify-between gap-3">
 
-                            <label class="mb-2 block text-sm font-semibold text-gray-700" for="direccionRayado">
-                                Dirección
+                            <label class="text-sm font-semibold text-gray-700" for="separacionRayado">
+                                Separación
                             </label>
 
-                            <select
-                                id="direccionRayado"
-                                class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-black"
-                            >
-                                <option value="-45">Diagonal /</option>
-                                <option value="45">Diagonal \</option>
-                                <option value="0">Vertical |</option>
-                                <option value="90">Horizontal —</option>
-                            </select>
+                            <span id="textoSeparacionRayado" class="text-sm font-bold text-green-800">
+                                9 px
+                            </span>
 
                         </div>
 
+                        <input
+                            id="separacionRayado"
+                            type="range"
+                            min="6"
+                            max="40"
+                            value="9"
+                            class="w-full cursor-pointer accent-green-700"
+                        >
 
-                        <div>
+                    </div>
 
-                            <div class="mb-2 flex items-center justify-between gap-3">
+                    <div>
 
-                                <label class="text-sm font-semibold text-gray-700" for="separacionRayado">
-                                    Separación
-                                </label>
+                        <div class="mb-2 flex items-center justify-between gap-3">
 
-                                <span id="textoSeparacionRayado" class="text-sm font-bold text-green-800">
-                                    16 px
-                                </span>
+                            <label class="text-sm font-semibold text-gray-700" for="grosorRayado">
+                                Grosor
+                            </label>
 
-                            </div>
-
-                            <input
-                                id="separacionRayado"
-                                type="range"
-                                min="6"
-                                max="40"
-                                value="16"
-                                class="w-full cursor-pointer accent-green-700"
-                            >
-
-                        </div>
-
-
-                        <div>
-
-                            <div class="mb-2 flex items-center justify-between gap-3">
-
-                                <label class="text-sm font-semibold text-gray-700" for="grosorRayado">
-                                    Grosor
-                                </label>
-
-                                <span id="textoGrosorRayado" class="text-sm font-bold text-green-800">
-                                    3 px
-                                </span>
-
-                            </div>
-
-                            <input
-                                id="grosorRayado"
-                                type="range"
-                                min="1"
-                                max="10"
-                                value="3"
-                                class="w-full cursor-pointer accent-green-700"
-                            >
+                            <span id="textoGrosorRayado" class="text-sm font-bold text-green-800">
+                                2 px
+                            </span>
 
                         </div>
 
-
-                        <div>
-
-                            <div class="mb-2 flex items-center justify-between gap-3">
-
-                                <label class="text-sm font-semibold text-gray-700" for="opacidadRayado">
-                                    Opacidad
-                                </label>
-
-                                <span id="textoOpacidadRayado" class="text-sm font-bold text-green-800">
-                                    75%
-                                </span>
-
-                            </div>
-
-                            <input
-                                id="opacidadRayado"
-                                type="range"
-                                min="10"
-                                max="100"
-                                value="75"
-                                class="w-full cursor-pointer accent-green-700"
-                            >
-
-                        </div>
+                        <input
+                            id="grosorRayado"
+                            type="range"
+                            min="1"
+                            max="10"
+                            value="2"
+                            class="w-full cursor-pointer accent-green-700"
+                        >
 
                     </div>
 
@@ -458,13 +284,72 @@
 
             </div>
 
-            <div class="mt-3 flex justify-center">
-                <button id="btnDeshacer" type="button"
-                    class="inline-flex items-center justify-center gap-2 rounded-lg bg-gray-600 px-5 py-2 text-sm font-semibold text-white hover:bg-gray-700">
-                    <span class="text-base leading-none">↩️</span>
-                    <span>Deshacer</span>
-                </button>
+            {{-- ========================================================= --}}
+            {{-- HERRAMIENTAS DEBAJO DE LAS PALANCAS --}}
+            {{-- ========================================================= --}}
+
+            <div class="mt-4 rounded-xl border border-gray-200 bg-gray-50 p-3">
+
+                <div class="mb-2 flex items-center justify-between gap-3">
+
+                    <h3 class="text-sm font-bold text-gray-800 sm:text-base">
+                        Herramientas
+                    </h3>
+
+                    <span class="text-xs text-gray-500">
+                        Toque una opción
+                    </span>
+
+                </div>
+
+                <div class="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
+
+                    <button id="btnPintarLote" type="button"
+                        class="boton-herramienta inline-flex min-h-[42px] items-center justify-center gap-2 rounded-lg border-2 border-transparent bg-blue-600 px-3 py-2 text-sm font-semibold text-white hover:bg-blue-700">
+                        <span class="text-base leading-none">🎨</span>
+                        <span>Lote</span>
+                    </button>
+
+                    <button id="btnRayarLote" type="button"
+                        class="boton-herramienta inline-flex min-h-[42px] items-center justify-center gap-2 rounded-lg border-2 border-transparent bg-pink-600 px-3 py-2 text-sm font-semibold text-white hover:bg-pink-700">
+                        <span class="text-base leading-none">▨</span>
+                        <span>Rayar lote</span>
+                    </button>
+
+                    <button id="btnRayarZona" type="button"
+                        class="boton-herramienta inline-flex min-h-[42px] items-center justify-center gap-2 rounded-lg border-2 border-transparent bg-fuchsia-600 px-3 py-2 text-sm font-semibold text-white hover:bg-fuchsia-700">
+                        <span class="text-base leading-none">✂️</span>
+                        <span>Rayar zona</span>
+                    </button>
+
+                    <button id="btnPincel" type="button"
+                        class="boton-herramienta inline-flex min-h-[42px] items-center justify-center gap-2 rounded-lg border-2 border-transparent bg-green-700 px-3 py-2 text-sm font-semibold text-white hover:bg-green-800">
+                        <span class="text-base leading-none">🖌️</span>
+                        <span>Pincel</span>
+                    </button>
+
+                    <button id="btnBorrador" type="button"
+                        class="boton-herramienta inline-flex min-h-[42px] items-center justify-center gap-2 rounded-lg border-2 border-transparent bg-yellow-500 px-3 py-2 text-sm font-semibold text-white hover:bg-yellow-600">
+                        <span class="text-base leading-none">🧹</span>
+                        <span>Borrar</span>
+                    </button>
+
+                    <button id="btnLimpiarMapa" type="button"
+                        class="inline-flex min-h-[42px] items-center justify-center gap-2 rounded-lg bg-red-600 px-3 py-2 text-sm font-semibold text-white hover:bg-red-700">
+                        <span class="text-base leading-none">🗑️</span>
+                        <span>Limpiar</span>
+                    </button>
+
+                    <button id="btnDeshacer" type="button"
+                        class="inline-flex min-h-[42px] items-center justify-center gap-2 rounded-lg bg-gray-600 px-3 py-2 text-sm font-semibold text-white hover:bg-gray-700">
+                        <span class="text-base leading-none">↩️</span>
+                        <span>Deshacer</span>
+                    </button>
+
+                </div>
+
             </div>
+
 
         </div>
 
@@ -481,56 +366,75 @@
     <div class="p-4 sm:p-6">
 
         <div
-    id="contenedorMapa"
-    class="relative mx-auto w-full max-w-6xl overflow-hidden border rounded-lg bg-white"
-    style="line-height:0;"
->
-    {{-- IMAGEN BASE DEL MAPA --}}
-    <img
-        id="mapa"
-        src=""
-        class="relative block w-full h-auto select-none"
-        style="z-index:1;"
-        draggable="false"
-        alt="Mapa de Hacienda"
-    >
+            id="contenedorMapa"
+            class="relative mx-auto w-full max-w-6xl overflow-hidden border rounded-lg bg-white"
+            style="line-height:0; touch-action:pinch-zoom;"
+        >
+            <div
+                id="superficieMapa"
+                class="relative w-full origin-top-left"
+                
+            >
+            {{-- IMAGEN BASE DEL MAPA --}}
+            <img
+                id="mapa"
+                src=""
+                class="relative block w-full h-auto select-none"
+                style="z-index:1;"
+                draggable="false"
+                alt="Mapa de Hacienda"
+            >
 
-    {{-- RELLENO COMPLETO Y RAYADOS DE LOTES --}}
-    <canvas
-        id="canvasLotes"
-        class="absolute inset-0 w-full h-full"
-        style="z-index:2; pointer-events:none;"
-    ></canvas>
+            {{-- RELLENO COMPLETO Y RAYADOS DE LOTES --}}
+            <canvas
+                id="canvasLotes"
+                class="absolute inset-0 w-full h-full"
+                style="z-index:2; pointer-events:none;"
+            ></canvas>
 
-    {{-- LÍNEA, BORRADOR Y SELECCIÓN DE ZONAS PARCIALES --}}
-    <canvas
-        id="canvasDibujo"
-        class="absolute inset-0 w-full h-full"
-        style="z-index:3; touch-action:pinch-zoom;"
-    ></canvas>
+            {{-- RAYADO PARCIAL REALIZADO CON EL DEDO --}}
+            <canvas
+                id="canvasRayadoZona"
+                class="absolute inset-0 w-full h-full"
+                style="z-index:3; pointer-events:none;"
+            ></canvas>
 
-    {{-- COPIA SUPERIOR DEL MAPA --}}
-    <img
-        id="mapaSuperior"
-        src=""
-        class="absolute inset-0 block w-full h-full select-none pointer-events-none"
-        style="
-            z-index:4;
-            object-fit:fill;
-            mix-blend-mode:multiply;
-        "
-        draggable="false"
-        alt=""
-        aria-hidden="true"
-    >
+            {{-- PINCEL Y BORRADOR --}}
+            <canvas
+                id="canvasDibujo"
+                class="absolute inset-0 w-full h-full"
+                style="z-index:4; touch-action:pinch-zoom; opacity:0.55;"
+            ></canvas>
 
-    {{-- Vista previa de los puntos de la zona parcial --}}
-    <canvas
-        id="canvasZona"
-        class="absolute inset-0 w-full h-full pointer-events-none"
-        style="z-index:5;"
-    ></canvas>
-</div>
+            {{--
+                COPIA SUPERIOR DEL MAPA.
+
+                Se coloca encima de los canvas usando multiply.
+                Así las letras, nombres, bordes y divisiones negras
+                permanecen visibles aunque se pinte con el pincel.
+            --}}
+            <img
+                id="mapaSuperior"
+                src=""
+                class="absolute inset-0 block w-full h-full select-none pointer-events-none"
+                style="
+                    z-index:5;
+                    object-fit:fill;
+                    mix-blend-mode:multiply;
+                "
+                draggable="false"
+                alt=""
+                aria-hidden="true"
+            >
+
+            {{-- Vista previa de los puntos de la zona parcial. --}}
+            <canvas
+                id="canvasZona"
+                class="absolute inset-0 w-full h-full pointer-events-none"
+                style="z-index:6;"
+            ></canvas>
+            </div>
+        </div>
 
     </div>
 
@@ -576,8 +480,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const semana = document.getElementById('semana');
     const fecha = document.getElementById('fecha');
     const mapa = document.getElementById('mapa');
+    const contenedorMapa = document.getElementById('contenedorMapa');
+    const superficieMapa = document.getElementById('superficieMapa');
     const mapaSuperior = document.getElementById('mapaSuperior');
     const canvasLotes = document.getElementById('canvasLotes');
+    const canvasRayadoZona = document.getElementById('canvasRayadoZona');
     const canvasDibujo = document.getElementById('canvasDibujo');
     const canvasZona = document.getElementById('canvasZona');
     const btnAbrir = document.getElementById('btnAbrir');
@@ -601,14 +508,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const opacidadLote =
         document.getElementById('opacidadLote');
 
-    const textoOpacidad =
-        document.getElementById('textoOpacidad');
-
     const opacidadPincel =
         document.getElementById('opacidadPincel');
-
-    const textoOpacidadPincel =
-        document.getElementById('textoOpacidadPincel');
 
     const tamanoPincel =
         document.getElementById('tamanoPincel');
@@ -622,22 +523,18 @@ document.addEventListener('DOMContentLoaded', function () {
     const grosorRayado = document.getElementById('grosorRayado');
     const textoGrosorRayado = document.getElementById('textoGrosorRayado');
     const opacidadRayado = document.getElementById('opacidadRayado');
-    const textoOpacidadRayado = document.getElementById('textoOpacidadRayado');
 
     const btnPintarLote = document.getElementById('btnPintarLote');
     const btnRayarLote = document.getElementById('btnRayarLote');
     const btnRayarZona = document.getElementById('btnRayarZona');
-    const btnCerrarZona = document.getElementById('btnCerrarZona');
-    const btnDeshacerPuntoZona = document.getElementById('btnDeshacerPuntoZona');
-    const btnCancelarZona = document.getElementById('btnCancelarZona');
     const btnPincel = document.getElementById('btnPincel');
-    const btnLinea = document.getElementById('btnLinea');
     const btnBorrador = document.getElementById('btnBorrador');
     const btnDeshacer = document.getElementById('btnDeshacer');
     const btnLimpiarMapa = document.getElementById('btnLimpiarMapa');
     const mensajeHerramienta = document.getElementById('mensajeHerramienta');
 
     const ctxLotes = canvasLotes.getContext('2d');
+    const ctxRayadoZona = canvasRayadoZona.getContext('2d');
     const ctxDibujo = canvasDibujo.getContext('2d');
     const ctxZona = canvasZona.getContext('2d');
 
@@ -758,11 +655,15 @@ document.addEventListener('DOMContentLoaded', function () {
     | hasta que se suelta el mouse o el dedo.
     */
     let lotePincelActual = null;
+    let loteRayadoZonaActual = null;
 
     /*
-    | La línea recta también queda limitada al lote donde comienza.
+    | Control táctil: dos dedos quedan reservados para el zoom nativo
+    | de la página. Un dedo se utiliza únicamente para la herramienta.
     */
-    let loteLineaActual = null;
+    let toquePendiente = null;
+    let gestoMultitactilActivo = false;
+    const UMBRAL_MOVIMIENTO_TOQUE = 6;
 
 
     /*
@@ -907,7 +808,7 @@ document.addEventListener('DOMContentLoaded', function () {
             palancaActual +
             ' seleccionada (' +
             palanca.nombre +
-            '). Puede usarla para pintar, rayar, dibujar con pincel o crear una línea.';
+            '). Puede usarla para pintar, rayar o dibujar con pincel.';
     }
 
 
@@ -1216,6 +1117,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         let imagenAnterior = null;
+        let rayadoZonaAnterior = null;
 
         if (canvasDibujo.width > 0 && canvasDibujo.height > 0) {
             imagenAnterior = document.createElement('canvas');
@@ -1227,14 +1129,41 @@ document.addEventListener('DOMContentLoaded', function () {
                 .drawImage(canvasDibujo, 0, 0);
         }
 
+        if (canvasRayadoZona.width > 0 && canvasRayadoZona.height > 0) {
+            rayadoZonaAnterior = document.createElement('canvas');
+            rayadoZonaAnterior.width = canvasRayadoZona.width;
+            rayadoZonaAnterior.height = canvasRayadoZona.height;
+
+            rayadoZonaAnterior
+                .getContext('2d')
+                .drawImage(canvasRayadoZona, 0, 0);
+        }
+
         canvasLotes.width = ancho;
         canvasLotes.height = alto;
+
+        canvasRayadoZona.width = ancho;
+        canvasRayadoZona.height = alto;
 
         canvasDibujo.width = ancho;
         canvasDibujo.height = alto;
 
         canvasZona.width = ancho;
         canvasZona.height = alto;
+
+        if (rayadoZonaAnterior) {
+            ctxRayadoZona.drawImage(
+                rayadoZonaAnterior,
+                0,
+                0,
+                rayadoZonaAnterior.width,
+                rayadoZonaAnterior.height,
+                0,
+                0,
+                ancho,
+                alto
+            );
+        }
 
         if (imagenAnterior) {
             ctxDibujo.drawImage(
@@ -1308,17 +1237,17 @@ document.addEventListener('DOMContentLoaded', function () {
             180;
 
         const separacion =
-            Math.max(4, Number(configuracion.separacion ?? 16));
+            Math.max(4, Number(configuracion.separacion ?? 9));
 
         const grosor =
-            Math.max(1, Number(configuracion.grosor ?? 3));
+            Math.max(1, Number(configuracion.grosor ?? 2));
 
         const alpha =
             Math.min(
                 1,
                 Math.max(
                     0.1,
-                    Number(configuracion.opacidad ?? 75) / 100
+                    Number(configuracion.opacidad ?? 100) / 100
                 )
             );
 
@@ -1521,17 +1450,17 @@ document.addEventListener('DOMContentLoaded', function () {
             180;
 
         const separacion =
-            Math.max(4, Number(zona.separacion ?? 16));
+            Math.max(4, Number(zona.separacion ?? 9));
 
         const grosor =
-            Math.max(1, Number(zona.grosor ?? 3));
+            Math.max(1, Number(zona.grosor ?? 2));
 
         const alpha =
             Math.min(
                 1,
                 Math.max(
                     0.1,
-                    Number(zona.opacidad ?? 75) / 100
+                    Number(zona.opacidad ?? 100) / 100
                 )
             );
 
@@ -1620,17 +1549,17 @@ document.addEventListener('DOMContentLoaded', function () {
             const y = punto[1] * canvasZona.height;
 
             ctxZona.beginPath();
-            ctxZona.arc(x, y, 5, 0, Math.PI * 2);
+            ctxZona.arc(x, y, 3, 0, Math.PI * 2);
             ctxZona.fillStyle = '#dc2626';
             ctxZona.fill();
             ctxZona.strokeStyle = '#ffffff';
-            ctxZona.lineWidth = 2;
+            ctxZona.lineWidth = 1;
             ctxZona.stroke();
 
             ctxZona.fillStyle = '#111827';
-            ctxZona.font = 'bold 12px Arial';
+            ctxZona.font = 'bold 10px Arial';
             ctxZona.textAlign = 'center';
-            ctxZona.fillText(indice + 1, x, y - 10);
+            ctxZona.fillText(indice + 1, x, y - 7);
         });
 
         ctxZona.restore();
@@ -1907,14 +1836,6 @@ document.addEventListener('DOMContentLoaded', function () {
     |--------------------------------------------------------------------------
     */
 
-    opacidadLote.addEventListener('input', function () {
-        textoOpacidad.textContent = this.value + '%';
-        dibujarColoresLotes();
-    });
-
-    opacidadPincel.addEventListener('input', function () {
-        textoOpacidadPincel.textContent = this.value + '%';
-    });
 
     tamanoPincel.addEventListener('input', function () {
         textoTamanoPincel.textContent =
@@ -1929,9 +1850,6 @@ document.addEventListener('DOMContentLoaded', function () {
         textoGrosorRayado.textContent = this.value + ' px';
     });
 
-    opacidadRayado.addEventListener('input', function () {
-        textoOpacidadRayado.textContent = this.value + '%';
-    });
 
 
     /*
@@ -1940,9 +1858,39 @@ document.addEventListener('DOMContentLoaded', function () {
     |--------------------------------------------------------------------------
     */
 
+    function actualizarHerramientaActiva() {
+
+        document
+            .querySelectorAll('.boton-herramienta')
+            .forEach(function (boton) {
+
+                const activa =
+                    boton.id === ({
+                        pintarLote: 'btnPintarLote',
+                        rayarLote: 'btnRayarLote',
+                        rayarZona: 'btnRayarZona',
+                        pincel: 'btnPincel',
+                        borrador: 'btnBorrador'
+                    })[herramientaActual];
+
+                boton.classList.toggle('ring-4', activa);
+                boton.classList.toggle('ring-green-300', activa);
+                boton.classList.toggle('border-green-800', activa);
+                boton.classList.toggle('shadow-md', activa);
+
+                boton.setAttribute(
+                    'aria-pressed',
+                    activa ? 'true' : 'false'
+                );
+            });
+    }
+
+
     function activarHerramienta(herramienta) {
 
         herramientaActual = herramienta;
+
+        actualizarHerramientaActiva();
 
         const mensajes = {
             pintarLote:
@@ -1950,11 +1898,9 @@ document.addEventListener('DOMContentLoaded', function () {
             rayarLote:
                 'Haga clic dentro de un lote para generar rayas paralelas automáticamente.',
             rayarZona:
-                'Marque con clics el contorno de la parte que desea rayar y después pulse “Cerrar zona”.',
+                'Arrastre el dedo dentro de un lote para rayar solamente la parte recorrida.',
             pincel:
                 'Haga clic dentro de un lote y arrastre. El pincel no podrá salir de sus límites.',
-            linea:
-                'Haga clic dentro de un lote y arrastre. La línea quedará limitada a ese lote.',
             borrador:
                 'Arrastre sobre una raya para borrarla.'
         };
@@ -1978,16 +1924,10 @@ document.addEventListener('DOMContentLoaded', function () {
     btnRayarZona.addEventListener('click', function () {
 
         cancelarZonaParcial();
-
-        tipoZonaParcial =
-            'rayado';
-
-        activarHerramienta(
-            'zonaParcial'
-        );
+        activarHerramienta('rayarZona');
 
         mensajeHerramienta.textContent =
-            'Marque con clics la parte que desea rayar y después pulse “Cerrar zona”.';
+            'Arrastre el dedo dentro de un lote para rayar solamente la parte recorrida.';
     });
 
     btnPincel.addEventListener('click', function () {
@@ -1995,15 +1935,13 @@ document.addEventListener('DOMContentLoaded', function () {
         activarHerramienta('pincel');
     });
 
-    btnLinea.addEventListener('click', function () {
-        cancelarZonaParcial();
-        activarHerramienta('linea');
-    });
 
     btnBorrador.addEventListener('click', function () {
         cancelarZonaParcial();
         activarHerramienta('borrador');
     });
+
+    actualizarHerramientaActiva();
 
 
     /*
@@ -2011,108 +1949,6 @@ document.addEventListener('DOMContentLoaded', function () {
     | CONTROLES DE LA ZONA PARCIAL
     |--------------------------------------------------------------------------
     */
-
-    btnCerrarZona.addEventListener('click', function () {
-
-        if (herramientaActual !== 'zonaParcial') {
-            mensajeHerramienta.textContent =
-                'Primero pulse “Zona parcial”.';
-            return;
-        }
-
-        if (!loteZonaActual) {
-            mensajeHerramienta.textContent =
-                'Primero marque un punto dentro de un lote.';
-            return;
-        }
-
-        if (puntosZonaActual.length < 3) {
-            mensajeHerramienta.textContent =
-                'Debe marcar al menos 3 puntos para cerrar la zona.';
-            return;
-        }
-
-        guardarEstado();
-
-        const puntosGuardados =
-            puntosZonaActual.map(function (punto) {
-                return [
-                    Number(punto[0]),
-                    Number(punto[1])
-                ];
-            });
-
-        const nombreLote =
-            loteZonaActual.nombre;
-
-        if (tipoZonaParcial === 'solido') {
-
-            zonasPintadas.push({
-                lote_id: loteZonaActual.id,
-                color: colorActual,
-                opacidad: Number(opacidadLote.value),
-                puntos: puntosGuardados
-            });
-
-        } else {
-
-            zonasRayadas.push({
-                lote_id: loteZonaActual.id,
-                color: colorActual,
-                angulo: Number(direccionRayado.value),
-                separacion: Number(separacionRayado.value),
-                grosor: Number(grosorRayado.value),
-                opacidad: Number(opacidadRayado.value),
-                puntos: puntosGuardados
-            });
-        }
-
-        const tipoAplicado =
-            tipoZonaParcial === 'solido'
-                ? 'pintada'
-                : 'rayada';
-
-        cancelarZonaParcial();
-        dibujarColoresLotes();
-
-        mensajeHerramienta.textContent =
-            'Zona parcial del LOTE ' +
-            nombreLote +
-            ' ' +
-            tipoAplicado +
-            ' correctamente. Puede marcar otra zona.';
-    });
-
-    btnDeshacerPuntoZona.addEventListener('click', function () {
-
-        if (
-            herramientaActual !== 'zonaParcial' ||
-            puntosZonaActual.length === 0
-        ) {
-            mensajeHerramienta.textContent =
-                'No hay puntos de una zona parcial para deshacer.';
-            return;
-        }
-
-        puntosZonaActual.pop();
-
-        if (puntosZonaActual.length === 0) {
-            loteZonaActual = null;
-        }
-
-        dibujarVistaPreviaZona();
-
-        mensajeHerramienta.textContent =
-            puntosZonaActual.length +
-            ' punto(s) marcado(s) en la zona parcial.';
-    });
-
-    btnCancelarZona.addEventListener('click', function () {
-        cancelarZonaParcial(
-            'Selección de zona parcial cancelada.'
-        );
-    });
-
 
     /*
     |--------------------------------------------------------------------------
@@ -2151,6 +1987,30 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
+
+    function copiarCanvasRayadoZona() {
+
+        const copia =
+            document.createElement('canvas');
+
+        copia.width =
+            canvasRayadoZona.width;
+
+        copia.height =
+            canvasRayadoZona.height;
+
+        copia
+            .getContext('2d')
+            .drawImage(
+                canvasRayadoZona,
+                0,
+                0
+            );
+
+        return copia;
+    }
+
+
     function clonarDatos(datos) {
 
         return JSON.parse(
@@ -2176,7 +2036,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 clonarDatos(zonasRayadas),
 
             canvas:
-                copiarCanvasDibujo()
+                copiarCanvasDibujo(),
+
+            canvasRayadoZona:
+                copiarCanvasRayadoZona()
 
         });
 
@@ -2211,6 +2074,27 @@ document.addEventListener('DOMContentLoaded', function () {
                 estado.zonasRayadas || []
             );
 
+
+        ctxRayadoZona.clearRect(
+            0,
+            0,
+            canvasRayadoZona.width,
+            canvasRayadoZona.height
+        );
+
+        if (estado.canvasRayadoZona) {
+            ctxRayadoZona.drawImage(
+                estado.canvasRayadoZona,
+                0,
+                0,
+                estado.canvasRayadoZona.width,
+                estado.canvasRayadoZona.height,
+                0,
+                0,
+                canvasRayadoZona.width,
+                canvasRayadoZona.height
+            );
+        }
 
         ctxDibujo.clearRect(
             0,
@@ -2249,10 +2133,12 @@ document.addEventListener('DOMContentLoaded', function () {
         ctxDibujo.lineJoin = 'round';
         ctxDibujo.strokeStyle = colorActual;
 
-        ctxDibujo.globalAlpha =
-            herramientaActual === 'borrador'
-                ? 1
-                : Number(opacidadPincel.value) / 100;
+        /*
+        | El pincel se dibuja sólido en su propia capa.
+        | La capa canvasDibujo tiene la misma opacidad fija del lote (55 %),
+        | evitando que los trazos superpuestos se vuelvan más intensos.
+        */
+        ctxDibujo.globalAlpha = 1;
     }
 
 
@@ -2418,6 +2304,173 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | RAYAR UNA ZONA ARRASTRANDO EL DEDO
+    |--------------------------------------------------------------------------
+    |
+    | Se crea un patrón con la dirección, separación y grosor seleccionados.
+    | Después se limita a la franja recorrida por el usuario y al lote donde
+    | comenzó el trazo.
+    |
+    */
+
+    function crearCanvasRayadoRectoZona() {
+
+        const patronCanvas = document.createElement('canvas');
+        patronCanvas.width = canvasRayadoZona.width;
+        patronCanvas.height = canvasRayadoZona.height;
+
+        const ctxPatron = patronCanvas.getContext('2d');
+        const separacion = Math.max(4, Number(separacionRayado.value));
+        const grosor = Math.max(1, Number(grosorRayado.value));
+        const angulo = Number(direccionRayado.value) * Math.PI / 180;
+        const diagonal = Math.sqrt(
+            patronCanvas.width ** 2 + patronCanvas.height ** 2
+        ) * 1.5;
+
+        ctxPatron.save();
+        ctxPatron.globalAlpha = Number(opacidadRayado.value) / 100;
+        ctxPatron.strokeStyle = colorActual;
+        ctxPatron.lineWidth = grosor;
+        ctxPatron.lineCap = 'round';
+        ctxPatron.translate(
+            patronCanvas.width / 2,
+            patronCanvas.height / 2
+        );
+        ctxPatron.rotate(angulo);
+
+        for (let x = -diagonal; x <= diagonal; x += separacion) {
+            ctxPatron.beginPath();
+            ctxPatron.moveTo(x, -diagonal);
+            ctxPatron.lineTo(x, diagonal);
+            ctxPatron.stroke();
+        }
+
+        ctxPatron.restore();
+        return patronCanvas;
+    }
+
+
+    function dibujarSegmentoRayadoZona(
+        desdeX,
+        desdeY,
+        hastaX,
+        hastaY,
+        lote
+    ) {
+
+        if (
+            !lote ||
+            canvasRayadoZona.width <= 0 ||
+            canvasRayadoZona.height <= 0
+        ) {
+            return;
+        }
+
+        const mascara = document.createElement('canvas');
+        mascara.width = canvasRayadoZona.width;
+        mascara.height = canvasRayadoZona.height;
+
+        const ctxMascara = mascara.getContext('2d');
+
+        /*
+        | El ancho de “Rayar zona” debe ser preciso en celular.
+        |
+        | Antes se utilizaba un mínimo fijo de 18 px. En mapas pequeños ese
+        | valor podía ocupar casi toda la altura de lotes angostos. Ahora la
+        | brocha se adapta al ancho visible del mapa y, en celular, también
+        | se limita según la altura real del lote seleccionado.
+        */
+        function obtenerAnchoRayadoZonaAdaptable() {
+
+            const anchoMapa = canvasRayadoZona.width;
+            const tamanoConfigurado = Math.max(
+                1,
+                Number(tamanoPincel.value) || 8
+            );
+
+            let anchoAdaptable;
+
+            if (anchoMapa <= 480) {
+                anchoAdaptable = Math.max(
+                    4,
+                    Math.min(7, anchoMapa * 0.016)
+                );
+            } else if (anchoMapa <= 768) {
+                anchoAdaptable = Math.max(
+                    6,
+                    Math.min(11, anchoMapa * 0.016)
+                );
+            } else {
+                anchoAdaptable = Math.max(
+                    14,
+                    tamanoConfigurado * 3
+                );
+            }
+
+            /*
+            | En pantallas pequeñas evitamos que una sola pasada cubra todo
+            | un lote horizontal y delgado, como LOTE 1 o LOTE 2.
+            */
+            if (
+                anchoMapa <= 768 &&
+                lote &&
+                Array.isArray(lote.puntos) &&
+                lote.puntos.length >= 3
+            ) {
+                const coordenadasY = lote.puntos.map(function (punto) {
+                    return Number(punto[1]) * canvasRayadoZona.height;
+                });
+
+                const altoLote =
+                    Math.max(...coordenadasY) -
+                    Math.min(...coordenadasY);
+
+                if (Number.isFinite(altoLote) && altoLote > 0) {
+                    anchoAdaptable = Math.min(
+                        anchoAdaptable,
+                        Math.max(3.5, altoLote * 0.28)
+                    );
+                }
+            }
+
+            return anchoAdaptable;
+        }
+
+        const anchoZona = obtenerAnchoRayadoZonaAdaptable();
+
+        ctxMascara.save();
+
+        if (crearRutaLoteEnCanvas(ctxMascara, lote, mascara)) {
+            ctxMascara.clip();
+            ctxMascara.strokeStyle = '#ffffff';
+            ctxMascara.lineWidth = anchoZona;
+            ctxMascara.lineCap = 'round';
+            ctxMascara.lineJoin = 'round';
+            ctxMascara.beginPath();
+            ctxMascara.moveTo(desdeX, desdeY);
+            ctxMascara.lineTo(hastaX, hastaY);
+            ctxMascara.stroke();
+        }
+
+        ctxMascara.restore();
+
+        const resultado = crearCanvasRayadoRectoZona();
+        const ctxResultado = resultado.getContext('2d');
+
+        ctxResultado.globalCompositeOperation = 'destination-in';
+        ctxResultado.drawImage(mascara, 0, 0);
+        ctxResultado.globalCompositeOperation = 'source-over';
+
+        ctxRayadoZona.save();
+        ctxRayadoZona.globalAlpha = 1;
+        ctxRayadoZona.globalCompositeOperation = 'source-over';
+        ctxRayadoZona.drawImage(resultado, 0, 0);
+        ctxRayadoZona.restore();
+    }
+
     /*
     |--------------------------------------------------------------------------
     | INICIAR ACCIÓN SOBRE EL MAPA
@@ -2426,12 +2479,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function iniciarAccion(event) {
 
-        if (event.touches && event.touches.length > 1) {
-            return; // Dos dedos o más: dejar que el navegador haga zoom nativo.
-        }
-
-        if (!event.touches) {
-            event.preventDefault(); // Solo bloquear con mouse; con dedo se decide en moverAccion.
+        if (event.cancelable) {
+            event.preventDefault();
         }
 
         if (!haciendaActual) {
@@ -2495,70 +2544,41 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        if (herramientaActual === 'zonaParcial') {
+        if (herramientaActual === 'rayarZona') {
 
-            if (
-                tipoZonaParcial !== 'solido' &&
-                tipoZonaParcial !== 'rayado'
-            ) {
+            loteRayadoZonaActual =
+                buscarLote(posicion);
+
+            if (!loteRayadoZonaActual) {
                 mensajeHerramienta.textContent =
-                    'Seleccione “Pintar zona” o “Rayar zona”.';
-
+                    'El rayado de zona debe comenzar dentro de un lote configurado.';
                 return;
             }
 
-            const loteDetectado = buscarLote(posicion);
+            guardarEstado();
+
+            dibujando = true;
+
+            inicioX = posicion.x;
+            inicioY = posicion.y;
+            ultimoX = posicion.x;
+            ultimoY = posicion.y;
 
             /*
-            | El primer punto determina el lote al que pertenecerá la zona.
+            | Dibujar un primer punto para que un toque corto también deje marca.
             */
-            if (!loteZonaActual) {
-
-                if (!loteDetectado) {
-                    mensajeHerramienta.textContent =
-                        'El primer punto debe estar dentro de un lote configurado.';
-                    return;
-                }
-
-                loteZonaActual = loteDetectado;
-            }
-
-            /*
-            | Los siguientes puntos deben permanecer dentro del mismo lote.
-            */
-            const xNormalizado =
-                posicion.x / canvasDibujo.width;
-
-            const yNormalizado =
-                posicion.y / canvasDibujo.height;
-
-            if (
-                !puntoDentroPoligono(
-                    xNormalizado,
-                    yNormalizado,
-                    loteZonaActual.puntos
-                )
-            ) {
-                mensajeHerramienta.textContent =
-                    'Ese punto está fuera del LOTE ' +
-                    loteZonaActual.nombre +
-                    '. Marque la zona dentro del mismo lote.';
-                return;
-            }
-
-            puntosZonaActual.push([
-                xNormalizado,
-                yNormalizado
-            ]);
-
-            dibujarVistaPreviaZona();
+            dibujarSegmentoRayadoZona(
+                posicion.x,
+                posicion.y,
+                posicion.x + 0.01,
+                posicion.y + 0.01,
+                loteRayadoZonaActual
+            );
 
             mensajeHerramienta.textContent =
-                'LOTE ' +
-                loteZonaActual.nombre +
-                ': ' +
-                puntosZonaActual.length +
-                ' punto(s). Cuando termine pulse “Cerrar zona”.';
+                'Rayando una parte del LOTE ' +
+                loteRayadoZonaActual.nombre +
+                '. Arrastre el dedo por la zona deseada.';
 
             return;
         }
@@ -2572,8 +2592,6 @@ document.addEventListener('DOMContentLoaded', function () {
             lotePincelActual =
                 buscarLote(posicion);
 
-            loteLineaActual = null;
-
             if (!lotePincelActual) {
 
                 mensajeHerramienta.textContent =
@@ -2582,30 +2600,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
-        } else if (herramientaActual === 'linea') {
-
-            loteLineaActual =
-                buscarLote(posicion);
-
-            lotePincelActual = null;
-
-            if (!loteLineaActual) {
-
-                mensajeHerramienta.textContent =
-                    'La línea debe comenzar dentro de un lote configurado.';
-
-                return;
-            }
-
         } else {
 
             lotePincelActual = null;
-            loteLineaActual = null;
         }
 
 
         /*
-        | Pincel, línea y borrador guardan el estado antes de comenzar.
+        | Pincel y borrador guardan el estado antes de comenzar.
         */
         guardarEstado();
 
@@ -2668,10 +2670,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function moverAccion(event) {
 
-        if (event.touches && event.touches.length > 1) {
-            return; // Dos dedos o más: dejar que el navegador haga zoom nativo.
-        }
-
         if (!dibujando) {
             return;
         }
@@ -2679,6 +2677,27 @@ document.addEventListener('DOMContentLoaded', function () {
         event.preventDefault();
 
         const posicion = obtenerPosicion(event, canvasDibujo);
+
+        if (herramientaActual === 'rayarZona') {
+
+            if (!loteRayadoZonaActual) {
+                terminarAccion();
+                return;
+            }
+
+            dibujarSegmentoRayadoZona(
+                ultimoX,
+                ultimoY,
+                posicion.x,
+                posicion.y,
+                loteRayadoZonaActual
+            );
+
+            ultimoX = posicion.x;
+            ultimoY = posicion.y;
+
+            return;
+        }
 
         if (herramientaActual === 'pincel') {
 
@@ -2740,7 +2759,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (herramientaActual === 'borrador') {
 
             /*
-            | El arrastre borra pincel y líneas.
+            | El arrastre borra pincel y marcas del rayado parcial.
             | También permite eliminar objetos estructurados al pasar sobre ellos.
             */
             borrarObjetoEnPunto(
@@ -2764,6 +2783,39 @@ document.addEventListener('DOMContentLoaded', function () {
 
             ctxDibujo.stroke();
 
+            /*
+            | El mismo borrador elimina también el rayado parcial
+            | realizado con “Rayar zona”.
+            */
+            ctxRayadoZona.save();
+
+            ctxRayadoZona.globalCompositeOperation =
+                'destination-out';
+
+            ctxRayadoZona.lineWidth =
+                Number(tamanoPincel.value);
+
+            ctxRayadoZona.lineCap =
+                'round';
+
+            ctxRayadoZona.lineJoin =
+                'round';
+
+            ctxRayadoZona.beginPath();
+
+            ctxRayadoZona.moveTo(
+                ultimoX,
+                ultimoY
+            );
+
+            ctxRayadoZona.lineTo(
+                posicion.x,
+                posicion.y
+            );
+
+            ctxRayadoZona.stroke();
+            ctxRayadoZona.restore();
+
             ultimoX =
                 posicion.x;
 
@@ -2771,76 +2823,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 posicion.y;
         }
 
-        if (herramientaActual === 'linea') {
-
-            if (!loteLineaActual) {
-                terminarAccion();
-                return;
-            }
-
-            /*
-            | La base correcta es el canvas guardado por guardarEstado()
-            | al comenzar la línea. Se corrige el uso anterior de la
-            | variable inexistente historialDibujo.
-            */
-            const ultimoEstado =
-                historialAcciones[
-                    historialAcciones.length - 1
-                ];
-
-            const base =
-                ultimoEstado?.canvas || null;
-
-            ctxDibujo.clearRect(
-                0,
-                0,
-                canvasDibujo.width,
-                canvasDibujo.height
-            );
-
-            if (base) {
-                ctxDibujo.globalCompositeOperation = 'source-over';
-                ctxDibujo.globalAlpha = 1;
-                ctxDibujo.drawImage(
-                    base,
-                    0,
-                    0,
-                    base.width,
-                    base.height,
-                    0,
-                    0,
-                    canvasDibujo.width,
-                    canvasDibujo.height
-                );
-            }
-
-            ctxDibujo.save();
-
-            if (
-                crearRutaLoteEnCanvas(
-                    ctxDibujo,
-                    loteLineaActual,
-                    canvasDibujo
-                )
-            ) {
-                ctxDibujo.clip();
-                ctxDibujo.globalCompositeOperation = 'source-over';
-                configurarDibujo();
-                ctxDibujo.beginPath();
-                ctxDibujo.moveTo(inicioX, inicioY);
-                ctxDibujo.lineTo(posicion.x, posicion.y);
-                ctxDibujo.stroke();
-            }
-
-            ctxDibujo.restore();
-        }
     }
 
     function terminarAccion() {
 
         dibujando = false;
         lotePincelActual = null;
-        loteLineaActual = null;
+        loteRayadoZonaActual = null;
 
         ctxDibujo.globalCompositeOperation =
             'source-over';
@@ -2853,19 +2842,140 @@ document.addEventListener('DOMContentLoaded', function () {
     canvasDibujo.addEventListener('mouseup', terminarAccion);
     canvasDibujo.addEventListener('mouseleave', terminarAccion);
 
+    function crearEventoTactilSimulado(clientX, clientY) {
+        return {
+            cancelable: true,
+            preventDefault: function () {},
+            touches: [
+                {
+                    clientX: clientX,
+                    clientY: clientY
+                }
+            ]
+        };
+    }
+
     canvasDibujo.addEventListener(
         'touchstart',
-        iniciarAccion,
+        function (event) {
+
+            if (event.touches.length >= 2) {
+                toquePendiente = null;
+                gestoMultitactilActivo = true;
+                terminarAccion();
+
+                /*
+                | No usamos preventDefault: el navegador puede ampliar
+                | toda la página, no solamente el cuadro del mapa.
+                */
+                return;
+            }
+
+            const toque = event.touches[0];
+
+            toquePendiente = {
+                inicioX: toque.clientX,
+                inicioY: toque.clientY,
+                ultimoX: toque.clientX,
+                ultimoY: toque.clientY,
+                accionIniciada: false
+            };
+        },
         { passive: false }
     );
 
     canvasDibujo.addEventListener(
         'touchmove',
-        moverAccion,
+        function (event) {
+
+            if (event.touches.length >= 2) {
+                toquePendiente = null;
+                gestoMultitactilActivo = true;
+                terminarAccion();
+                return;
+            }
+
+            if (gestoMultitactilActivo || !toquePendiente) {
+                return;
+            }
+
+            /*
+            | Con una sola pulsación sobre el mapa, el gesto pertenece
+            | exclusivamente a la herramienta seleccionada. La regla CSS
+            | touch-action: pinch-zoom conserva el zoom de dos dedos, pero
+            | bloquea el desplazamiento de la página con un solo dedo.
+            */
+            if (event.cancelable) {
+                event.preventDefault();
+            }
+
+            const toque = event.touches[0];
+            const distancia = Math.hypot(
+                toque.clientX - toquePendiente.inicioX,
+                toque.clientY - toquePendiente.inicioY
+            );
+
+            if (
+                !toquePendiente.accionIniciada &&
+                distancia >= UMBRAL_MOVIMIENTO_TOQUE
+            ) {
+                event.preventDefault();
+
+                iniciarAccion(
+                    crearEventoTactilSimulado(
+                        toquePendiente.inicioX,
+                        toquePendiente.inicioY
+                    )
+                );
+
+                toquePendiente.accionIniciada = true;
+            }
+
+            if (toquePendiente.accionIniciada) {
+                event.preventDefault();
+                moverAccion(event);
+            }
+
+            toquePendiente.ultimoX = toque.clientX;
+            toquePendiente.ultimoY = toque.clientY;
+        },
         { passive: false }
     );
 
-    canvasDibujo.addEventListener('touchend', terminarAccion);
+    canvasDibujo.addEventListener('touchend', function (event) {
+
+        if (gestoMultitactilActivo) {
+            if (event.touches.length === 0) {
+                gestoMultitactilActivo = false;
+            }
+
+            toquePendiente = null;
+            terminarAccion();
+            return;
+        }
+
+        if (toquePendiente && !toquePendiente.accionIniciada) {
+            /*
+            | Un toque corto se procesa al soltar. Así, si aparece un
+            | segundo dedo, nunca se pinta un lote por accidente.
+            */
+            iniciarAccion(
+                crearEventoTactilSimulado(
+                    toquePendiente.inicioX,
+                    toquePendiente.inicioY
+                )
+            );
+        }
+
+        toquePendiente = null;
+        terminarAccion();
+    });
+
+    canvasDibujo.addEventListener('touchcancel', function () {
+        toquePendiente = null;
+        gestoMultitactilActivo = false;
+        terminarAccion();
+    });
 
 
     /*
@@ -2929,6 +3039,54 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
+
+    function cargarImagenEnCanvasRayadoZona(imagenBase64) {
+
+        return new Promise(function (resolve) {
+
+            ctxRayadoZona.clearRect(
+                0,
+                0,
+                canvasRayadoZona.width,
+                canvasRayadoZona.height
+            );
+
+            if (
+                !imagenBase64 ||
+                typeof imagenBase64 !== 'string'
+            ) {
+                resolve();
+                return;
+            }
+
+            const imagenGuardada = new Image();
+
+            imagenGuardada.onload = function () {
+
+                ctxRayadoZona.drawImage(
+                    imagenGuardada,
+                    0,
+                    0,
+                    imagenGuardada.width,
+                    imagenGuardada.height,
+                    0,
+                    0,
+                    canvasRayadoZona.width,
+                    canvasRayadoZona.height
+                );
+
+                resolve();
+            };
+
+            imagenGuardada.onerror = function () {
+                resolve();
+            };
+
+            imagenGuardada.src = imagenBase64;
+        });
+    }
+
+
     async function restaurarConfiguracionMapa(configuracion) {
 
         limpiarMapaDelDia();
@@ -2968,18 +3126,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 ? clonarDatos(configuracion.zonas_rayadas)
                 : [];
 
-        if (
-            configuracion.opacidad_lote !== undefined &&
-            configuracion.opacidad_lote !== null
-        ) {
-            opacidadLote.value =
-                String(configuracion.opacidad_lote);
-
-            textoOpacidad.textContent =
-                opacidadLote.value + '%';
-        }
 
         dibujarColoresLotes();
+
+        await cargarImagenEnCanvasRayadoZona(
+            configuracion.canvas_rayado_zona || null
+        );
 
         await cargarImagenEnCanvasDibujo(
             configuracion.canvas_dibujo || null
@@ -3016,6 +3168,7 @@ document.addEventListener('DOMContentLoaded', function () {
         puntosZonaActual = [];
         loteZonaActual = null;
         tipoZonaParcial = null;
+        loteRayadoZonaActual = null;
         dibujando = false;
         historialAcciones = [];
 
@@ -3045,6 +3198,12 @@ document.addEventListener('DOMContentLoaded', function () {
             alto;
 
 
+        canvasRayadoZona.width =
+            ancho;
+
+        canvasRayadoZona.height =
+            alto;
+
         canvasDibujo.width =
             ancho;
 
@@ -3069,6 +3228,12 @@ document.addEventListener('DOMContentLoaded', function () {
             'source-over';
 
 
+        ctxRayadoZona.globalAlpha =
+            1;
+
+        ctxRayadoZona.globalCompositeOperation =
+            'source-over';
+
         ctxDibujo.globalAlpha =
             1;
 
@@ -3084,6 +3249,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
         ctxLotes.clearRect(
+            0,
+            0,
+            ancho,
+            alto
+        );
+
+        ctxRayadoZona.clearRect(
             0,
             0,
             ancho,
@@ -3731,9 +3903,12 @@ document.addEventListener('DOMContentLoaded', function () {
                         Number(opacidadLote.value),
 
                     /*
-                    | Guarda pincel, líneas rectas y borrados como una
+                    | Guarda pincel y borrados como una
                     | capa transparente que puede recuperarse y editarse.
                     */
+                    canvas_rayado_zona:
+                        canvasRayadoZona.toDataURL('image/png'),
+
                     canvas_dibujo:
                         canvasDibujo.toDataURL('image/png')
                 };
@@ -3860,8 +4035,32 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
                 /*
-                | Pincel, líneas y borrados.
+                | Rayado parcial realizado con el dedo.
+                | Se conserva al 100 % para que destaque sobre el relleno.
                 */
+                contextoFinal.globalAlpha =
+                    1;
+
+                contextoFinal.drawImage(
+                    canvasRayadoZona,
+                    0,
+                    0,
+                    anchoOriginal,
+                    altoOriginal,
+                    0,
+                    0,
+                    anchoFinal,
+                    altoFinal
+                );
+
+
+                /*
+                | Pincel y borrados.
+                | Se aplica la misma opacidad fija del relleno del lote.
+                */
+                contextoFinal.globalAlpha =
+                    Number(opacidadLote.value) / 100;
+
                 contextoFinal.drawImage(
                     canvasDibujo,
                     0,
@@ -3873,6 +4072,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     anchoFinal,
                     altoFinal
                 );
+
+                contextoFinal.globalAlpha = 1;
 
 
                 /*

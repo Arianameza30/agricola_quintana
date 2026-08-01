@@ -62,16 +62,6 @@ class RecorridoController extends Controller
 
         if ($recorrido) {
 
-            /*
-            |--------------------------------------------------------------------------
-            | Convertir el mapa guardado a arreglo
-            |--------------------------------------------------------------------------
-            |
-            | Si el modelo ya tiene un cast de mapa a array, no se vuelve
-            | a decodificar. Si todavía llega como texto JSON, se convierte.
-            |
-            */
-
             if (
                 is_string($recorrido->mapa) &&
                 $recorrido->mapa !== ''
@@ -133,12 +123,6 @@ class RecorridoController extends Controller
             'fecha' =>
                 'required|date',
 
-            /*
-            |--------------------------------------------------------------------------
-            | Estado completo del mapa semanal
-            |--------------------------------------------------------------------------
-            */
-
             'mapa' =>
                 'nullable|array',
 
@@ -151,9 +135,6 @@ class RecorridoController extends Controller
             'mapa.lotes_rayados' =>
                 'nullable|array',
 
-            /*
-            | Se conserva por compatibilidad con semanas antiguas.
-            */
             'mapa.zonas_pintadas' =>
                 'nullable|array',
 
@@ -163,10 +144,6 @@ class RecorridoController extends Controller
             'mapa.opacidad_lote' =>
                 'nullable|numeric|min:0|max:100',
 
-            /*
-            | Contiene pincel, línea recta y borrados en formato PNG Base64.
-            | No se establece max porque puede superar 64 KB.
-            */
             'mapa.canvas_dibujo' =>
                 'nullable|string',
 
@@ -237,13 +214,6 @@ class RecorridoController extends Controller
                                             Carbon::SUNDAY
                                         ),
 
-                                /*
-                                | Un solo registro por:
-                                | Hacienda + Año + Semana.
-                                |
-                                | Cada guardado actualiza tanto la matriz como
-                                | el mapa acumulado de esa misma semana.
-                                */
                                 'mapa' =>
                                     json_encode(
                                         $configuracionMapa,
@@ -424,6 +394,67 @@ class RecorridoController extends Controller
                 $datos['fecha']
             );
 
+            $detallesPdf = collect(
+                $datos['detalles']
+            )
+            ->map(function (array $detalle) use ($datos) {
+
+                $hasProd =
+                    Lote::obtenerHectareasOficiales(
+                        $datos['hacienda_id'],
+                        $detalle['nombre'] ?? null,
+                        $detalle['has_prod'] ?? 0
+                    );
+
+                $totalSemana =
+                    (float) ($detalle['lunes'] ?? 0) +
+                    (float) ($detalle['martes'] ?? 0) +
+                    (float) ($detalle['miercoles'] ?? 0) +
+                    (float) ($detalle['jueves'] ?? 0) +
+                    (float) ($detalle['viernes'] ?? 0) +
+                    (float) ($detalle['sabado'] ?? 0);
+
+                $porcentaje =
+                    $hasProd > 0
+                        ? round(
+                            ($totalSemana / $hasProd) * 100,
+                            2
+                        )
+                        : 0;
+
+                $detalle['has_prod'] =
+                    $hasProd;
+
+                $detalle['total_semana'] =
+                    $totalSemana;
+
+                $detalle['porcentaje'] =
+                    number_format(
+                        $porcentaje,
+                        2
+                    ) . '%';
+
+                return $detalle;
+            });
+
+            $totalHas =
+                (float) $detallesPdf->sum(
+                    'has_prod'
+                );
+
+            $totalSemana =
+                (float) $detallesPdf->sum(
+                    'total_semana'
+                );
+
+            $porcentajeGeneral =
+                $totalHas > 0
+                    ? round(
+                        ($totalSemana / $totalHas) * 100,
+                        2
+                    )
+                    : 0;
+
             $pdf = Pdf::loadView(
                 'recorridos.pdf',
                 [
@@ -458,27 +489,16 @@ class RecorridoController extends Controller
                         $datos['imagen_mapa'],
 
                     'detalles' =>
-                        collect(
-                            $datos['detalles']
-                        ),
+                        $detallesPdf,
 
                     'totalHas' =>
-                        (float) (
-                            $datos['total_has'] ??
-                            0
-                        ),
+                        $totalHas,
 
                     'totalSemana' =>
-                        (float) (
-                            $datos['total_semana'] ??
-                            0
-                        ),
+                        $totalSemana,
 
                     'porcentajeGeneral' =>
-                        (float) (
-                            $datos['porcentaje_general'] ??
-                            0
-                        ),
+                        $porcentajeGeneral,
                 ]
             )
             ->setPaper(
