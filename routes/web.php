@@ -34,9 +34,6 @@ Route::get('/', function () {
 |--------------------------------------------------------------------------
 | Dashboard
 |--------------------------------------------------------------------------
-|
-| Se conserva esta ruta por compatibilidad con Laravel Breeze.
-|
 */
 
 Route::get('/dashboard', function () {
@@ -55,11 +52,8 @@ Route::get('/dashboard', function () {
 
 /*
 |--------------------------------------------------------------------------
-| Rutas para todos los usuarios autenticados
+| Rutas para usuarios autenticados
 |--------------------------------------------------------------------------
-|
-| Administradores y usuarios pueden acceder a recorridos y perfil.
-|
 */
 
 Route::middleware('auth')->group(function () {
@@ -141,12 +135,21 @@ Route::middleware([
 
     /*
     |--------------------------------------------------------------------------
+    | Consulta de haciendas
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get(
+        '/haciendas',
+        [HaciendaController::class, 'index']
+    )
+        ->name('haciendas.index');
+
+
+    /*
+    |--------------------------------------------------------------------------
     | Consulta de lotes
     |--------------------------------------------------------------------------
-    |
-    | Los lotes ya no se crean, editan ni eliminan desde esta aplicación.
-    | La información se obtiene desde el sistema corporativo.
-    |
     */
 
     Route::get(
@@ -160,10 +163,6 @@ Route::middleware([
     |--------------------------------------------------------------------------
     | Configuración de coordenadas
     |--------------------------------------------------------------------------
-    |
-    | Esta funcionalidad se conserva porque las coordenadas son información
-    | propia del Sistema de Gestión Agrícola.
-    |
     */
 
     Route::get(
@@ -178,22 +177,6 @@ Route::middleware([
         [LoteController::class, 'guardarCoordenadas']
     )
         ->name('lotes.guardar-coordenadas');
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | Haciendas
-    |--------------------------------------------------------------------------
-    |
-    | Por ahora se mantienen estas rutas hasta completar la siguiente fase
-    | de integración con la tabla corporativa "hacienda".
-    |
-    */
-
-    Route::resource(
-        'haciendas',
-        HaciendaController::class
-    );
 
 });
 

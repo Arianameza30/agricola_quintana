@@ -3,94 +3,46 @@
 namespace App\Http\Controllers;
 
 use App\Models\Hacienda;
-use Illuminate\Http\Request;
 
 class HaciendaController extends Controller
 {
-    /**
-     * Mostrar listado de haciendas.
-     */
+    /*
+    |--------------------------------------------------------------------------
+    | LISTADO DE HACIENDAS
+    |--------------------------------------------------------------------------
+    |
+    | El módulo es únicamente de consulta.
+    | Los nombres se obtienen desde la tabla corporativa "hacienda".
+    |
+    */
+
     public function index()
     {
-        $haciendas = Hacienda::all();
+        $haciendas = Hacienda::orderBy('id')
+            ->get();
 
-        return view('haciendas.index', compact('haciendas'));
-    }
+        /*
+        |--------------------------------------------------------------------------
+        | Contar los lotes de cada hacienda
+        |--------------------------------------------------------------------------
+        |
+        | Se asigna explícitamente el conteo para garantizar que la vista reciba
+        | correctamente 16 lotes para Domenica y 12 para María María.
+        |
+        */
 
-    /**
-     * Mostrar formulario para crear una hacienda.
-     */
-    public function create()
-    {
-        return view('haciendas.create');
-    }
+        $haciendas->each(function (Hacienda $hacienda): void {
 
-    /**
-     * Guardar una nueva hacienda.
-     */
-    public function store(Request $request)
-    {
-        $request->validate([
-            'nombre' => 'required|max:100',
-            'descripcion' => 'nullable',
-        ]);
+            $hacienda->setAttribute(
+                'lotes_count',
+                $hacienda->lotes()->count()
+            );
 
-        Hacienda::create([
-            'nombre' => $request->nombre,
-            'descripcion' => $request->descripcion,
-            'estado' => true,
-        ]);
+        });
 
-        return redirect()
-            ->route('haciendas.index')
-            ->with('success', 'Hacienda registrada correctamente.');
-    }
-
-    /**
-     * Mostrar una hacienda.
-     */
-    public function show(Hacienda $hacienda)
-    {
-        return view('haciendas.show', compact('hacienda'));
-    }
-
-    /**
-     * Mostrar formulario para editar.
-     */
-    public function edit(Hacienda $hacienda)
-    {
-        return view('haciendas.edit', compact('hacienda'));
-    }
-
-    /**
-     * Actualizar una hacienda.
-     */
-    public function update(Request $request, Hacienda $hacienda)
-    {
-        $request->validate([
-            'nombre' => 'required|max:100',
-            'descripcion' => 'nullable',
-        ]);
-
-        $hacienda->update([
-            'nombre' => $request->nombre,
-            'descripcion' => $request->descripcion,
-        ]);
-
-        return redirect()
-            ->route('haciendas.index')
-            ->with('success', 'Hacienda actualizada correctamente.');
-    }
-
-    /**
-     * Eliminar una hacienda.
-     */
-    public function destroy(Hacienda $hacienda)
-    {
-        $hacienda->delete();
-
-        return redirect()
-            ->route('haciendas.index')
-            ->with('success', 'Hacienda eliminada correctamente.');
+        return view(
+            'haciendas.index',
+            compact('haciendas')
+        );
     }
 }
