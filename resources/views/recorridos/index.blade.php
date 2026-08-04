@@ -4,446 +4,438 @@
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 py-6">
 
-{{-- ========================================================= --}}
-{{-- CABECERA --}}
-{{-- ========================================================= --}}
+{{-- ========================================================= --}}{{-- CABECERA --}}{{-- ========================================================= --}}
 
 <div class="bg-green-800 rounded-xl shadow-lg p-6 text-white">
 
-    <h1 class="text-3xl md:text-4xl font-bold">
-        Registro de Área Recorrida
-    </h1>
+<h1 class="text-3xl md:text-4xl font-bold">
+    Registro de Área Recorrida
+</h1>
 
-    <p class="text-green-200 mt-1">
-        Agrícola Quintana
-    </p>
+<p class="text-green-200 mt-1">
+    Agrícola Quintana
+</p>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mt-8">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mt-8">
 
-        <div>
-            <label for="hacienda" class="block mb-2 font-semibold">
-                Hacienda
-            </label>
+    <div>
+        <label for="hacienda" class="block mb-2 font-semibold">
+            Hacienda
+        </label>
 
-            <select
-                id="hacienda"
-                class="w-full rounded-lg border border-gray-300 bg-white text-black px-3 py-2"
-            >
-                <option value="">
-                    Seleccione una hacienda
+        <select
+            id="hacienda"
+            class="w-full rounded-lg border border-gray-300 bg-white text-black px-3 py-2"
+        >
+            <option value="">
+                Seleccione una hacienda
+            </option>
+
+            @foreach($haciendas as $haciendaItem)
+                <option value="{{ $haciendaItem->id }}">
+                    {{ strtoupper($haciendaItem->nombre) }}
                 </option>
-
-                @foreach($haciendas as $haciendaItem)
-                    <option value="{{ $haciendaItem->id }}">
-                        {{ strtoupper($haciendaItem->nombre) }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-
-        <div>
-            <label for="semana" class="block mb-2 font-semibold">
-                Semana
-            </label>
-
-            <select
-                id="semana"
-                class="w-full rounded-lg border border-gray-300 bg-white text-black px-3 py-2"
-            >
-                <option value="">
-                    Seleccione semana
-                </option>
-
-                @for($i = 1; $i <= 53; $i++)
-                    <option value="{{ $i }}">
-                        Semana {{ $i }}
-                    </option>
-                @endfor
-            </select>
-        </div>
-
-        <div>
-            <label for="fecha" class="block mb-2 font-semibold">
-                Fecha
-            </label>
-
-            <input
-                id="fecha"
-                type="date"
-                value="{{ date('Y-m-d') }}"
-                class="w-full rounded-lg border border-gray-300 bg-white text-black px-3 py-2"
-            >
-        </div>
-
-        <div>
-            <label class="block mb-2 font-semibold">
-                Usuario
-            </label>
-
-            <input
-                readonly
-                value="{{ auth()->user()->name }}"
-                class="w-full rounded-lg border border-gray-300 bg-gray-200 text-black px-3 py-2"
-            >
-        </div>
-
+            @endforeach
+        </select>
     </div>
 
-    <div class="mt-6">
-        <button
-            id="btnAbrir"
-            type="button"
-            class="bg-white text-green-800 px-6 py-3 rounded-lg font-bold hover:bg-green-100 transition"
+    <div>
+        <label for="semana" class="block mb-2 font-semibold">
+            Semana
+        </label>
+
+        <select
+            id="semana"
+            class="w-full rounded-lg border border-gray-300 bg-white text-black px-3 py-2"
         >
-            Abrir Semana
-        </button>
+            <option value="">
+                Seleccione semana
+            </option>
+
+            @for($i = 1; $i <= 53; $i++)
+                <option value="{{ $i }}">
+                    Semana {{ $i }}
+                </option>
+            @endfor
+        </select>
+    </div>
+
+    <div>
+        <label for="fecha" class="block mb-2 font-semibold">
+            Fecha
+        </label>
+
+        <input
+            id="fecha"
+            type="date"
+            value="{{ date('Y-m-d') }}"
+            class="w-full rounded-lg border border-gray-300 bg-white text-black px-3 py-2"
+        >
+    </div>
+
+    <div>
+        <label class="block mb-2 font-semibold">
+            Usuario
+        </label>
+
+        <input
+            readonly
+            value="{{ auth()->user()->name }}"
+            class="w-full rounded-lg border border-gray-300 bg-gray-200 text-black px-3 py-2"
+        >
     </div>
 
 </div>
 
+<div class="mt-6">
+    <button
+        id="btnAbrir"
+        type="button"
+        class="bg-white text-green-800 px-6 py-3 rounded-lg font-bold hover:bg-green-100 transition"
+    >
+        Abrir Semana
+    </button>
+</div>
 
-{{-- ========================================================= --}}
-{{-- MAPA --}}
-{{-- ========================================================= --}}
+</div>
+
+{{-- ========================================================= --}}{{-- MAPA --}}{{-- ========================================================= --}}
 
 <div class="bg-white rounded-xl shadow-lg mt-8 overflow-hidden">
 
-    <div class="bg-green-800 text-white px-5 py-3">
-        <h2 class="font-semibold">
-            Mapa de Hacienda
-        </h2>
-    </div>
+<div class="bg-green-800 text-white px-5 py-3">
+    <h2 class="font-semibold">
+        Mapa de Hacienda
+    </h2>
+</div>
 
-    <div class="border-b bg-gray-50 p-3 sm:p-4">
+<div class="border-b bg-gray-50 p-3 sm:p-4">
 
-        {{-- ========================================================= --}}
-        {{-- CONFIGURACIÓN DE PINCEL Y RAYADO --}}
-        {{-- ========================================================= --}}
+    {{-- ========================================================= --}}
+    {{-- CONFIGURACIÓN DE PINCEL Y RAYADO --}}
+    {{-- ========================================================= --}}
 
-        <input id="opacidadLote" type="hidden" value="55">
-        <input id="opacidadPincel" type="hidden" value="55">
-        <input id="opacidadRayado" type="hidden" value="100">
+    <input id="opacidadLote" type="hidden" value="55">
+    <input id="opacidadPincel" type="hidden" value="55">
+    <input id="opacidadRayado" type="hidden" value="100">
 
-        <details class="mt-3 rounded-xl border border-gray-200 bg-white">
+    <details class="mt-3 rounded-xl border border-gray-200 bg-white">
 
-            <summary class="flex cursor-pointer list-none items-center justify-between gap-3 px-3 py-3 text-sm font-bold text-gray-800">
+        <summary class="flex cursor-pointer list-none items-center justify-between gap-3 px-3 py-3 text-sm font-bold text-gray-800">
 
-                <span>
-                    ⚙️ Configuración de pincel y rayado
-                </span>
+            <span>
+                ⚙️ Configuración de pincel y rayado
+            </span>
 
-                <span class="text-xs font-normal text-gray-500">
-                    Mostrar / ocultar
-                </span>
+            <span class="text-xs font-normal text-gray-500">
+                Mostrar / ocultar
+            </span>
 
-            </summary>
+        </summary>
 
-            <div class="border-t border-gray-100 p-3">
+        <div class="border-t border-gray-100 p-3">
 
-                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
-
-                    <div>
-
-                        <div class="mb-2 flex items-center justify-between gap-3">
-
-                            <label for="tamanoPincel" class="text-sm font-semibold text-gray-700">
-                                Tamaño del pincel
-                            </label>
-
-                            <span id="textoTamanoPincel" class="min-w-[45px] text-right text-sm font-bold text-green-800">
-                                8 px
-                            </span>
-
-                        </div>
-
-                        <input
-                            id="tamanoPincel"
-                            type="range"
-                            min="2"
-                            max="40"
-                            value="8"
-                            class="w-full cursor-pointer accent-green-700"
-                        >
-
-                    </div>
-
-                    <div>
-
-                        <label class="mb-2 block text-sm font-semibold text-gray-700" for="direccionRayado">
-                            Dirección del rayado
-                        </label>
-
-                        <select
-                            id="direccionRayado"
-                            class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-black"
-                        >
-                            <option value="-45">Diagonal /</option>
-                            <option value="45">Diagonal \</option>
-                            <option value="0">Vertical |</option>
-                            <option value="90">Horizontal —</option>
-                        </select>
-
-                    </div>
-
-                    <div>
-
-                        <div class="mb-2 flex items-center justify-between gap-3">
-
-                            <label class="text-sm font-semibold text-gray-700" for="separacionRayado">
-                                Separación
-                            </label>
-
-                            <span id="textoSeparacionRayado" class="text-sm font-bold text-green-800">
-                                9 px
-                            </span>
-
-                        </div>
-
-                        <input
-                            id="separacionRayado"
-                            type="range"
-                            min="6"
-                            max="40"
-                            value="9"
-                            class="w-full cursor-pointer accent-green-700"
-                        >
-
-                    </div>
-
-                    <div>
-
-                        <div class="mb-2 flex items-center justify-between gap-3">
-
-                            <label class="text-sm font-semibold text-gray-700" for="grosorRayado">
-                                Grosor
-                            </label>
-
-                            <span id="textoGrosorRayado" class="text-sm font-bold text-green-800">
-                                2 px
-                            </span>
-
-                        </div>
-
-                        <input
-                            id="grosorRayado"
-                            type="range"
-                            min="1"
-                            max="10"
-                            value="2"
-                            class="w-full cursor-pointer accent-green-700"
-                        >
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </details>
-
-
-        {{-- ========================================================= --}}
-        {{-- PALANCAS COMPACTAS JUSTO ENCIMA DEL MAPA --}}
-        {{-- ========================================================= --}}
-
-        <div class="mt-3 rounded-xl border border-green-100 bg-white p-3">
-
-            <div class="flex items-center justify-between gap-3">
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
 
                 <div>
 
-                    <h3 class="text-sm font-bold text-gray-800 sm:text-base">
-                        Palancas
-                    </h3>
+                    <div class="mb-2 flex items-center justify-between gap-3">
 
-                    <p id="textoPalancas" class="text-[11px] leading-tight text-gray-500 sm:text-xs">
-                        Seleccione una hacienda para mostrar sus palancas.
-                    </p>
+                        <label for="tamanoPincel" class="text-sm font-semibold text-gray-700">
+                            Tamaño del pincel
+                        </label>
 
-                </div>
+                        <span id="textoTamanoPincel" class="min-w-[45px] text-right text-sm font-bold text-green-800">
+                            8 px
+                        </span>
 
-                {{--
-                    Se mantienen estos elementos ocultos para conservar
-                    exactamente la lógica JavaScript existente.
-                --}}
-                <div id="palancaSeleccionada" class="hidden">
-                    <span id="muestraColorPalanca"></span>
-                    <strong id="nombrePalancaSeleccionada"></strong>
-                </div>
+                    </div>
 
-            </div>
-
-            <div
-                id="contenedorPalancas"
-                class="mt-2 grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-6"
-            >
-
-                <div class="col-span-full rounded-lg border border-dashed border-gray-300 px-3 py-3 text-center text-xs text-gray-500">
-                    Primero seleccione una hacienda.
-                </div>
-
-            </div>
-
-            {{-- ========================================================= --}}
-            {{-- HERRAMIENTAS DEBAJO DE LAS PALANCAS --}}
-            {{-- ========================================================= --}}
-
-            <div class="mt-4 rounded-xl border border-gray-200 bg-gray-50 p-3">
-
-                <div class="mb-2 flex items-center justify-between gap-3">
-
-                    <h3 class="text-sm font-bold text-gray-800 sm:text-base">
-                        Herramientas
-                    </h3>
-
-                    <span class="text-xs text-gray-500">
-                        Toque una opción
-                    </span>
+                    <input
+                        id="tamanoPincel"
+                        type="range"
+                        min="2"
+                        max="40"
+                        value="8"
+                        class="w-full cursor-pointer accent-green-700"
+                    >
 
                 </div>
 
-                <div class="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
+                <div>
 
-                    <button id="btnPintarLote" type="button"
-                        class="boton-herramienta inline-flex min-h-[42px] items-center justify-center gap-2 rounded-lg border-2 border-transparent bg-blue-600 px-3 py-2 text-sm font-semibold text-white hover:bg-blue-700">
-                        <span class="text-base leading-none">🎨</span>
-                        <span>Lote</span>
-                    </button>
+                    <label class="mb-2 block text-sm font-semibold text-gray-700" for="direccionRayado">
+                        Dirección del rayado
+                    </label>
 
-                    <button id="btnRayarLote" type="button"
-                        class="boton-herramienta inline-flex min-h-[42px] items-center justify-center gap-2 rounded-lg border-2 border-transparent bg-pink-600 px-3 py-2 text-sm font-semibold text-white hover:bg-pink-700">
-                        <span class="text-base leading-none">▨</span>
-                        <span>Rayar lote</span>
-                    </button>
+                    <select
+                        id="direccionRayado"
+                        class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-black"
+                    >
+                        <option value="-45">Diagonal /</option>
+                        <option value="45">Diagonal \</option>
+                        <option value="0">Vertical |</option>
+                        <option value="90">Horizontal —</option>
+                    </select>
 
-                    <button id="btnRayarZona" type="button"
-                        class="boton-herramienta inline-flex min-h-[42px] items-center justify-center gap-2 rounded-lg border-2 border-transparent bg-fuchsia-600 px-3 py-2 text-sm font-semibold text-white hover:bg-fuchsia-700">
-                        <span class="text-base leading-none">✂️</span>
-                        <span>Rayar zona</span>
-                    </button>
+                </div>
 
-                    <button id="btnPincel" type="button"
-                        class="boton-herramienta inline-flex min-h-[42px] items-center justify-center gap-2 rounded-lg border-2 border-transparent bg-green-700 px-3 py-2 text-sm font-semibold text-white hover:bg-green-800">
-                        <span class="text-base leading-none">🖌️</span>
-                        <span>Pincel</span>
-                    </button>
+                <div>
 
-                    <button id="btnBorrador" type="button"
-                        class="boton-herramienta inline-flex min-h-[42px] items-center justify-center gap-2 rounded-lg border-2 border-transparent bg-yellow-500 px-3 py-2 text-sm font-semibold text-white hover:bg-yellow-600">
-                        <span class="text-base leading-none">🧹</span>
-                        <span>Borrar</span>
-                    </button>
+                    <div class="mb-2 flex items-center justify-between gap-3">
 
-                    <button id="btnLimpiarMapa" type="button"
-                        class="inline-flex min-h-[42px] items-center justify-center gap-2 rounded-lg bg-red-600 px-3 py-2 text-sm font-semibold text-white hover:bg-red-700">
-                        <span class="text-base leading-none">🗑️</span>
-                        <span>Limpiar</span>
-                    </button>
+                        <label class="text-sm font-semibold text-gray-700" for="separacionRayado">
+                            Separación
+                        </label>
 
-                    <button id="btnDeshacer" type="button"
-                        class="inline-flex min-h-[42px] items-center justify-center gap-2 rounded-lg bg-gray-600 px-3 py-2 text-sm font-semibold text-white hover:bg-gray-700">
-                        <span class="text-base leading-none">↩️</span>
-                        <span>Deshacer</span>
-                    </button>
+                        <span id="textoSeparacionRayado" class="text-sm font-bold text-green-800">
+                            9 px
+                        </span>
+
+                    </div>
+
+                    <input
+                        id="separacionRayado"
+                        type="range"
+                        min="6"
+                        max="40"
+                        value="9"
+                        class="w-full cursor-pointer accent-green-700"
+                    >
+
+                </div>
+
+                <div>
+
+                    <div class="mb-2 flex items-center justify-between gap-3">
+
+                        <label class="text-sm font-semibold text-gray-700" for="grosorRayado">
+                            Grosor
+                        </label>
+
+                        <span id="textoGrosorRayado" class="text-sm font-bold text-green-800">
+                            2 px
+                        </span>
+
+                    </div>
+
+                    <input
+                        id="grosorRayado"
+                        type="range"
+                        min="1"
+                        max="10"
+                        value="2"
+                        class="w-full cursor-pointer accent-green-700"
+                    >
 
                 </div>
 
             </div>
-
 
         </div>
 
+    </details>
+
+
+    {{-- ========================================================= --}}
+    {{-- PALANCAS COMPACTAS JUSTO ENCIMA DEL MAPA --}}
+    {{-- ========================================================= --}}
+
+    <div class="mt-3 rounded-xl border border-green-100 bg-white p-3">
+
+        <div class="flex items-center justify-between gap-3">
+
+            <div>
+
+                <h3 class="text-sm font-bold text-gray-800 sm:text-base">
+                    Palancas
+                </h3>
+
+                <p id="textoPalancas" class="text-[11px] leading-tight text-gray-500 sm:text-xs">
+                    Seleccione una hacienda para mostrar sus palancas.
+                </p>
+
+            </div>
+
+            {{--
+                Se mantienen estos elementos ocultos para conservar
+                exactamente la lógica JavaScript existente.
+            --}}
+            <div id="palancaSeleccionada" class="hidden">
+                <span id="muestraColorPalanca"></span>
+                <strong id="nombrePalancaSeleccionada"></strong>
+            </div>
+
+        </div>
 
         <div
-            id="mensajeHerramienta"
-            class="mt-3 rounded-lg bg-white px-3 py-2 text-xs leading-relaxed text-gray-600 sm:text-sm"
+            id="contenedorPalancas"
+            class="mt-2 grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-6"
         >
-            Seleccione una hacienda. Después use “Pintar Lote” y haga clic dentro del lote.
+
+            <div class="col-span-full rounded-lg border border-dashed border-gray-300 px-3 py-3 text-center text-xs text-gray-500">
+                Primero seleccione una hacienda.
+            </div>
+
         </div>
+
+        {{-- ========================================================= --}}
+        {{-- HERRAMIENTAS DEBAJO DE LAS PALANCAS --}}
+        {{-- ========================================================= --}}
+
+        <div class="mt-4 rounded-xl border border-gray-200 bg-gray-50 p-3">
+
+            <div class="mb-2 flex items-center justify-between gap-3">
+
+                <h3 class="text-sm font-bold text-gray-800 sm:text-base">
+                    Herramientas
+                </h3>
+
+                <span class="text-xs text-gray-500">
+                    Toque una opción
+                </span>
+
+            </div>
+
+            <div class="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
+
+                <button id="btnPintarLote" type="button"
+                    class="boton-herramienta inline-flex min-h-[42px] items-center justify-center gap-2 rounded-lg border-2 border-transparent bg-blue-600 px-3 py-2 text-sm font-semibold text-white hover:bg-blue-700">
+                    <span class="text-base leading-none">🎨</span>
+                    <span>Lote</span>
+                </button>
+
+                <button id="btnRayarLote" type="button"
+                    class="boton-herramienta inline-flex min-h-[42px] items-center justify-center gap-2 rounded-lg border-2 border-transparent bg-pink-600 px-3 py-2 text-sm font-semibold text-white hover:bg-pink-700">
+                    <span class="text-base leading-none">▨</span>
+                    <span>Rayar lote</span>
+                </button>
+
+                <button id="btnRayarZona" type="button"
+                    class="boton-herramienta inline-flex min-h-[42px] items-center justify-center gap-2 rounded-lg border-2 border-transparent bg-fuchsia-600 px-3 py-2 text-sm font-semibold text-white hover:bg-fuchsia-700">
+                    <span class="text-base leading-none">✂️</span>
+                    <span>Rayar zona</span>
+                </button>
+
+                <button id="btnPincel" type="button"
+                    class="boton-herramienta inline-flex min-h-[42px] items-center justify-center gap-2 rounded-lg border-2 border-transparent bg-green-700 px-3 py-2 text-sm font-semibold text-white hover:bg-green-800">
+                    <span class="text-base leading-none">🖌️</span>
+                    <span>Pincel</span>
+                </button>
+
+                <button id="btnBorrador" type="button"
+                    class="boton-herramienta inline-flex min-h-[42px] items-center justify-center gap-2 rounded-lg border-2 border-transparent bg-yellow-500 px-3 py-2 text-sm font-semibold text-white hover:bg-yellow-600">
+                    <span class="text-base leading-none">🧹</span>
+                    <span>Borrar</span>
+                </button>
+
+                <button id="btnLimpiarMapa" type="button"
+                    class="inline-flex min-h-[42px] items-center justify-center gap-2 rounded-lg bg-red-600 px-3 py-2 text-sm font-semibold text-white hover:bg-red-700">
+                    <span class="text-base leading-none">🗑️</span>
+                    <span>Limpiar</span>
+                </button>
+
+                <button id="btnDeshacer" type="button"
+                    class="inline-flex min-h-[42px] items-center justify-center gap-2 rounded-lg bg-gray-600 px-3 py-2 text-sm font-semibold text-white hover:bg-gray-700">
+                    <span class="text-base leading-none">↩️</span>
+                    <span>Deshacer</span>
+                </button>
+
+            </div>
+
+        </div>
+
 
     </div>
 
-    <div class="p-4 sm:p-6">
 
-        <div
-            id="contenedorMapa"
-            class="relative mx-auto w-full max-w-6xl overflow-hidden border rounded-lg bg-white"
-            style="line-height:0; touch-action:pinch-zoom;"
-        >
-            <div
-                id="superficieMapa"
-                class="relative w-full origin-top-left"
-                
-            >
-            {{-- IMAGEN BASE DEL MAPA --}}
-            <img
-                id="mapa"
-                src=""
-                class="relative block w-full h-auto select-none"
-                style="z-index:1;"
-                draggable="false"
-                alt="Mapa de Hacienda"
-            >
-
-            {{-- RELLENO COMPLETO Y RAYADOS DE LOTES --}}
-            <canvas
-                id="canvasLotes"
-                class="absolute inset-0 w-full h-full"
-                style="z-index:2; pointer-events:none;"
-            ></canvas>
-
-            {{-- RAYADO PARCIAL REALIZADO CON EL DEDO --}}
-            <canvas
-                id="canvasRayadoZona"
-                class="absolute inset-0 w-full h-full"
-                style="z-index:3; pointer-events:none;"
-            ></canvas>
-
-            {{-- PINCEL Y BORRADOR --}}
-            <canvas
-                id="canvasDibujo"
-                class="absolute inset-0 w-full h-full"
-                style="z-index:4; touch-action:pinch-zoom; opacity:0.55;"
-            ></canvas>
-
-            {{--
-                COPIA SUPERIOR DEL MAPA.
-
-                Se coloca encima de los canvas usando multiply.
-                Así las letras, nombres, bordes y divisiones negras
-                permanecen visibles aunque se pinte con el pincel.
-            --}}
-            <img
-                id="mapaSuperior"
-                src=""
-                class="absolute inset-0 block w-full h-full select-none pointer-events-none"
-                style="
-                    z-index:5;
-                    object-fit:fill;
-                    mix-blend-mode:multiply;
-                "
-                draggable="false"
-                alt=""
-                aria-hidden="true"
-            >
-
-            {{-- Vista previa de los puntos de la zona parcial. --}}
-            <canvas
-                id="canvasZona"
-                class="absolute inset-0 w-full h-full pointer-events-none"
-                style="z-index:6;"
-            ></canvas>
-            </div>
-        </div>
-
+    <div
+        id="mensajeHerramienta"
+        class="mt-3 rounded-lg bg-white px-3 py-2 text-xs leading-relaxed text-gray-600 sm:text-sm"
+    >
+        Seleccione una hacienda. Después use “Pintar Lote” y haga clic dentro del lote.
     </div>
 
 </div>
 
+<div class="p-4 sm:p-6">
 
-{{-- ========================================================= --}}
-{{-- MATRIZ --}}
-{{-- ========================================================= --}}
+    <div
+        id="contenedorMapa"
+        class="relative mx-auto w-full max-w-6xl overflow-hidden border rounded-lg bg-white"
+        style="line-height:0; touch-action:pinch-zoom;"
+    >
+        <div
+            id="superficieMapa"
+            class="relative w-full origin-top-left"
+            
+        >
+        {{-- IMAGEN BASE DEL MAPA --}}
+        <img
+            id="mapa"
+            src=""
+            class="relative block w-full h-auto select-none"
+            style="z-index:1;"
+            draggable="false"
+            alt="Mapa de Hacienda"
+        >
+
+        {{-- RELLENO COMPLETO Y RAYADOS DE LOTES --}}
+        <canvas
+            id="canvasLotes"
+            class="absolute inset-0 w-full h-full"
+            style="z-index:2; pointer-events:none;"
+        ></canvas>
+
+        {{-- RAYADO PARCIAL REALIZADO CON EL DEDO --}}
+        <canvas
+            id="canvasRayadoZona"
+            class="absolute inset-0 w-full h-full"
+            style="z-index:3; pointer-events:none;"
+        ></canvas>
+
+        {{-- PINCEL Y BORRADOR --}}
+        <canvas
+            id="canvasDibujo"
+            class="absolute inset-0 w-full h-full"
+            style="z-index:4; touch-action:pinch-zoom; opacity:0.55;"
+        ></canvas>
+
+        {{--
+            COPIA SUPERIOR DEL MAPA.
+
+            Se coloca encima de los canvas usando multiply.
+            Así las letras, nombres, bordes y divisiones negras
+            permanecen visibles aunque se pinte con el pincel.
+        --}}
+        <img
+            id="mapaSuperior"
+            src=""
+            class="absolute inset-0 block w-full h-full select-none pointer-events-none"
+            style="
+                z-index:5;
+                object-fit:fill;
+                mix-blend-mode:multiply;
+            "
+            draggable="false"
+            alt=""
+            aria-hidden="true"
+        >
+
+        {{-- Vista previa de los puntos de la zona parcial. --}}
+        <canvas
+            id="canvasZona"
+            class="absolute inset-0 w-full h-full pointer-events-none"
+            style="z-index:6;"
+        ></canvas>
+        </div>
+    </div>
+
+</div>
+
+</div>
+
+{{-- ========================================================= --}}{{-- MATRIZ --}}{{-- ========================================================= --}}
 
 <div
     id="contenedorMatriz"
@@ -1227,83 +1219,130 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function rayarPoligono(ctx, puntos, configuracion) {
 
-        if (!Array.isArray(puntos) || puntos.length < 3) {
-            return;
-        }
+    if (
+        !Array.isArray(puntos) ||
+        puntos.length < 3
+    ) {
+        return;
+    }
 
-        const angulo =
-            Number(configuracion.angulo ?? -45) *
-            Math.PI /
-            180;
+    /*
+    |--------------------------------------------------------------------------
+    | Compatibilidad con semanas antiguas
+    |--------------------------------------------------------------------------
+    |
+    | Algunos mapas guardados anteriormente contienen lotes_rayados con
+    | valores null. Se crea una configuración segura para evitar intentar
+    | leer propiedades como "angulo" desde null.
+    |
+    */
 
-        const separacion =
-            Math.max(4, Number(configuracion.separacion ?? 9));
+    const configuracionSegura =
+        configuracion &&
+        typeof configuracion === 'object' &&
+        !Array.isArray(configuracion)
+            ? configuracion
+            : {};
 
-        const grosor =
-            Math.max(1, Number(configuracion.grosor ?? 2));
+    const angulo =
+        Number(
+            configuracionSegura.angulo ?? -45
+        ) *
+        Math.PI /
+        180;
 
-        const alpha =
-            Math.min(
-                1,
-                Math.max(
-                    0.1,
-                    Number(configuracion.opacidad ?? 100) / 100
-                )
-            );
-
-        const diagonal =
-            Math.sqrt(
-                canvasLotes.width ** 2 +
-                canvasLotes.height ** 2
-            ) * 1.5;
-
-        ctx.save();
-
-        /*
-        | Recortar las rayas dentro del polígono.
-        */
-        ctx.beginPath();
-
-        puntos.forEach(function (punto, indice) {
-
-            const x = punto[0] * canvasLotes.width;
-            const y = punto[1] * canvasLotes.height;
-
-            if (indice === 0) {
-                ctx.moveTo(x, y);
-            } else {
-                ctx.lineTo(x, y);
-            }
-        });
-
-        ctx.closePath();
-        ctx.clip();
-
-        ctx.globalAlpha = alpha;
-        ctx.strokeStyle = configuracion.color || '#FF0000';
-        ctx.lineWidth = grosor;
-        ctx.lineCap = 'round';
-
-        ctx.translate(
-            canvasLotes.width / 2,
-            canvasLotes.height / 2
+    const separacion =
+        Math.max(
+            4,
+            Number(
+                configuracionSegura.separacion ?? 9
+            )
         );
 
-        ctx.rotate(angulo);
+    const grosor =
+        Math.max(
+            1,
+            Number(
+                configuracionSegura.grosor ?? 2
+            )
+        );
 
-        for (
-            let x = -diagonal;
-            x <= diagonal;
-            x += separacion
-        ) {
-            ctx.beginPath();
-            ctx.moveTo(x, -diagonal);
-            ctx.lineTo(x, diagonal);
-            ctx.stroke();
+    const alpha =
+        Math.min(
+            1,
+            Math.max(
+                0.1,
+                Number(
+                    configuracionSegura.opacidad ?? 100
+                ) / 100
+            )
+        );
+
+    const color =
+        configuracionSegura.color ||
+        '#FF0000';
+
+    const diagonal =
+        Math.sqrt(
+            canvasLotes.width ** 2 +
+            canvasLotes.height ** 2
+        ) * 1.5;
+
+    ctx.save();
+
+    /*
+    |--------------------------------------------------------------------------
+    | Recortar las rayas dentro del polígono
+    |--------------------------------------------------------------------------
+    */
+
+    ctx.beginPath();
+
+    puntos.forEach(function (punto, indice) {
+
+        const x =
+            punto[0] *
+            canvasLotes.width;
+
+        const y =
+            punto[1] *
+            canvasLotes.height;
+
+        if (indice === 0) {
+            ctx.moveTo(x, y);
+        } else {
+            ctx.lineTo(x, y);
         }
+    });
 
-        ctx.restore();
+    ctx.closePath();
+    ctx.clip();
+
+    ctx.globalAlpha = alpha;
+    ctx.strokeStyle = color;
+    ctx.lineWidth = grosor;
+    ctx.lineCap = 'round';
+
+    ctx.translate(
+        canvasLotes.width / 2,
+        canvasLotes.height / 2
+    );
+
+    ctx.rotate(angulo);
+
+    for (
+        let x = -diagonal;
+        x <= diagonal;
+        x += separacion
+    ) {
+        ctx.beginPath();
+        ctx.moveTo(x, -diagonal);
+        ctx.lineTo(x, diagonal);
+        ctx.stroke();
     }
+
+    ctx.restore();
+}
 
 
     /*
@@ -3089,59 +3128,155 @@ document.addEventListener('DOMContentLoaded', function () {
 
     async function restaurarConfiguracionMapa(configuracion) {
 
-        limpiarMapaDelDia();
+    limpiarMapaDelDia();
 
-        if (
-            !configuracion ||
-            typeof configuracion !== 'object'
-        ) {
-            mensajeHerramienta.textContent =
-                'Semana nueva: el mapa está vacío.';
-            return;
-        }
-
-        coloresLotes =
-            configuracion.lotes_pintados &&
-            typeof configuracion.lotes_pintados === 'object'
-                ? clonarDatos(configuracion.lotes_pintados)
-                : {};
-
-        rayadosLotes =
-            configuracion.lotes_rayados &&
-            typeof configuracion.lotes_rayados === 'object'
-                ? clonarDatos(configuracion.lotes_rayados)
-                : {};
-
-        /*
-        | Se conservan para compatibilidad con semanas antiguas,
-        | aunque el botón “Pintar zona” ya no aparezca.
-        */
-        zonasPintadas =
-            Array.isArray(configuracion.zonas_pintadas)
-                ? clonarDatos(configuracion.zonas_pintadas)
-                : [];
-
-        zonasRayadas =
-            Array.isArray(configuracion.zonas_rayadas)
-                ? clonarDatos(configuracion.zonas_rayadas)
-                : [];
-
-
-        dibujarColoresLotes();
-
-        await cargarImagenEnCanvasRayadoZona(
-            configuracion.canvas_rayado_zona || null
-        );
-
-        await cargarImagenEnCanvasDibujo(
-            configuracion.canvas_dibujo || null
-        );
-
-        historialAcciones = [];
-
+    if (
+        !configuracion ||
+        typeof configuracion !== 'object'
+    ) {
         mensajeHerramienta.textContent =
-            'Mapa y matriz de la semana restaurados correctamente.';
+            'Semana nueva: el mapa está vacío.';
+
+        return;
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Restaurar lotes pintados
+    |--------------------------------------------------------------------------
+    */
+
+    coloresLotes =
+        configuracion.lotes_pintados &&
+        typeof configuracion.lotes_pintados === 'object' &&
+        !Array.isArray(configuracion.lotes_pintados)
+            ? clonarDatos(
+                configuracion.lotes_pintados
+            )
+            : {};
+
+    /*
+    |--------------------------------------------------------------------------
+    | Restaurar lotes rayados de forma segura
+    |--------------------------------------------------------------------------
+    |
+    | Se eliminan entradas null o inválidas de semanas antiguas para que
+    | rayarPoligono nunca reciba una configuración inexistente.
+    |
+    */
+
+    rayadosLotes = {};
+
+    if (
+        configuracion.lotes_rayados &&
+        typeof configuracion.lotes_rayados === 'object' &&
+        !Array.isArray(configuracion.lotes_rayados)
+    ) {
+        Object.entries(
+            configuracion.lotes_rayados
+        ).forEach(function ([loteId, rayado]) {
+
+            if (
+                !rayado ||
+                typeof rayado !== 'object' ||
+                Array.isArray(rayado)
+            ) {
+                return;
+            }
+
+            rayadosLotes[String(loteId)] = {
+                color:
+                    rayado.color ||
+                    '#FF0000',
+
+                angulo:
+                    Number.isFinite(
+                        Number(rayado.angulo)
+                    )
+                        ? Number(rayado.angulo)
+                        : -45,
+
+                separacion:
+                    Number.isFinite(
+                        Number(rayado.separacion)
+                    )
+                        ? Number(rayado.separacion)
+                        : 9,
+
+                grosor:
+                    Number.isFinite(
+                        Number(rayado.grosor)
+                    )
+                        ? Number(rayado.grosor)
+                        : 2,
+
+                opacidad:
+                    Number.isFinite(
+                        Number(rayado.opacidad)
+                    )
+                        ? Number(rayado.opacidad)
+                        : 100,
+
+                palanca:
+                    rayado.palanca ??
+                    null,
+            };
+        });
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Compatibilidad con zonas antiguas
+    |--------------------------------------------------------------------------
+    */
+
+    zonasPintadas =
+        Array.isArray(
+            configuracion.zonas_pintadas
+        )
+            ? clonarDatos(
+                configuracion.zonas_pintadas
+            ).filter(function (zona) {
+                return (
+                    zona &&
+                    typeof zona === 'object' &&
+                    Array.isArray(zona.puntos)
+                );
+            })
+            : [];
+
+    zonasRayadas =
+        Array.isArray(
+            configuracion.zonas_rayadas
+        )
+            ? clonarDatos(
+                configuracion.zonas_rayadas
+            ).filter(function (zona) {
+                return (
+                    zona &&
+                    typeof zona === 'object' &&
+                    Array.isArray(zona.puntos)
+                );
+            })
+            : [];
+
+    dibujarColoresLotes();
+
+    await cargarImagenEnCanvasRayadoZona(
+        configuracion.canvas_rayado_zona ||
+        null
+    );
+
+    await cargarImagenEnCanvasDibujo(
+        configuracion.canvas_dibujo ||
+        null
+    );
+
+    historialAcciones = [];
+
+    mensajeHerramienta.textContent =
+        'Mapa y matriz de la semana restaurados correctamente.';
+}
 
 
     /*
