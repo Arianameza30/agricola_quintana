@@ -16,9 +16,13 @@ class LoteController extends Controller
 
     public function configurar()
     {
-        $haciendas = Hacienda::with('lotes')
-            ->orderBy('nombre')
-            ->get();
+        $haciendas = Hacienda::with([
+            'lotes' => function ($consulta) {
+                $consulta->orderBy('lote');
+            },
+        ])
+        ->orderBy('nombre_hacienda')
+        ->get();
 
         return view(
             'lotes.configurar',
@@ -29,13 +33,15 @@ class LoteController extends Controller
 
     /*
     |--------------------------------------------------------------------------
-    | LISTAR LOTES
+    | CONSULTAR LOTES
     |--------------------------------------------------------------------------
     */
 
     public function index()
     {
         $lotes = Lote::with('hacienda')
+            ->orderBy('id_hacienda')
+            ->orderBy('lote')
             ->get();
 
         return view(
@@ -47,142 +53,11 @@ class LoteController extends Controller
 
     /*
     |--------------------------------------------------------------------------
-    | CREAR LOTE
-    |--------------------------------------------------------------------------
-    */
-
-    public function create()
-    {
-        $haciendas = Hacienda::orderBy('nombre')
-            ->get();
-
-        return view(
-            'lotes.create',
-            compact('haciendas')
-        );
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | GUARDAR LOTE
-    |--------------------------------------------------------------------------
-    */
-
-    public function store(Request $request)
-    {
-        $request->validate([
-            'hacienda_id' => 'required|exists:haciendas,id',
-            'nombre' => 'required|max:100',
-            'has_prod' => 'required|numeric',
-        ]);
-
-        Lote::create([
-            'hacienda_id' => $request->hacienda_id,
-            'nombre' => $request->nombre,
-            'has_prod' => $request->has_prod,
-            'estado' => true,
-        ]);
-
-        return redirect()
-            ->route('lotes.index')
-            ->with(
-                'success',
-                'Lote registrado correctamente.'
-            );
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | MOSTRAR LOTE
-    |--------------------------------------------------------------------------
-    */
-
-    public function show(Lote $lote)
-    {
-        return view(
-            'lotes.show',
-            compact('lote')
-        );
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | EDITAR LOTE
-    |--------------------------------------------------------------------------
-    */
-
-    public function edit(Lote $lote)
-    {
-        $haciendas = Hacienda::orderBy('nombre')
-            ->get();
-
-        return view(
-            'lotes.edit',
-            compact(
-                'lote',
-                'haciendas'
-            )
-        );
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | ACTUALIZAR LOTE
-    |--------------------------------------------------------------------------
-    */
-
-    public function update(
-        Request $request,
-        Lote $lote
-    ) {
-        $request->validate([
-            'hacienda_id' => 'required|exists:haciendas,id',
-            'nombre' => 'required|max:100',
-            'has_prod' => 'required|numeric',
-        ]);
-
-        $lote->update([
-            'hacienda_id' => $request->hacienda_id,
-            'nombre' => $request->nombre,
-            'has_prod' => $request->has_prod,
-        ]);
-
-        return redirect()
-            ->route('lotes.index')
-            ->with(
-                'success',
-                'Lote actualizado correctamente.'
-            );
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
-    | ELIMINAR LOTE
-    |--------------------------------------------------------------------------
-    */
-
-    public function destroy(Lote $lote)
-    {
-        $lote->delete();
-
-        return redirect()
-            ->route('lotes.index')
-            ->with(
-                'success',
-                'Lote eliminado correctamente.'
-            );
-    }
-
-
-    /*
-    |--------------------------------------------------------------------------
     | GUARDAR COORDENADAS
     |--------------------------------------------------------------------------
+    |
+    | Las coordenadas se guardan directamente en la tabla corporativa "lote".
+    |
     */
 
     public function guardarCoordenadas(
@@ -191,8 +66,11 @@ class LoteController extends Controller
         try {
 
             $request->validate([
-                'hacienda_id' => 'required|exists:haciendas,id',
-                'lotes' => 'required|array',
+                'hacienda_id' =>
+                    'required|exists:mysql_corporativa.hacienda,id',
+
+                'lotes' =>
+                    'required|array',
             ]);
 
             $guardados = 0;
@@ -201,7 +79,6 @@ class LoteController extends Controller
                 $request->lotes
                 as $nombreLote => $datosLote
             ) {
-
                 if (
                     !isset($datosLote['puntos']) ||
                     !is_array($datosLote['puntos'])
@@ -209,13 +86,19 @@ class LoteController extends Controller
                     continue;
                 }
 
+                /*
+                |--------------------------------------------------------------------------
+                | Buscar por los nombres reales de las columnas corporativas
+                |--------------------------------------------------------------------------
+                */
+
                 $lote = Lote::where(
-                    'hacienda_id',
+                    'id_hacienda',
                     $request->hacienda_id
                 )
                 ->where(
-                    'nombre',
-                    $nombreLote
+                    'lote',
+                    (int) $nombreLote
                 )
                 ->first();
 
@@ -232,34 +115,41 @@ class LoteController extends Controller
             }
 
             return response()->json([
-
                 'success' => true,
 
                 'message' =>
                     'Se guardaron correctamente ' .
                     $guardados .
-                    ' lote(s) en la base de datos.',
+                    ' lote(s) en la base de datos corporativa.',
 
                 'guardados' =>
                     $guardados,
-
             ]);
 
         } catch (\Throwable $e) {
 
-            return response()->json([
+            report($e);
 
+            return response()->json([
                 'success' => false,
 
                 'message' =>
-                    $e->getMessage(),
+                    'No se pudieron guardar las coordenadas.',
+
+                'detalle' =>
+                    config('app.debug')
+                        ? $e->getMessage()
+                        : null,
 
                 'archivo' =>
-                    $e->getFile(),
+                    config('app.debug')
+                        ? $e->getFile()
+                        : null,
 
                 'linea' =>
-                    $e->getLine(),
-
+                    config('app.debug')
+                        ? $e->getLine()
+                        : null,
             ], 500);
         }
     }

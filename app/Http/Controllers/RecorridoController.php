@@ -14,14 +14,20 @@ use Illuminate\Support\Carbon;
 
 class RecorridoController extends Controller
 {
+    /*
+    |--------------------------------------------------------------------------
+    | MOSTRAR MÓDULO DE RECORRIDOS
+    |--------------------------------------------------------------------------
+    */
+
     public function index(Request $request)
     {
         $haciendas = Hacienda::with([
             'lotes' => function ($consulta) {
-                $consulta->orderBy('nombre');
+                $consulta->orderBy('lote');
             },
         ])
-        ->orderBy('nombre')
+        ->orderBy('nombre_hacienda')
         ->get();
 
         return view(
@@ -30,11 +36,18 @@ class RecorridoController extends Controller
         );
     }
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | ABRIR RECORRIDO
+    |--------------------------------------------------------------------------
+    */
+
     public function abrir(Request $request)
     {
         $request->validate([
             'hacienda_id' =>
-                'required|exists:haciendas,id',
+                'required|exists:mysql_corporativa.hacienda,id',
 
             'semana' =>
                 'required|integer|min:1|max:53',
@@ -62,6 +75,12 @@ class RecorridoController extends Controller
 
         if ($recorrido) {
 
+            /*
+            |--------------------------------------------------------------------------
+            | Normalizar configuración del mapa
+            |--------------------------------------------------------------------------
+            */
+
             if (
                 is_string($recorrido->mapa) &&
                 $recorrido->mapa !== ''
@@ -86,33 +105,54 @@ class RecorridoController extends Controller
 
             return response()->json([
                 'existe' => true,
-                'recorrido' => $recorrido,
+
+                'recorrido' =>
+                    $recorrido,
+
                 'detalles' =>
                     $recorrido->detalles,
             ]);
         }
 
-        $lotes = Hacienda::findOrFail(
+        /*
+        |--------------------------------------------------------------------------
+        | Semana nueva
+        |--------------------------------------------------------------------------
+        */
+
+        $hacienda = Hacienda::findOrFail(
             $request->hacienda_id
-        )
-        ->lotes()
-        ->orderBy('nombre')
-        ->get();
+        );
+
+        $lotes = $hacienda
+            ->lotes()
+            ->orderBy('lote')
+            ->get();
 
         return response()->json([
             'existe' => false,
-            'lotes' => $lotes,
+
+            'lotes' =>
+                $lotes,
+
             'recorrido' => [
                 'mapa' => [],
             ],
         ]);
     }
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | GUARDAR RECORRIDO
+    |--------------------------------------------------------------------------
+    */
+
     public function store(Request $request)
     {
         $datos = $request->validate([
             'hacienda_id' =>
-                'required|exists:haciendas,id',
+                'required|exists:mysql_corporativa.hacienda,id',
 
             'semana' =>
                 'required|integer|min:1|max:53',
@@ -122,6 +162,12 @@ class RecorridoController extends Controller
 
             'fecha' =>
                 'required|date',
+
+            /*
+            |--------------------------------------------------------------------------
+            | Estado del mapa
+            |--------------------------------------------------------------------------
+            */
 
             'mapa' =>
                 'nullable|array',
@@ -144,14 +190,23 @@ class RecorridoController extends Controller
             'mapa.opacidad_lote' =>
                 'nullable|numeric|min:0|max:100',
 
+            'mapa.canvas_rayado_zona' =>
+                'nullable|string',
+
             'mapa.canvas_dibujo' =>
                 'nullable|string',
+
+            /*
+            |--------------------------------------------------------------------------
+            | Matriz semanal
+            |--------------------------------------------------------------------------
+            */
 
             'detalles' =>
                 'required|array',
 
             'detalles.*.lote_id' =>
-                'required|exists:lotes,id',
+                'required|exists:mysql_corporativa.lote,id',
 
             'detalles.*.lunes' =>
                 'nullable|numeric|min:0',
@@ -174,118 +229,139 @@ class RecorridoController extends Controller
 
         try {
 
-            $recorrido = DB::transaction(
-                function () use ($datos) {
+            /*
+            |--------------------------------------------------------------------------
+            | La transacción se ejecuta en la conexión principal
+            |--------------------------------------------------------------------------
+            |
+            | Recorridos y detalles continúan almacenándose físicamente en:
+            |
+            | - m_recorridos
+            | - m_detalle_recorridos
+            |
+            */
 
-                    $fecha = Carbon::parse(
-                        $datos['fecha']
-                    );
+            $recorrido = DB::connection('mysql')
+                ->transaction(
+                    function () use ($datos) {
 
-                    $configuracionMapa =
-                        $datos['mapa'] ?? [];
-
-                    $recorrido =
-                        Recorrido::updateOrCreate(
-                            [
-                                'hacienda_id' =>
-                                    $datos['hacienda_id'],
-
-                                'semana' =>
-                                    $datos['semana'],
-
-                                'anio' =>
-                                    $datos['anio'],
-                            ],
-                            [
-                                'user_id' =>
-                                    Auth::id(),
-
-                                'fecha_inicio' =>
-                                    $fecha
-                                        ->copy()
-                                        ->startOfWeek(
-                                            Carbon::MONDAY
-                                        ),
-
-                                'fecha_fin' =>
-                                    $fecha
-                                        ->copy()
-                                        ->endOfWeek(
-                                            Carbon::SUNDAY
-                                        ),
-
-                                'mapa' =>
-                                    json_encode(
-                                        $configuracionMapa,
-                                        JSON_UNESCAPED_UNICODE |
-                                        JSON_UNESCAPED_SLASHES
-                                    ),
-                            ]
+                        $fecha = Carbon::parse(
+                            $datos['fecha']
                         );
 
-                    foreach (
-                        $datos['detalles']
-                        as $detalle
-                    ) {
-                        $pertenece =
-                            Lote::where(
-                                'id',
-                                $detalle['lote_id']
-                            )
-                            ->where(
-                                'hacienda_id',
-                                $datos['hacienda_id']
-                            )
-                            ->exists();
+                        $configuracionMapa =
+                            $datos['mapa'] ?? [];
 
-                        if (!$pertenece) {
-                            continue;
+                        $recorrido =
+                            Recorrido::updateOrCreate(
+                                [
+                                    'hacienda_id' =>
+                                        $datos['hacienda_id'],
+
+                                    'semana' =>
+                                        $datos['semana'],
+
+                                    'anio' =>
+                                        $datos['anio'],
+                                ],
+                                [
+                                    'user_id' =>
+                                        Auth::id(),
+
+                                    'fecha_inicio' =>
+                                        $fecha
+                                            ->copy()
+                                            ->startOfWeek(
+                                                Carbon::MONDAY
+                                            ),
+
+                                    'fecha_fin' =>
+                                        $fecha
+                                            ->copy()
+                                            ->endOfWeek(
+                                                Carbon::SUNDAY
+                                            ),
+
+                                    'mapa' =>
+                                        json_encode(
+                                            $configuracionMapa,
+                                            JSON_UNESCAPED_UNICODE |
+                                            JSON_UNESCAPED_SLASHES
+                                        ),
+                                ]
+                            );
+
+                        foreach (
+                            $datos['detalles']
+                            as $detalle
+                        ) {
+                            /*
+                            |--------------------------------------------------------------------------
+                            | Verificar que el lote pertenezca a la hacienda
+                            |--------------------------------------------------------------------------
+                            */
+
+                            $pertenece =
+                                Lote::where(
+                                    'id',
+                                    $detalle['lote_id']
+                                )
+                                ->where(
+                                    'id_hacienda',
+                                    $datos['hacienda_id']
+                                )
+                                ->exists();
+
+                            if (!$pertenece) {
+                                continue;
+                            }
+
+                            DetalleRecorrido::updateOrCreate(
+                                [
+                                    'recorrido_id' =>
+                                        $recorrido->id,
+
+                                    'lote_id' =>
+                                        $detalle['lote_id'],
+                                ],
+                                [
+                                    'lunes' =>
+                                        $detalle['lunes']
+                                        ?? null,
+
+                                    'martes' =>
+                                        $detalle['martes']
+                                        ?? null,
+
+                                    'miercoles' =>
+                                        $detalle['miercoles']
+                                        ?? null,
+
+                                    'jueves' =>
+                                        $detalle['jueves']
+                                        ?? null,
+
+                                    'viernes' =>
+                                        $detalle['viernes']
+                                        ?? null,
+
+                                    'sabado' =>
+                                        $detalle['sabado']
+                                        ?? null,
+                                ]
+                            );
                         }
 
-                        DetalleRecorrido::updateOrCreate(
-                            [
-                                'recorrido_id' =>
-                                    $recorrido->id,
-
-                                'lote_id' =>
-                                    $detalle['lote_id'],
-                            ],
-                            [
-                                'lunes' =>
-                                    $detalle['lunes'] ??
-                                    null,
-
-                                'martes' =>
-                                    $detalle['martes'] ??
-                                    null,
-
-                                'miercoles' =>
-                                    $detalle['miercoles'] ??
-                                    null,
-
-                                'jueves' =>
-                                    $detalle['jueves'] ??
-                                    null,
-
-                                'viernes' =>
-                                    $detalle['viernes'] ??
-                                    null,
-
-                                'sabado' =>
-                                    $detalle['sabado'] ??
-                                    null,
-                            ]
-                        );
+                        return $recorrido;
                     }
-
-                    return $recorrido;
-                }
-            );
+                );
 
             return response()->json([
                 'success' => true,
+
                 'message' =>
                     'Matriz y mapa semanal guardados correctamente.',
+
                 'recorrido_id' =>
                     $recorrido->id,
             ]);
@@ -296,8 +372,10 @@ class RecorridoController extends Controller
 
             return response()->json([
                 'success' => false,
+
                 'message' =>
                     'No se pudo guardar el recorrido.',
+
                 'detalle' =>
                     config('app.debug')
                         ? $e->getMessage()
@@ -306,11 +384,18 @@ class RecorridoController extends Controller
         }
     }
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | GENERAR PDF
+    |--------------------------------------------------------------------------
+    */
+
     public function generarPdf(Request $request)
     {
         $datos = $request->validate([
             'hacienda_id' =>
-                'required|exists:haciendas,id',
+                'required|exists:mysql_corporativa.hacienda,id',
 
             'hacienda' =>
                 'required|string|max:150',
@@ -394,10 +479,18 @@ class RecorridoController extends Controller
                 $datos['fecha']
             );
 
+            /*
+            |--------------------------------------------------------------------------
+            | Recalcular los valores con las hectáreas oficiales
+            |--------------------------------------------------------------------------
+            */
+
             $detallesPdf = collect(
                 $datos['detalles']
             )
-            ->map(function (array $detalle) use ($datos) {
+            ->map(function (
+                array $detalle
+            ) use ($datos) {
 
                 $hasProd =
                     Lote::obtenerHectareasOficiales(
@@ -407,17 +500,32 @@ class RecorridoController extends Controller
                     );
 
                 $totalSemana =
-                    (float) ($detalle['lunes'] ?? 0) +
-                    (float) ($detalle['martes'] ?? 0) +
-                    (float) ($detalle['miercoles'] ?? 0) +
-                    (float) ($detalle['jueves'] ?? 0) +
-                    (float) ($detalle['viernes'] ?? 0) +
-                    (float) ($detalle['sabado'] ?? 0);
+                    (float) (
+                        $detalle['lunes'] ?? 0
+                    ) +
+                    (float) (
+                        $detalle['martes'] ?? 0
+                    ) +
+                    (float) (
+                        $detalle['miercoles'] ?? 0
+                    ) +
+                    (float) (
+                        $detalle['jueves'] ?? 0
+                    ) +
+                    (float) (
+                        $detalle['viernes'] ?? 0
+                    ) +
+                    (float) (
+                        $detalle['sabado'] ?? 0
+                    );
 
                 $porcentaje =
                     $hasProd > 0
                         ? round(
-                            ($totalSemana / $hasProd) * 100,
+                            (
+                                $totalSemana /
+                                $hasProd
+                            ) * 100,
                             2
                         )
                         : 0;
@@ -450,7 +558,10 @@ class RecorridoController extends Controller
             $porcentajeGeneral =
                 $totalHas > 0
                     ? round(
-                        ($totalSemana / $totalHas) * 100,
+                        (
+                            $totalSemana /
+                            $totalHas
+                        ) * 100,
                         2
                     )
                     : 0;
@@ -482,8 +593,8 @@ class RecorridoController extends Controller
                             ),
 
                     'usuario' =>
-                        $datos['usuario'] ??
-                        Auth::user()?->name,
+                        $datos['usuario']
+                        ?? Auth::user()?->name,
 
                     'imagenMapa' =>
                         $datos['imagen_mapa'],
@@ -560,6 +671,13 @@ class RecorridoController extends Controller
             ], 500);
         }
     }
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | PDF HISTÓRICO
+    |--------------------------------------------------------------------------
+    */
 
     public function pdf($id)
     {

@@ -7,10 +7,21 @@ use Illuminate\Support\Facades\DB;
 
 class Lote extends Model
 {
+    /*
+    |--------------------------------------------------------------------------
+    | Conexión y tabla corporativa
+    |--------------------------------------------------------------------------
+    */
+
+    protected $connection = 'mysql_corporativa';
+
+    protected $table = 'lote';
+
     protected $fillable = [
+        'id_hacienda',
         'hacienda_id',
+        'lote',
         'nombre',
-        'has_prod',
         'estado',
         'coordenadas',
     ];
@@ -20,20 +31,27 @@ class Lote extends Model
         'estado' => 'boolean',
     ];
 
+    /*
+    |--------------------------------------------------------------------------
+    | Atributos virtuales incluidos al convertir a JSON
+    |--------------------------------------------------------------------------
+    |
+    | Estos nombres son los que utiliza actualmente el JavaScript del sistema.
+    |
+    */
+
+    protected $appends = [
+        'hacienda_id',
+        'nombre',
+        'has_prod',
+    ];
+
     /**
-     * Caché temporal de hectáreas oficiales durante una petición.
+     * Caché temporal de hectáreas oficiales.
      *
      * @var array<string, float|null>
      */
     protected static array $cacheHectareasOficiales = [];
-
-    /**
-     * Caché de equivalencias entre haciendas locales y corporativas.
-     *
-     * @var array<int|string, int|null>
-     */
-    protected static array $cacheHaciendasOficiales = [];
-
 
     /*
     |--------------------------------------------------------------------------
@@ -44,132 +62,84 @@ class Lote extends Model
     public function hacienda()
     {
         return $this->belongsTo(
-            Hacienda::class
+            Hacienda::class,
+            'id_hacienda',
+            'id'
         );
     }
 
     public function detallesRecorrido()
     {
         return $this->hasMany(
-            DetalleRecorrido::class
+            DetalleRecorrido::class,
+            'lote_id',
+            'id'
         );
     }
-
 
     /*
     |--------------------------------------------------------------------------
-    | Obtener ID de hacienda corporativa
+    | Compatibilidad con "hacienda_id"
     |--------------------------------------------------------------------------
-    |
-    | Los IDs de las haciendas locales y corporativas no coinciden:
-    |
-    | m_haciendas
-    | 1 = DOMENICA
-    | 2 = MARIA MARIA
-    |
-    | hacienda
-    | 1 = MARIA-MARIA
-    | 2 = DOMENICA
-    |
-    | Por eso se relacionan mediante el nombre normalizado.
-    |
     */
 
-    public static function obtenerIdHaciendaOficial(
-        int|string|null $haciendaIdLocal
-    ): ?int {
-        if ($haciendaIdLocal === null) {
-            return null;
-        }
+    public function getHaciendaIdAttribute(): ?int
+    {
+        $valor =
+            $this->attributes['id_hacienda']
+            ?? null;
 
-        if (
-            array_key_exists(
-                $haciendaIdLocal,
-                static::$cacheHaciendasOficiales
-            )
-        ) {
-            return static::$cacheHaciendasOficiales[
-                $haciendaIdLocal
-            ];
-        }
-
-        $registro = DB::selectOne(
-            "
-                SELECT
-                    h.id AS id_hacienda_oficial
-                FROM m_haciendas AS mh
-                INNER JOIN hacienda AS h
-                    ON (
-                        REPLACE(
-                            REPLACE(
-                                UPPER(
-                                    TRIM(
-                                        h.nombre_hacienda
-                                    )
-                                ),
-                                '-',
-                                ''
-                            ),
-                            ' ',
-                            ''
-                        ) COLLATE utf8mb4_unicode_ci
-                    ) =
-                    (
-                        REPLACE(
-                            REPLACE(
-                                UPPER(
-                                    TRIM(
-                                        mh.nombre
-                                    )
-                                ),
-                                '-',
-                                ''
-                            ),
-                            ' ',
-                            ''
-                        ) COLLATE utf8mb4_unicode_ci
-                    )
-                WHERE mh.id = ?
-                LIMIT 1
-            ",
-            [
-                $haciendaIdLocal,
-            ]
-        );
-
-        $idHaciendaOficial =
-            isset($registro->id_hacienda_oficial)
-                ? (int) $registro->id_hacienda_oficial
-                : null;
-
-        static::$cacheHaciendasOficiales[
-            $haciendaIdLocal
-        ] = $idHaciendaOficial;
-
-        return $idHaciendaOficial;
+        return $valor !== null
+            ? (int) $valor
+            : null;
     }
 
+    public function setHaciendaIdAttribute(
+        int|string|null $valor
+    ): void {
+        $this->attributes['id_hacienda'] =
+            $valor !== null
+                ? (int) $valor
+                : null;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Compatibilidad con "nombre"
+    |--------------------------------------------------------------------------
+    */
+
+    public function getNombreAttribute(): string
+    {
+        return (string) (
+            $this->attributes['lote']
+            ?? ''
+        );
+    }
+
+    public function setNombreAttribute(
+        int|string|null $valor
+    ): void {
+        $this->attributes['lote'] =
+            $valor !== null &&
+            trim((string) $valor) !== ''
+                ? (int) $valor
+                : null;
+    }
 
     /*
     |--------------------------------------------------------------------------
     | Obtener hectáreas productivas oficiales
     |--------------------------------------------------------------------------
-    |
-    | Busca el registro más reciente de la tabla corporativa "hectareas",
-    | utilizando la hacienda oficial y el número del lote.
-    |
-    | Si todavía no existe información corporativa, usa temporalmente el
-    | valor guardado en m_lotes como respaldo.
-    |
     */
 
     public static function obtenerHectareasOficiales(
-        int|string|null $haciendaIdLocal,
+        int|string|null $haciendaId,
         int|string|null $nombreLote,
         float|int|string|null $valorRespaldo = 0
     ): float {
         if (
-            $haciendaIdLocal === null ||
+            $haciendaId === null ||
             $nombreLote === null ||
             trim((string) $nombreLote) === ''
         ) {
@@ -178,26 +148,14 @@ class Lote extends Model
             );
         }
 
-        $idHaciendaOficial =
-            static::obtenerIdHaciendaOficial(
-                $haciendaIdLocal
-            );
+        $idHacienda =
+            (int) $haciendaId;
 
-        if ($idHaciendaOficial === null) {
-            return (float) (
-                $valorRespaldo ?? 0
-            );
-        }
-
-        $nombreLoteNormalizado =
-            trim(
-                (string) $nombreLote
-            );
+        $lote =
+            trim((string) $nombreLote);
 
         $clave =
-            $idHaciendaOficial .
-            '|' .
-            $nombreLoteNormalizado;
+            $idHacienda . '|' . $lote;
 
         if (
             array_key_exists(
@@ -212,24 +170,23 @@ class Lote extends Model
             );
         }
 
-        $registro = DB::selectOne(
-            "
-                SELECT
-                    hectareas
-                FROM hectareas
-                WHERE id_hacienda = ?
-                  AND lote = ?
-                ORDER BY
-                    fecha DESC,
-                    anio DESC,
-                    semana DESC
-                LIMIT 1
-            ",
-            [
-                $idHaciendaOficial,
-                $nombreLoteNormalizado,
-            ]
-        );
+        $registro = DB::connection(
+            'mysql_corporativa'
+        )
+        ->table('hectareas')
+        ->select('hectareas')
+        ->where(
+            'id_hacienda',
+            $idHacienda
+        )
+        ->where(
+            'lote',
+            $lote
+        )
+        ->orderByDesc('fecha')
+        ->orderByDesc('anio')
+        ->orderByDesc('semana')
+        ->first();
 
         $valor =
             $registro?->hectareas;
@@ -248,24 +205,18 @@ class Lote extends Model
         );
     }
 
-
     /*
     |--------------------------------------------------------------------------
-    | Accesor de hectáreas productivas
+    | Atributo virtual "has_prod"
     |--------------------------------------------------------------------------
-    |
-    | Mantiene el nombre "has_prod" para no romper las vistas, recorridos,
-    | cálculos ni el PDF existente.
-    |
     */
 
-    public function getHasProdAttribute(
-        $valorGuardado
-    ): float {
+    public function getHasProdAttribute(): float
+    {
         return static::obtenerHectareasOficiales(
-            $this->hacienda_id,
-            $this->nombre,
-            $valorGuardado
+            $this->id_hacienda,
+            $this->lote,
+            0
         );
     }
 }
